@@ -14,11 +14,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using System.Reflection;
 
 namespace PVZLauncher
 {
-    public partial class Main_Window: AntdUI.Window
+    public partial class SelectGame_Window: AntdUI.Window
     {
         //函数========================================================================================
         #region Functions
@@ -695,87 +694,30 @@ namespace PVZLauncher
             }
         }
         #endregion
-
-        //标题缓入
-        public async void TitleFadeIn(int speed = 8)
-        {
-            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
-            pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;
-            await Task.Delay(500);
-
-            for (int i = 0; i < pictureBox_Home_Title.Height / speed; i++)
-            {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + speed;
-                await Task.Delay(1);
-            }
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
-            await Task.Delay(1);
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
-            await Task.Delay(1);
-
-            for (int i = 0; i < 10; i++)
-            {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;
-                await Task.Delay(1);
-            }
-        }
-
         //对象========================================================================================
-        Random random = new Random();
-        SelectGame_Window selectGame_Window = new SelectGame_Window();
+
         //变量========================================================================================
-        public static string Title = "Plants vs. Zombies Launcher";
-        public static string Version = "Indev1.0.0.0";
-        public static string RunPath = Directory.GetCurrentDirectory();
-        public static string ConfigPath = $"{RunPath}\\config\\config.ini";
-        public static string[] GamesPath;
+        public static string[] GamesPath = Main_Window.GamesPath;
         //事件========================================================================================
-        public Main_Window()
+        public SelectGame_Window()
         {
             InitializeComponent();
+        }
 
-            pageHeader.Text = $"{Title} {Version}";
+        private void SelectGame_Window_Load(object sender, EventArgs e)
+        {
 
-            for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
+            ListBox.Items.Clear();
+            for (int i = 0; i < GamesPath.Length; i++)
             {
-                List<string> temp = new List<string>();
-
-                temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
-
-                GamesPath = temp.ToArray();
+                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = GamesPath[i]));
 
             }
         }
 
-        private void Main_Window_Load(object sender, EventArgs e)
+        private void ListBox_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
         {
-            TitleFadeIn();
-
-            //初始化配置文件
-            if (!Directory.Exists($"{RunPath}\\config"))
-            {
-                Directory.CreateDirectory($"{RunPath}\\config");
-            }
-
-            if (!File.Exists(ConfigPath))
-            {
-                WriteConfig(ConfigPath, "global", "", "");
-            }
-
-
-        }
-
-        private void tabs_Main_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
-        {
-            if (tabs_Main.SelectedIndex == 0)
-            {
-                TitleFadeIn();
-            }
-        }
-
-        private void button_SelectGame_Click(object sender, EventArgs e)
-        {
-            selectGame_Window.ShowDialog();
+            AntdUI.Message.open(this, ListBox.SelectedItem.Text);
         }
     }
 }

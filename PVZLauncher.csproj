@@ -125,12 +125,21 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectGame_Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectGame_Window.Designer.cs">
+      <DependentUpon>SelectGame_Window.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Main_Window.resx">
       <DependentUpon>Main_Window.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectGame_Window.resx">
+      <DependentUpon>SelectGame_Window.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -158,12 +167,11 @@
     <None Include="assets\settings.png" />
     <None Include="assets\about.png" />
     <None Include="assets\icon.png" />
-    <None Include="assets\bg1.jpg" />
-    <None Include="assets\bg2.jpg" />
-    <None Include="assets\bg3.jpg" />
-    <None Include="assets\bg4.jpg" />
-    <None Include="assets\bg5.jpg" />
-    <None Include="assets\bg6.jpg" />
+    <None Include="assets\settings_.png" />
+    <None Include="assets\select.png" />
+    <None Include="assets\game.png" />
+    <None Include="assets\cheater.png" />
+    <None Include="assets\PvZ_Logo.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
