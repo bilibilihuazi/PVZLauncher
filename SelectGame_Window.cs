@@ -694,10 +694,21 @@ namespace PVZLauncher
             }
         }
         #endregion
-        //对象========================================================================================
 
+        //加载游戏列表
+        public void LoadGameList()
+        {
+            List<string> temp = new List<string>();
+            for (int i = 0; i < Directory.GetDirectories($"{Main_Window.RunPath}\\games").Length; i++)
+            {
+                temp.Add(Path.GetFileName(Directory.GetDirectories($"{Main_Window.RunPath}\\games")[i]));
+            }
+            Main_Window.GamesPath = temp.ToArray();
+
+        }
+
+        //对象========================================================================================
         //变量========================================================================================
-        public static string[] GamesPath = Main_Window.GamesPath;
         //事件========================================================================================
         public SelectGame_Window()
         {
@@ -706,18 +717,50 @@ namespace PVZLauncher
 
         private void SelectGame_Window_Load(object sender, EventArgs e)
         {
+            LoadGameList();
+
+            ListBox.SelectedIndex = -1;
 
             ListBox.Items.Clear();
-            for (int i = 0; i < GamesPath.Length; i++)
+            for (int i = 0; i < Main_Window.GamesPath.Length; i++)
             {
-                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = GamesPath[i]));
+                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = Main_Window.GamesPath[i]));
 
             }
         }
 
         private void ListBox_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
         {
-            AntdUI.Message.open(this, ListBox.SelectedItem.Text);
+            Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\PlantsVsZombies.exe");
+
+            image3D_GameIcon.Image = Gameicon.ToBitmap();
+            label_Gameinfo1.Text = ListBox.SelectedItem.Text;
+        }
+
+        private void button_Done_Click(object sender, EventArgs e)
+        {
+            Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
+            WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
+            this.Close();
+        }
+
+        private void button_Cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button_Refresh_Click(object sender, EventArgs e)
+        {
+            LoadGameList();
+
+            ListBox.SelectedIndex = -1;
+
+            ListBox.Items.Clear();
+            for (int i = 0; i < Main_Window.GamesPath.Length; i++)
+            {
+                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = Main_Window.GamesPath[i]));
+
+            }
         }
     }
 }

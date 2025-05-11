@@ -701,7 +701,6 @@ namespace PVZLauncher
         {
             pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
             pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;
-            await Task.Delay(500);
 
             for (int i = 0; i < pictureBox_Home_Title.Height / speed; i++)
             {
@@ -720,15 +719,30 @@ namespace PVZLauncher
             }
         }
 
+        //加载游戏列表
+        public void LoadGameList()
+        {
+            List<string> temp = new List<string>();
+            for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
+            {
+                temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
+            }
+            GamesPath = temp.ToArray();
+
+        }
+
+
         //对象========================================================================================
         Random random = new Random();
         SelectGame_Window selectGame_Window = new SelectGame_Window();
+        Process proceess = new Process();
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";
-        public static string Version = "Indev1.0.0.0";
+        public static string Version = "Indev1.1.0.0";
         public static string RunPath = Directory.GetCurrentDirectory();
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";
         public static string[] GamesPath;
+        public static string SGamesPath;
         //事件========================================================================================
         public Main_Window()
         {
@@ -736,15 +750,8 @@ namespace PVZLauncher
 
             pageHeader.Text = $"{Title} {Version}";
 
-            for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
-            {
-                List<string> temp = new List<string>();
-
-                temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
-
-                GamesPath = temp.ToArray();
-
-            }
+            LoadGameList();
+            
         }
 
         private void Main_Window_Load(object sender, EventArgs e)
@@ -759,8 +766,12 @@ namespace PVZLauncher
 
             if (!File.Exists(ConfigPath))
             {
-                WriteConfig(ConfigPath, "global", "", "");
+                WriteConfig(ConfigPath, "global", "SelectGame", "");
             }
+
+
+            //读配置项
+            SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
 
 
         }
@@ -776,6 +787,101 @@ namespace PVZLauncher
         private void button_SelectGame_Click(object sender, EventArgs e)
         {
             selectGame_Window.ShowDialog();
+        }
+
+        private void timer_Main_Tick(object sender, EventArgs e)
+        {
+            label_Home_Gamename.Text = $"当前版本:{SGamesPath}";
+        }
+
+        private async void button_Launch_Click(object sender, EventArgs e)
+        {
+            #region 启动/结束游戏
+
+            proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\PlantsVsZombies.exe";
+
+            if (button_Launch.Text == "启动游戏")
+            {
+                try
+                {
+                    button_Launch.Text = "结束进程";
+                    button_Launch.Type = AntdUI.TTypeMini.Error;
+                    button_Launch.Icon = Properties.Resources.close;
+
+                    button_GameSettings.Enabled = false;
+                    button_SelectGame.Enabled = false;
+
+
+                    proceess.Start();
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "成功启动！",
+                        Text = $"游戏{SGamesPath}成功启动！",
+                        Icon = AntdUI.TType.Success
+                    });
+
+
+
+
+                    await Task.Run(() => proceess.WaitForExit());
+                    button_Launch.Text = "启动游戏";
+                    button_Launch.Type = AntdUI.TTypeMini.Success;
+                    button_Launch.Icon = Properties.Resources.launch;
+
+                    button_GameSettings.Enabled = true;
+                    button_SelectGame.Enabled = true;
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "进程已退出",
+                        Text = $"游戏{SGamesPath}已退出!",
+                        Icon = AntdUI.TType.Info
+                    });
+                }
+                catch (Exception ex)
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在启动游戏进程时发生错误！\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+
+                }
+                
+            }
+            else
+            {
+                if (!proceess.HasExited)
+                {
+                    try
+                    {
+                        button_Launch.Text = "启动游戏";
+                        button_Launch.Type = AntdUI.TTypeMini.Success;
+                        button_Launch.Icon = Properties.Resources.launch;
+
+                        button_GameSettings.Enabled = true;
+                        button_SelectGame.Enabled = true;
+
+                        proceess.Kill();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"在结束游戏进程时发生错误！\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                       
+                    }
+                }
+                
+            }
+
+            #endregion
         }
     }
 }

@@ -172,6 +172,7 @@
     <None Include="assets\game.png" />
     <None Include="assets\cheater.png" />
     <None Include="assets\PvZ_Logo.png" />
+    <None Include="assets\close.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
