@@ -34,7 +34,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Title = new System.Windows.Forms.PictureBox();
             this.button_GameSettings = new AntdUI.Button();
@@ -44,14 +43,24 @@
             this.tabPage_Download = new AntdUI.TabPage();
             this.tabs_Download = new AntdUI.Tabs();
             this.tabPage_Game = new AntdUI.TabPage();
-            this.tabPage_Cheater = new AntdUI.TabPage();
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabPage_About = new AntdUI.TabPage();
+            this.label_About_info4 = new AntdUI.Label();
+            this.pictureBox_About_Image = new System.Windows.Forms.PictureBox();
+            this.label_About_info3 = new AntdUI.Label();
+            this.label_About_info2 = new AntdUI.Label();
+            this.label_About_info1 = new AntdUI.Label();
+            this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.button_LaunchTrainer = new AntdUI.Button();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
             this.tabPage_Download.SuspendLayout();
             this.tabs_Download.SuspendLayout();
+            this.tabPage_About.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).BeginInit();
             this.SuspendLayout();
             // 
             // pageHeader
@@ -88,14 +97,9 @@
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
             // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
             // tabPage_Home
             // 
+            this.tabPage_Home.Controls.Add(this.button_LaunchTrainer);
             this.tabPage_Home.Controls.Add(this.pictureBox_Home_Title);
             this.tabPage_Home.Controls.Add(this.button_GameSettings);
             this.tabPage_Home.Controls.Add(this.button_SelectGame);
@@ -123,7 +127,7 @@
             this.button_GameSettings.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_GameSettings.Icon = global::PVZLauncher.Properties.Resources.settings_;
             this.button_GameSettings.IconRatio = 1F;
-            this.button_GameSettings.Location = new System.Drawing.Point(501, 280);
+            this.button_GameSettings.Location = new System.Drawing.Point(501, 286);
             this.button_GameSettings.Name = "button_GameSettings";
             this.button_GameSettings.Size = new System.Drawing.Size(139, 46);
             this.button_GameSettings.TabIndex = 4;
@@ -135,7 +139,7 @@
             this.button_SelectGame.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_SelectGame.Icon = global::PVZLauncher.Properties.Resources.select;
             this.button_SelectGame.IconRatio = 1F;
-            this.button_SelectGame.Location = new System.Drawing.Point(104, 280);
+            this.button_SelectGame.Location = new System.Drawing.Point(104, 286);
             this.button_SelectGame.Name = "button_SelectGame";
             this.button_SelectGame.Size = new System.Drawing.Size(139, 46);
             this.button_SelectGame.TabIndex = 3;
@@ -146,7 +150,7 @@
             // label_Home_Gamename
             // 
             this.label_Home_Gamename.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_Home_Gamename.Location = new System.Drawing.Point(104, 228);
+            this.label_Home_Gamename.Location = new System.Drawing.Point(104, 184);
             this.label_Home_Gamename.Name = "label_Home_Gamename";
             this.label_Home_Gamename.Shadow = 10;
             this.label_Home_Gamename.Size = new System.Drawing.Size(536, 23);
@@ -159,7 +163,7 @@
             this.button_Launch.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Launch.Icon = global::PVZLauncher.Properties.Resources.launch;
             this.button_Launch.IconRatio = 1F;
-            this.button_Launch.Location = new System.Drawing.Point(249, 257);
+            this.button_Launch.Location = new System.Drawing.Point(249, 213);
             this.button_Launch.Name = "button_Launch";
             this.button_Launch.Size = new System.Drawing.Size(246, 69);
             this.button_Launch.TabIndex = 0;
@@ -181,13 +185,11 @@
             // 
             this.tabs_Download.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.tabs_Download.Controls.Add(this.tabPage_Game);
-            this.tabs_Download.Controls.Add(this.tabPage_Cheater);
             this.tabs_Download.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabs_Download.HandCursor = System.Windows.Forms.Cursors.Default;
             this.tabs_Download.Location = new System.Drawing.Point(0, 0);
             this.tabs_Download.Name = "tabs_Download";
             this.tabs_Download.Pages.Add(this.tabPage_Game);
-            this.tabs_Download.Pages.Add(this.tabPage_Cheater);
             this.tabs_Download.Size = new System.Drawing.Size(747, 338);
             this.tabs_Download.Style = styleCard1;
             this.tabs_Download.TabIndex = 1;
@@ -196,20 +198,11 @@
             // tabPage_Game
             // 
             this.tabPage_Game.Icon = global::PVZLauncher.Properties.Resources.game;
-            this.tabPage_Game.Location = new System.Drawing.Point(97, 3);
+            this.tabPage_Game.Location = new System.Drawing.Point(85, 3);
             this.tabPage_Game.Name = "tabPage_Game";
-            this.tabPage_Game.Size = new System.Drawing.Size(647, 332);
+            this.tabPage_Game.Size = new System.Drawing.Size(659, 332);
             this.tabPage_Game.TabIndex = 0;
             this.tabPage_Game.Text = "游戏下载";
-            // 
-            // tabPage_Cheater
-            // 
-            this.tabPage_Cheater.Icon = global::PVZLauncher.Properties.Resources.cheater;
-            this.tabPage_Cheater.Location = new System.Drawing.Point(0, 0);
-            this.tabPage_Cheater.Name = "tabPage_Cheater";
-            this.tabPage_Cheater.Size = new System.Drawing.Size(0, 0);
-            this.tabPage_Cheater.TabIndex = 1;
-            this.tabPage_Cheater.Text = "修改器下载";
             // 
             // tabPage_Settings
             // 
@@ -222,12 +215,91 @@
             // 
             // tabPage_About
             // 
+            this.tabPage_About.Controls.Add(this.label_About_info4);
+            this.tabPage_About.Controls.Add(this.pictureBox_About_Image);
+            this.tabPage_About.Controls.Add(this.label_About_info3);
+            this.tabPage_About.Controls.Add(this.label_About_info2);
+            this.tabPage_About.Controls.Add(this.label_About_info1);
+            this.tabPage_About.Controls.Add(this.pictureBox_About_Icon);
             this.tabPage_About.Icon = global::PVZLauncher.Properties.Resources.about;
-            this.tabPage_About.Location = new System.Drawing.Point(0, 0);
+            this.tabPage_About.Location = new System.Drawing.Point(-744, -335);
             this.tabPage_About.Name = "tabPage_About";
-            this.tabPage_About.Size = new System.Drawing.Size(0, 0);
+            this.tabPage_About.Size = new System.Drawing.Size(744, 335);
             this.tabPage_About.TabIndex = 3;
             this.tabPage_About.Text = "关于";
+            // 
+            // label_About_info4
+            // 
+            this.label_About_info4.Location = new System.Drawing.Point(9, 309);
+            this.label_About_info4.Name = "label_About_info4";
+            this.label_About_info4.Size = new System.Drawing.Size(301, 23);
+            this.label_About_info4.TabIndex = 5;
+            this.label_About_info4.Text = "华某人 版权所有 ©2024~2025 盗版必究";
+            // 
+            // pictureBox_About_Image
+            // 
+            this.pictureBox_About_Image.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
+            this.pictureBox_About_Image.Location = new System.Drawing.Point(635, 312);
+            this.pictureBox_About_Image.Name = "pictureBox_About_Image";
+            this.pictureBox_About_Image.Size = new System.Drawing.Size(100, 20);
+            this.pictureBox_About_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_About_Image.TabIndex = 4;
+            this.pictureBox_About_Image.TabStop = false;
+            this.pictureBox_About_Image.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // label_About_info3
+            // 
+            this.label_About_info3.Location = new System.Drawing.Point(9, 280);
+            this.label_About_info3.Name = "label_About_info3";
+            this.label_About_info3.Size = new System.Drawing.Size(393, 23);
+            this.label_About_info3.TabIndex = 3;
+            this.label_About_info3.Text = "UNKNOWN";
+            // 
+            // label_About_info2
+            // 
+            this.label_About_info2.Location = new System.Drawing.Point(143, 39);
+            this.label_About_info2.Name = "label_About_info2";
+            this.label_About_info2.Size = new System.Drawing.Size(301, 23);
+            this.label_About_info2.TabIndex = 2;
+            this.label_About_info2.Text = "一款可以下载、管理、启动植物大战僵尸的启动器";
+            // 
+            // label_About_info1
+            // 
+            this.label_About_info1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_About_info1.Location = new System.Drawing.Point(143, 3);
+            this.label_About_info1.Name = "label_About_info1";
+            this.label_About_info1.Size = new System.Drawing.Size(341, 30);
+            this.label_About_info1.TabIndex = 1;
+            this.label_About_info1.Text = "Plants Vs. Zombies Launcher";
+            // 
+            // pictureBox_About_Icon
+            // 
+            this.pictureBox_About_Icon.Image = global::PVZLauncher.Properties.Resources.icon;
+            this.pictureBox_About_Icon.Location = new System.Drawing.Point(9, 3);
+            this.pictureBox_About_Icon.Name = "pictureBox_About_Icon";
+            this.pictureBox_About_Icon.Size = new System.Drawing.Size(128, 128);
+            this.pictureBox_About_Icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_About_Icon.TabIndex = 0;
+            this.pictureBox_About_Icon.TabStop = false;
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // button_LaunchTrainer
+            // 
+            this.button_LaunchTrainer.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_LaunchTrainer.Icon = global::PVZLauncher.Properties.Resources.launch;
+            this.button_LaunchTrainer.IconRatio = 1F;
+            this.button_LaunchTrainer.Location = new System.Drawing.Point(249, 286);
+            this.button_LaunchTrainer.Name = "button_LaunchTrainer";
+            this.button_LaunchTrainer.Size = new System.Drawing.Size(246, 46);
+            this.button_LaunchTrainer.TabIndex = 6;
+            this.button_LaunchTrainer.Text = "启动修改器";
+            this.button_LaunchTrainer.Type = AntdUI.TTypeMini.Success;
+            this.button_LaunchTrainer.Click += new System.EventHandler(this.button_LaunchTrainer_Click);
             // 
             // Main_Window
             // 
@@ -251,6 +323,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).EndInit();
             this.tabPage_Download.ResumeLayout(false);
             this.tabs_Download.ResumeLayout(false);
+            this.tabPage_About.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -268,10 +343,16 @@
         private AntdUI.Button button_SelectGame;
         private AntdUI.Tabs tabs_Download;
         private AntdUI.TabPage tabPage_Game;
-        private AntdUI.TabPage tabPage_Cheater;
         private System.Windows.Forms.PictureBox pictureBox_Home_Title;
         private AntdUI.Label label_Home_Gamename;
         private System.Windows.Forms.Timer timer_Main;
+        private AntdUI.Label label_About_info3;
+        private AntdUI.Label label_About_info2;
+        private AntdUI.Label label_About_info1;
+        private System.Windows.Forms.PictureBox pictureBox_About_Icon;
+        private System.Windows.Forms.PictureBox pictureBox_About_Image;
+        private AntdUI.Label label_About_info4;
+        private AntdUI.Button button_LaunchTrainer;
     }
 }
 

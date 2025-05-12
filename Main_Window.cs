@@ -731,24 +731,25 @@ namespace PVZLauncher
 
         }
 
-
         //对象========================================================================================
         Random random = new Random();
         SelectGame_Window selectGame_Window = new SelectGame_Window();
         Process proceess = new Process();
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";
-        public static string Version = "Indev1.1.0.0";
+        public static string Version = "Alpha 1.0.4.12";
+        public static string CompliedTime = "2025-5-12 19:33";
         public static string RunPath = Directory.GetCurrentDirectory();
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";
         public static string[] GamesPath;
         public static string SGamesPath;
+        public static int EggNum = 0;
         //事件========================================================================================
         public Main_Window()
         {
             InitializeComponent();
 
-            pageHeader.Text = $"{Title} {Version}";
+            pageHeader.Text = $"{Title}";
 
             LoadGameList();
             
@@ -757,6 +758,8 @@ namespace PVZLauncher
         private void Main_Window_Load(object sender, EventArgs e)
         {
             TitleFadeIn();
+            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";
+
 
             //初始化配置文件
             if (!Directory.Exists($"{RunPath}\\config"))
@@ -848,6 +851,19 @@ namespace PVZLauncher
                         Icon = AntdUI.TType.Error
                     });
 
+                    button_Launch.Text = "启动游戏";
+                    button_Launch.Type = AntdUI.TTypeMini.Success;
+                    button_Launch.Icon = Properties.Resources.launch;
+
+                    button_GameSettings.Enabled = true;
+                    button_SelectGame.Enabled = true;
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "进程已退出",
+                        Text = $"游戏{SGamesPath}已退出!",
+                        Icon = AntdUI.TType.Info
+                    });
                 }
                 
             }
@@ -882,6 +898,104 @@ namespace PVZLauncher
             }
 
             #endregion
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            #region 彩蛋
+            EggNum = EggNum + 1;
+            if (EggNum == 10)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "你是听说这里有一个彩蛋才来点的对吧",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 20)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "听着，这里没有彩蛋，彩蛋在其他地方",
+                    Icon = AntdUI.TType.Warn,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 50)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "我不是说了这里没有彩蛋了吗，不要再点了，你把鼠标点烂也不会有彩蛋",
+                    Icon = AntdUI.TType.Warn,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 70)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = "在程序正常运行时发生错误！\n返回的错误原因为: 系统找不到指定文件",
+                    Icon = AntdUI.TType.Error
+                });
+            }
+            else if (EggNum == 90)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好吧，这也骗不到你。",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 100)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "恭喜！100次点击",
+                    Icon = AntdUI.TType.Success,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 120)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好吧实话告诉你，彩蛋确实是这个，但是只是这些弹窗而已。",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 160)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好了，到此为止，彩蛋做这么多就没了，后面就没了",
+                    Icon = AntdUI.TType.Warn,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 2147483647)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "不，你不可能到这里。你一定是使用了连点器？正常人平均6CPS，点到这里需要11.3年。这是不可能的(或者使用CE修改器修改的？！)",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (1 > 2 && 2 < 1)
+            {
+                //你一定是翻看代码才看到这段话的对吧，正常操作根本无法到达此分支。即使你使用了CE修改器
+            }
+
+            #endregion
+        }
+
+        private void button_LaunchTrainer_Click(object sender, EventArgs e)
+        {
+            Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
         }
     }
 }
