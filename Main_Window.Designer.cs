@@ -35,6 +35,7 @@
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
             this.tabPage_Home = new AntdUI.TabPage();
+            this.button_LaunchTrainer = new AntdUI.Button();
             this.pictureBox_Home_Title = new System.Windows.Forms.PictureBox();
             this.button_GameSettings = new AntdUI.Button();
             this.button_SelectGame = new AntdUI.Button();
@@ -52,7 +53,6 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.button_LaunchTrainer = new AntdUI.Button();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
@@ -112,6 +112,19 @@
             this.tabPage_Home.TabIndex = 0;
             this.tabPage_Home.Text = "主页";
             // 
+            // button_LaunchTrainer
+            // 
+            this.button_LaunchTrainer.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_LaunchTrainer.Icon = global::PVZLauncher.Properties.Resources.PvzToolkit;
+            this.button_LaunchTrainer.IconRatio = 1F;
+            this.button_LaunchTrainer.Location = new System.Drawing.Point(249, 286);
+            this.button_LaunchTrainer.Name = "button_LaunchTrainer";
+            this.button_LaunchTrainer.Size = new System.Drawing.Size(246, 46);
+            this.button_LaunchTrainer.TabIndex = 6;
+            this.button_LaunchTrainer.Text = "启动修改器";
+            this.button_LaunchTrainer.Type = AntdUI.TTypeMini.Success;
+            this.button_LaunchTrainer.Click += new System.EventHandler(this.button_LaunchTrainer_Click);
+            // 
             // pictureBox_Home_Title
             // 
             this.pictureBox_Home_Title.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
@@ -133,6 +146,7 @@
             this.button_GameSettings.TabIndex = 4;
             this.button_GameSettings.Text = "版本设置";
             this.button_GameSettings.Type = AntdUI.TTypeMini.Info;
+            this.button_GameSettings.Click += new System.EventHandler(this.button_GameSettings_Click);
             // 
             // button_SelectGame
             // 
@@ -287,19 +301,6 @@
             this.timer_Main.Enabled = true;
             this.timer_Main.Interval = 1;
             this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // button_LaunchTrainer
-            // 
-            this.button_LaunchTrainer.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_LaunchTrainer.Icon = global::PVZLauncher.Properties.Resources.launch;
-            this.button_LaunchTrainer.IconRatio = 1F;
-            this.button_LaunchTrainer.Location = new System.Drawing.Point(249, 286);
-            this.button_LaunchTrainer.Name = "button_LaunchTrainer";
-            this.button_LaunchTrainer.Size = new System.Drawing.Size(246, 46);
-            this.button_LaunchTrainer.TabIndex = 6;
-            this.button_LaunchTrainer.Text = "启动修改器";
-            this.button_LaunchTrainer.Type = AntdUI.TTypeMini.Success;
-            this.button_LaunchTrainer.Click += new System.EventHandler(this.button_LaunchTrainer_Click);
             // 
             // Main_Window
             // 

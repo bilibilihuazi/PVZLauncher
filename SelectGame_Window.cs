@@ -17,7 +17,7 @@ using Microsoft.Win32;
 
 namespace PVZLauncher
 {
-    public partial class SelectGame_Window: AntdUI.Window
+    public partial class SelectGame_Window : AntdUI.Window
     {
         //函数========================================================================================
         #region Functions
@@ -707,7 +707,32 @@ namespace PVZLauncher
 
         }
 
+        //复制文件夹
+        public Task CopyDirectoryAsync(string sourceDir, string targetDir)
+        {
+            return Task.Run(() =>
+            {
+                // 创建目标目录
+                Directory.CreateDirectory(targetDir);
+
+                // 复制所有文件
+                foreach (string file in Directory.GetFiles(sourceDir))
+                {
+                    string destFile = Path.Combine(targetDir, Path.GetFileName(file));
+                    File.Copy(file, destFile, true);
+                }
+
+                // 递归复制子目录
+                foreach (string dir in Directory.GetDirectories(sourceDir))
+                {
+                    string destDir = Path.Combine(targetDir, Path.GetFileName(dir));
+                    CopyDirectoryAsync(dir, destDir).Wait();  // 同步等待子目录复制完成
+                }
+            });
+        }
+
         //对象========================================================================================
+        Loading_Window loading_Window = new Loading_Window();
         //变量========================================================================================
         //事件========================================================================================
         public SelectGame_Window()
@@ -720,6 +745,10 @@ namespace PVZLauncher
             LoadGameList();
 
             ListBox.SelectedIndex = -1;
+            button_Done.Enabled = false;
+
+            image3D_GameIcon.Image = Properties.Resources.icon;
+            label_Gameinfo1.Text = "UNKNOWN";
 
             ListBox.Items.Clear();
             for (int i = 0; i < Main_Window.GamesPath.Length; i++)
@@ -735,6 +764,15 @@ namespace PVZLauncher
 
             image3D_GameIcon.Image = Gameicon.ToBitmap();
             label_Gameinfo1.Text = ListBox.SelectedItem.Text;
+
+            if (ListBox.SelectedIndex != -1)
+            {
+                button_Done.Enabled = true;
+            }
+            else
+            {
+                button_Done.Enabled = false;
+            }
         }
 
         private void button_Done_Click(object sender, EventArgs e)
@@ -754,6 +792,10 @@ namespace PVZLauncher
             LoadGameList();
 
             ListBox.SelectedIndex = -1;
+            button_Done.Enabled = false;
+
+            image3D_GameIcon.Image = Properties.Resources.icon;
+            label_Gameinfo1.Text = "UNKNOWN";
 
             ListBox.Items.Clear();
             for (int i = 0; i < Main_Window.GamesPath.Length; i++)

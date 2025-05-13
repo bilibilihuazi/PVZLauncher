@@ -734,16 +734,17 @@ namespace PVZLauncher
         //对象========================================================================================
         Random random = new Random();
         SelectGame_Window selectGame_Window = new SelectGame_Window();
+        SetGame_Window setGame_Window = new SetGame_Window();
         Process proceess = new Process();
         //变量========================================================================================
-        public static string Title = "Plants vs. Zombies Launcher";
-        public static string Version = "Alpha 1.0.4.12";
-        public static string CompliedTime = "2025-5-12 19:33";
-        public static string RunPath = Directory.GetCurrentDirectory();
-        public static string ConfigPath = $"{RunPath}\\config\\config.ini";
-        public static string[] GamesPath;
-        public static string SGamesPath;
-        public static int EggNum = 0;
+        public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
+        public static string Version = "Alpha 1.1.3.7";    //版本
+        public static string CompliedTime = "2025-5-13 20:21";     //编译时间
+        public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
+        public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
+        public static string[] GamesPath;    //游戏列表
+        public static string SGamesPath;    //当前游戏路径
+        public static int EggNum = 0;    //菜单计数器
         //事件========================================================================================
         public Main_Window()
         {
@@ -996,6 +997,11 @@ namespace PVZLauncher
         private void button_LaunchTrainer_Click(object sender, EventArgs e)
         {
             Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+        }
+
+        private void button_GameSettings_Click(object sender, EventArgs e)
+        {
+            setGame_Window.ShowDialog();
         }
     }
 }
