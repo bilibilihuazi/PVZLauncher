@@ -14,11 +14,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using System.Reflection;
 
 namespace PVZLauncher
 {
-    public partial class Main_Window: AntdUI.Window
+    public partial class SetName_Window: Form
     {
         //函数========================================================================================
         #region Functions
@@ -757,314 +756,46 @@ namespace PVZLauncher
         }
         #endregion
 
-        //标题缓入
-        public async void TitleFadeIn(int speed = 8)
-        {
-            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
-            pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;
-
-            for (int i = 0; i < pictureBox_Home_Title.Height / speed; i++)
-            {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + speed;
-                await Task.Delay(1);
-            }
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
-            await Task.Delay(1);
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
-            await Task.Delay(1);
-
-            for (int i = 0; i < 10; i++)
-            {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;
-                await Task.Delay(1);
-            }
-        }
-
-        //加载游戏列表
-        public void LoadGameList()
-        {
-            List<string> temp = new List<string>();
-            for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
-            {
-                temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
-            }
-            GamesPath = temp.ToArray();
-
-        }
-
-        //对象========================================================================================
-        Random random = new Random();
-        SelectGame_Window selectGame_Window = new SelectGame_Window();
-        SetGame_Window setGame_Window = new SetGame_Window();
-        Process proceess = new Process();
-        //变量========================================================================================
-        public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Alpha 1.2.3.5";    //版本
-        public static string CompliedTime = "2025-5-14 20:42";     //编译时间
-        public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
-        public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
-        public static string[] GamesPath;    //游戏列表
-        public static string SGamesPath;    //当前游戏路径
-        public static int EggNum = 0;    //菜单计数器
         //事件========================================================================================
-        public Main_Window()
+        public SetName_Window()
         {
             InitializeComponent();
-
-            pageHeader.Text = $"{Title}";
-
-            LoadGameList();
-            
         }
 
-        private void Main_Window_Load(object sender, EventArgs e)
+        private void textBox_Name_TextChanged(object sender, EventArgs e)
         {
-            TitleFadeIn();
-            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";
-
-
-            //初始化配置文件
-            if (!Directory.Exists($"{RunPath}\\config"))
+            if (textBox_Name.Text.Length > 0 && $"{Main_Window.SGamesPath}" != textBox_Name.Text) 
             {
-                Directory.CreateDirectory($"{RunPath}\\config");
-            }
-
-            if (!File.Exists(ConfigPath))
-            {
-                WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");
-
-                WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");
-            }
-
-
-            //读配置项
-            SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
-
-
-        }
-
-        private void tabs_Main_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
-        {
-            if (tabs_Main.SelectedIndex == 0)
-            {
-                TitleFadeIn();
-            }
-        }
-
-        private void button_SelectGame_Click(object sender, EventArgs e)
-        {
-            selectGame_Window.ShowDialog();
-        }
-
-        private void timer_Main_Tick(object sender, EventArgs e)
-        {
-            label_Home_Gamename.Text = $"当前版本:{SGamesPath}";
-        }
-
-        private async void button_Launch_Click(object sender, EventArgs e)
-        {
-            #region 启动/结束游戏
-
-            proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
-
-            if (button_Launch.Text == "启动游戏")
-            {
-                try
-                {
-                    button_Launch.Text = "结束进程";
-                    button_Launch.Type = AntdUI.TTypeMini.Error;
-                    button_Launch.Icon = Properties.Resources.close;
-
-                    button_GameSettings.Enabled = false;
-                    button_SelectGame.Enabled = false;
-
-
-                    proceess.Start();
-
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "成功启动！",
-                        Text = $"游戏{SGamesPath}成功启动！",
-                        Icon = AntdUI.TType.Success
-                    });
-
-
-
-
-                    await Task.Run(() => proceess.WaitForExit());
-                    button_Launch.Text = "启动游戏";
-                    button_Launch.Type = AntdUI.TTypeMini.Success;
-                    button_Launch.Icon = Properties.Resources.launch;
-
-                    button_GameSettings.Enabled = true;
-                    button_SelectGame.Enabled = true;
-
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "进程已退出",
-                        Text = $"游戏{SGamesPath}已退出!",
-                        Icon = AntdUI.TType.Info
-                    });
-                }
-                catch (Exception ex)
-                {
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "发生错误！",
-                        Text = $"在启动游戏进程时发生错误！\n错误原因:{ex.Message}",
-                        Icon = AntdUI.TType.Error
-                    });
-
-                    button_Launch.Text = "启动游戏";
-                    button_Launch.Type = AntdUI.TTypeMini.Success;
-                    button_Launch.Icon = Properties.Resources.launch;
-
-                    button_GameSettings.Enabled = true;
-                    button_SelectGame.Enabled = true;
-
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "进程已退出",
-                        Text = $"游戏{SGamesPath}已退出!",
-                        Icon = AntdUI.TType.Info
-                    });
-                }
-                
+                button_Done.Enabled = true;
             }
             else
             {
-                if (!proceess.HasExited)
-                {
-                    try
-                    {
-                        button_Launch.Text = "启动游戏";
-                        button_Launch.Type = AntdUI.TTypeMini.Success;
-                        button_Launch.Icon = Properties.Resources.launch;
-
-                        button_GameSettings.Enabled = true;
-                        button_SelectGame.Enabled = true;
-
-                        proceess.Kill();
-                    }
-                    catch (Exception ex)
-                    {
-
-                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {
-                            Title = "发生错误！",
-                            Text = $"在结束游戏进程时发生错误！\n错误原因:{ex.Message}",
-                            Icon = AntdUI.TType.Error
-                        });
-                       
-                    }
-                }
-                
+                button_Done.Enabled = false;
             }
-
-            #endregion
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void button_Done_Click(object sender, EventArgs e)
         {
-            #region 彩蛋
-            EggNum = EggNum + 1;
-            if (EggNum == 10)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "你是听说这里有一个彩蛋才来点的对吧",
-                    Icon = AntdUI.TType.Info,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 20)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "听着，这里没有彩蛋，彩蛋在其他地方",
-                    Icon = AntdUI.TType.Warn,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 50)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "我不是说了这里没有彩蛋了吗，不要再点了，你把鼠标点烂也不会有彩蛋",
-                    Icon = AntdUI.TType.Warn,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 70)
-            {
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "发生错误！",
-                    Text = "在程序正常运行时发生错误！\n返回的错误原因为: 系统找不到指定文件",
-                    Icon = AntdUI.TType.Error
-                });
-            }
-            else if (EggNum == 90)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "好吧，这也骗不到你。",
-                    Icon = AntdUI.TType.Info,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 100)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "恭喜！100次点击",
-                    Icon = AntdUI.TType.Success,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 120)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "好吧实话告诉你，彩蛋确实是这个，但是只是这些弹窗而已。",
-                    Icon = AntdUI.TType.Info,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 160)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "好了，到此为止，彩蛋做这么多就没了，后面就没了",
-                    Icon = AntdUI.TType.Warn,
-                    ShowInWindow = true
-                });
-            }
-            else if (EggNum == 2147483647)
-            {
-                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
-                {
-                    Text = "不，你不可能到这里。你一定是使用了连点器？正常人平均6CPS，点到这里需要11.3年。这是不可能的(或者使用CE修改器修改的？！)",
-                    Icon = AntdUI.TType.Info,
-                    ShowInWindow = true
-                });
-            }
-            else if (1 > 2 && 2 < 1)
-            {
-                //你一定是翻看代码才看到这段话的对吧，正常操作根本无法到达此分支。即使你使用了CE修改器
-            }
+            Directory.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}", $"{Main_Window.RunPath}\\games\\{textBox_Name.Text}");
 
-            #endregion
+            WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "ExecuteName", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName"));
+            DeleteSection(Main_Window.ConfigPath, Main_Window.SGamesPath);
+
+            Main_Window.SGamesPath = textBox_Name.Text;
+
+            SetGame_Window.DialogState = true;
+
+            this.Close();
         }
 
-        private void button_LaunchTrainer_Click(object sender, EventArgs e)
+        private void SetName_Window_Load(object sender, EventArgs e)
         {
-            Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+            textBox_Name.Text = Main_Window.SGamesPath;
         }
 
-        private void button_GameSettings_Click(object sender, EventArgs e)
+        private void button_Cancel_Click(object sender, EventArgs e)
         {
-            setGame_Window.ShowDialog();
+            this.Close();
         }
     }
 }

@@ -760,25 +760,47 @@ namespace PVZLauncher
 
         private void ListBox_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
         {
-            Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\PlantsVsZombies.exe");
-
-            image3D_GameIcon.Image = Gameicon.ToBitmap();
-            label_Gameinfo1.Text = ListBox.SelectedItem.Text;
-
-            if (ListBox.SelectedIndex != -1)
+            try
             {
-                button_Done.Enabled = true;
+                if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
+                {
+                    WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
+                }
+
+                Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\{ReadConfig(Main_Window.ConfigPath, $"{ListBox.SelectedItem.Text}", "ExecuteName")}");
+
+                image3D_GameIcon.Image = Gameicon.ToBitmap();
+                label_Gameinfo1.Text = ListBox.SelectedItem.Text;
+
+                if (ListBox.SelectedIndex != -1)
+                {
+                    button_Done.Enabled = true;
+                }
+                else
+                {
+                    button_Done.Enabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                button_Done.Enabled = false;
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载游戏图标时发生错误，请检查游戏可执行文件名是否有效！\n返回的错误信息:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+                
             }
+            
         }
 
         private void button_Done_Click(object sender, EventArgs e)
         {
             Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
             WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
+
+            
+
             this.Close();
         }
 

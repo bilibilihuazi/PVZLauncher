@@ -143,6 +143,12 @@
     <Compile Include="SetGame_Window.Designer.cs">
       <DependentUpon>SetGame_Window.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetName_Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetName_Window.Designer.cs">
+      <DependentUpon>SetName_Window.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Loading_Window.resx">
       <DependentUpon>Loading_Window.cs</DependentUpon>
     </EmbeddedResource>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SetGame_Window.resx">
       <DependentUpon>SetGame_Window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetName_Window.resx">
+      <DependentUpon>SetName_Window.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -196,6 +205,9 @@
     <None Include="assets\done.png" />
     <None Include="assets\refresh.png" />
     <None Include="assets\download_.png" />
+    <None Include="assets\edit.png" />
+    <None Include="assets\folder.png" />
+    <None Include="assets\delete.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
