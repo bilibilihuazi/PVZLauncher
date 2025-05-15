@@ -759,13 +759,27 @@ namespace PVZLauncher
         //加载游戏信息
         public void LoadGameInfo()
         {
-            Icon GameIcon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\{ReadConfig(Main_Window.ConfigPath, $"{Main_Window.SGamesPath}", "ExecuteName")}");
-            image3D_GameIcon.Image = GameIcon.ToBitmap();
+            try
+            {
+                Icon GameIcon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\{ReadConfig(Main_Window.ConfigPath, $"{Main_Window.SGamesPath}", "ExecuteName")}");
+                image3D_GameIcon.Image = GameIcon.ToBitmap();
 
-            label_GameName.Text = $"游戏名称:{Main_Window.SGamesPath}";
-            label_GamePath.Text = $"游戏路径:{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
+                label_GameName.Text = $"游戏名称:{Main_Window.SGamesPath}";
+                label_GamePath.Text = $"游戏路径:{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
 
-            input_ExecuteName.Text = $"";
+                input_ExecuteName.Text = ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName");
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载游戏信息时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+
+            }
+            
         }
         //对象========================================================================================
         SetName_Window setName_Window = new SetName_Window();
@@ -787,6 +801,9 @@ namespace PVZLauncher
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 input_ExecuteName.Text = $"{Path.GetFileName($"{openFileDialog.FileName}")}";
+
+                WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", input_ExecuteName.Text);
+
             }
         }
 
@@ -860,6 +877,11 @@ namespace PVZLauncher
                 
 
             }
+        }
+
+        private void input_ExecuteName_TextChanged(object sender, EventArgs e)
+        {
+            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", input_ExecuteName.Text);
         }
     }
 }

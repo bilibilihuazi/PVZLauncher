@@ -698,12 +698,26 @@ namespace PVZLauncher
         //加载游戏列表
         public void LoadGameList()
         {
-            List<string> temp = new List<string>();
-            for (int i = 0; i < Directory.GetDirectories($"{Main_Window.RunPath}\\games").Length; i++)
+            try
             {
-                temp.Add(Path.GetFileName(Directory.GetDirectories($"{Main_Window.RunPath}\\games")[i]));
+                List<string> temp = new List<string>();
+                for (int i = 0; i < Directory.GetDirectories($"{Main_Window.RunPath}\\games").Length; i++)
+                {
+                    temp.Add(Path.GetFileName(Directory.GetDirectories($"{Main_Window.RunPath}\\games")[i]));
+                }
+                Main_Window.GamesPath = temp.ToArray();
             }
-            Main_Window.GamesPath = temp.ToArray();
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载游戏列表时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+
+            }
+            
 
         }
 
@@ -732,7 +746,6 @@ namespace PVZLauncher
         }
 
         //对象========================================================================================
-        Loading_Window loading_Window = new Loading_Window();
         //变量========================================================================================
         //事件========================================================================================
         public SelectGame_Window()
@@ -762,6 +775,15 @@ namespace PVZLauncher
         {
             try
             {
+                if (ListBox.SelectedIndex != -1)
+                {
+                    button_Done.Enabled = true;
+                }
+                else
+                {
+                    button_Done.Enabled = false;
+                }
+
                 if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
                 {
                     WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
@@ -772,14 +794,7 @@ namespace PVZLauncher
                 image3D_GameIcon.Image = Gameicon.ToBitmap();
                 label_Gameinfo1.Text = ListBox.SelectedItem.Text;
 
-                if (ListBox.SelectedIndex != -1)
-                {
-                    button_Done.Enabled = true;
-                }
-                else
-                {
-                    button_Done.Enabled = false;
-                }
+                
             }
             catch (Exception ex)
             {

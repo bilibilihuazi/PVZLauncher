@@ -783,24 +783,38 @@ namespace PVZLauncher
         //加载游戏列表
         public void LoadGameList()
         {
-            List<string> temp = new List<string>();
-            for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
+            try
             {
-                temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
+                List<string> temp = new List<string>();
+                for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
+                {
+                    temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
+                }
+                GamesPath = temp.ToArray();
             }
-            GamesPath = temp.ToArray();
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载游戏列表时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+                
+            }
+            
 
         }
 
         //对象========================================================================================
-        Random random = new Random();
-        SelectGame_Window selectGame_Window = new SelectGame_Window();
-        SetGame_Window setGame_Window = new SetGame_Window();
-        Process proceess = new Process();
+        Random random = new Random();    //随机数生成器
+        SelectGame_Window selectGame_Window = new SelectGame_Window();    //选择游戏窗口
+        SetGame_Window setGame_Window = new SetGame_Window();    //设置游戏窗口
+        Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Alpha 1.2.3.5";    //版本
-        public static string CompliedTime = "2025-5-14 20:42";     //编译时间
+        public static string Version = "Beta 1.0.4.9";    //版本
+        public static string CompliedTime = "2025-5-15 19:18";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -811,30 +825,45 @@ namespace PVZLauncher
         {
             InitializeComponent();
 
-            pageHeader.Text = $"{Title}";
+            //初始化
 
-            LoadGameList();
-            
+            pageHeader.Text = $"{Title}";//设置标题
+
+            LoadGameList();//加载游戏列表
+
         }
 
         private void Main_Window_Load(object sender, EventArgs e)
         {
-            TitleFadeIn();
-            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";
+            TitleFadeIn();//标题缓入
+            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";//设置关于界面版本信息
 
-
-            //初始化配置文件
-            if (!Directory.Exists($"{RunPath}\\config"))
+            try
             {
-                Directory.CreateDirectory($"{RunPath}\\config");
-            }
+                //初始化配置文件
+                if (!Directory.Exists($"{RunPath}\\config"))
+                {
+                    Directory.CreateDirectory($"{RunPath}\\config");
+                }
+                //生成默认配置
+                if (!File.Exists(ConfigPath))
+                {
+                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");
 
-            if (!File.Exists(ConfigPath))
+                    WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");
+                }
+            }
+            catch (Exception ex)
             {
-                WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在初始化配置文件时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
 
-                WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");
             }
+            
 
 
             //读配置项

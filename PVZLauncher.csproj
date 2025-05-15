@@ -117,12 +117,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Loading_Window.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Loading_Window.Designer.cs">
-      <DependentUpon>Loading_Window.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main_Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,9 +143,6 @@
     <Compile Include="SetName_Window.Designer.cs">
       <DependentUpon>SetName_Window.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Loading_Window.resx">
-      <DependentUpon>Loading_Window.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Main_Window.resx">
       <DependentUpon>Main_Window.cs</DependentUpon>
     </EmbeddedResource>

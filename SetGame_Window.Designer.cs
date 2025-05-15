@@ -87,6 +87,7 @@
             this.input_ExecuteName.Size = new System.Drawing.Size(497, 30);
             this.input_ExecuteName.TabIndex = 7;
             this.input_ExecuteName.Text = "Unknown";
+            this.input_ExecuteName.TextChanged += new System.EventHandler(this.input_ExecuteName_TextChanged);
             // 
             // button_ExecuteName_Browser
             // 
