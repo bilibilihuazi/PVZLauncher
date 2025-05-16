@@ -798,6 +798,8 @@ namespace PVZLauncher
 
         private void button_ExecuteName_Browser_Click(object sender, EventArgs e)
         {
+            openFileDialog.InitialDirectory = $"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 input_ExecuteName.Text = $"{Path.GetFileName($"{openFileDialog.FileName}")}";

@@ -34,6 +34,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
             this.tabPage_Home = new AntdUI.TabPage();
             this.button_LaunchTrainer = new AntdUI.Button();
             this.pictureBox_Home_Title = new System.Windows.Forms.PictureBox();
@@ -46,20 +47,21 @@
             this.tabPage_Game = new AntdUI.TabPage();
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabPage_About = new AntdUI.TabPage();
+            this.button_About_Bilibili = new AntdUI.Button();
+            this.button_About_Github = new AntdUI.Button();
             this.label_About_info4 = new AntdUI.Label();
-            this.pictureBox_About_Image = new System.Windows.Forms.PictureBox();
+            this.pictureBox_About_Egg = new System.Windows.Forms.PictureBox();
             this.label_About_info3 = new AntdUI.Label();
             this.label_About_info2 = new AntdUI.Label();
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
             this.tabPage_Download.SuspendLayout();
             this.tabs_Download.SuspendLayout();
             this.tabPage_About.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,6 +98,12 @@
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
             // 
             // tabPage_Home
             // 
@@ -229,8 +237,10 @@
             // 
             // tabPage_About
             // 
+            this.tabPage_About.Controls.Add(this.button_About_Bilibili);
+            this.tabPage_About.Controls.Add(this.button_About_Github);
             this.tabPage_About.Controls.Add(this.label_About_info4);
-            this.tabPage_About.Controls.Add(this.pictureBox_About_Image);
+            this.tabPage_About.Controls.Add(this.pictureBox_About_Egg);
             this.tabPage_About.Controls.Add(this.label_About_info3);
             this.tabPage_About.Controls.Add(this.label_About_info2);
             this.tabPage_About.Controls.Add(this.label_About_info1);
@@ -242,6 +252,34 @@
             this.tabPage_About.TabIndex = 3;
             this.tabPage_About.Text = "关于";
             // 
+            // button_About_Bilibili
+            // 
+            this.button_About_Bilibili.DefaultBack = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(166)))), ((int)(((byte)(216)))));
+            this.button_About_Bilibili.ForeColor = System.Drawing.Color.White;
+            this.button_About_Bilibili.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_About_Bilibili.Icon = global::PVZLauncher.Properties.Resources.bilibili;
+            this.button_About_Bilibili.IconRatio = 1F;
+            this.button_About_Bilibili.Location = new System.Drawing.Point(269, 68);
+            this.button_About_Bilibili.Name = "button_About_Bilibili";
+            this.button_About_Bilibili.Size = new System.Drawing.Size(120, 35);
+            this.button_About_Bilibili.TabIndex = 7;
+            this.button_About_Bilibili.Text = "Bilibili";
+            this.button_About_Bilibili.Click += new System.EventHandler(this.button_About_Bilibili_Click);
+            // 
+            // button_About_Github
+            // 
+            this.button_About_Github.DefaultBack = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.button_About_Github.ForeColor = System.Drawing.Color.White;
+            this.button_About_Github.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_About_Github.Icon = global::PVZLauncher.Properties.Resources.github;
+            this.button_About_Github.IconRatio = 1F;
+            this.button_About_Github.Location = new System.Drawing.Point(143, 68);
+            this.button_About_Github.Name = "button_About_Github";
+            this.button_About_Github.Size = new System.Drawing.Size(120, 35);
+            this.button_About_Github.TabIndex = 6;
+            this.button_About_Github.Text = "Github";
+            this.button_About_Github.Click += new System.EventHandler(this.button_About_Github_Click);
+            // 
             // label_About_info4
             // 
             this.label_About_info4.Location = new System.Drawing.Point(9, 309);
@@ -250,16 +288,16 @@
             this.label_About_info4.TabIndex = 5;
             this.label_About_info4.Text = "华某人 版权所有 ©2024~2025 盗版必究";
             // 
-            // pictureBox_About_Image
+            // pictureBox_About_Egg
             // 
-            this.pictureBox_About_Image.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
-            this.pictureBox_About_Image.Location = new System.Drawing.Point(635, 312);
-            this.pictureBox_About_Image.Name = "pictureBox_About_Image";
-            this.pictureBox_About_Image.Size = new System.Drawing.Size(100, 20);
-            this.pictureBox_About_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_About_Image.TabIndex = 4;
-            this.pictureBox_About_Image.TabStop = false;
-            this.pictureBox_About_Image.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox_About_Egg.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
+            this.pictureBox_About_Egg.Location = new System.Drawing.Point(635, 312);
+            this.pictureBox_About_Egg.Name = "pictureBox_About_Egg";
+            this.pictureBox_About_Egg.Size = new System.Drawing.Size(100, 20);
+            this.pictureBox_About_Egg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_About_Egg.TabIndex = 4;
+            this.pictureBox_About_Egg.TabStop = false;
+            this.pictureBox_About_Egg.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label_About_info3
             // 
@@ -296,12 +334,6 @@
             this.pictureBox_About_Icon.TabIndex = 0;
             this.pictureBox_About_Icon.TabStop = false;
             // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
             // Main_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -325,7 +357,7 @@
             this.tabPage_Download.ResumeLayout(false);
             this.tabs_Download.ResumeLayout(false);
             this.tabPage_About.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).EndInit();
             this.ResumeLayout(false);
 
@@ -351,9 +383,11 @@
         private AntdUI.Label label_About_info2;
         private AntdUI.Label label_About_info1;
         private System.Windows.Forms.PictureBox pictureBox_About_Icon;
-        private System.Windows.Forms.PictureBox pictureBox_About_Image;
+        private System.Windows.Forms.PictureBox pictureBox_About_Egg;
         private AntdUI.Label label_About_info4;
         private AntdUI.Button button_LaunchTrainer;
+        private AntdUI.Button button_About_Github;
+        private AntdUI.Button button_About_Bilibili;
     }
 }
 

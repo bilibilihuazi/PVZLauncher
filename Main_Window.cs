@@ -760,24 +760,27 @@ namespace PVZLauncher
         //标题缓入
         public async void TitleFadeIn(int speed = 8)
         {
-            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
-            pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;
+            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;//标题居中
+            pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;//标题移到窗口外上方
 
             for (int i = 0; i < pictureBox_Home_Title.Height / speed; i++)
             {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + speed;
-                await Task.Delay(1);
+                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + speed;//传入速度
+                await Task.Delay(1);//延迟
             }
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
+
+            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;//下落缓冲
             await Task.Delay(1);
             pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
             await Task.Delay(1);
 
             for (int i = 0; i < 10; i++)
             {
-                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;
+                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;//回弹
                 await Task.Delay(1);
             }
+
+            pictureBox_Home_Title.Top = 0;//矫正位置
         }
 
         //加载游戏列表
@@ -785,15 +788,16 @@ namespace PVZLauncher
         {
             try
             {
-                List<string> temp = new List<string>();
+                List<string> temp = new List<string>();//列表
                 for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
                 {
-                    temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));
+                    temp.Add(Path.GetFileName(Directory.GetDirectories($"{RunPath}\\games")[i]));//添加列表项
                 }
-                GamesPath = temp.ToArray();
+                GamesPath = temp.ToArray();//转化数组
             }
             catch (Exception ex)
             {
+                //错误报告
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",
@@ -813,8 +817,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Beta 1.0.4.9";    //版本
-        public static string CompliedTime = "2025-5-15 19:18";     //编译时间
+        public static string Version = "Beta 1.1.3.7";    //版本
+        public static string CompliedTime = "2025-5-16 19:10";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -830,6 +834,29 @@ namespace PVZLauncher
             pageHeader.Text = $"{Title}";//设置标题
 
             LoadGameList();//加载游戏列表
+
+
+            //初始化游戏文件夹
+            if (!Directory.Exists($"{RunPath}\\games"))
+            {
+                Directory.CreateDirectory($"{RunPath}\\games");
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "提示",
+                    Text = "游戏关键性文件夹 games 不存在，已成功创建！",
+                    Icon = AntdUI.TType.Warn
+                });
+            }
+            if (!Directory.Exists($"{RunPath}\\trainer"))
+            {
+                Directory.CreateDirectory($"{RunPath}\\trainer");
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "提示",
+                    Text = "游戏关键性文件夹 trainer 不存在，已成功创建！",
+                    Icon = AntdUI.TType.Warn
+                });
+            }
 
         }
 
@@ -848,13 +875,14 @@ namespace PVZLauncher
                 //生成默认配置
                 if (!File.Exists(ConfigPath))
                 {
-                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");
+                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
 
-                    WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");
+                    WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
                 }
             }
             catch (Exception ex)
             {
+                //错误报告
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",
@@ -877,29 +905,45 @@ namespace PVZLauncher
             if (tabs_Main.SelectedIndex == 0)
             {
                 TitleFadeIn();
+
             }
+            else if (tabs_Main.SelectedIndex == 1)
+            {
+                tabs_Main.SelectedIndex = 0;
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "敬请期待",
+                    Content = "此功能正在开发中，可能需要几周？几月？几年？几个世纪！！！",
+                    Icon = AntdUI.TType.Warn,
+                    OkText = "我知道了",
+                    CancelText = null
+                });
+            }
+
         }
 
         private void button_SelectGame_Click(object sender, EventArgs e)
         {
-            selectGame_Window.ShowDialog();
+            selectGame_Window.ShowDialog();//选择游戏
         }
 
         private void timer_Main_Tick(object sender, EventArgs e)
         {
-            label_Home_Gamename.Text = $"当前版本:{SGamesPath}";
+            label_Home_Gamename.Text = $"当前版本:{SGamesPath}";//设置当前游戏名称
         }
 
         private async void button_Launch_Click(object sender, EventArgs e)
         {
             #region 启动/结束游戏
-
+            
+            //设置process信息
             proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
 
             if (button_Launch.Text == "启动游戏")
             {
                 try
                 {
+                    //按钮形态改变
                     button_Launch.Text = "结束进程";
                     button_Launch.Type = AntdUI.TTypeMini.Error;
                     button_Launch.Icon = Properties.Resources.close;
@@ -907,9 +951,10 @@ namespace PVZLauncher
                     button_GameSettings.Enabled = false;
                     button_SelectGame.Enabled = false;
 
-
+                    //吊起进程
                     proceess.Start();
 
+                    //成功提示
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
                         Title = "成功启动！",
@@ -919,8 +964,9 @@ namespace PVZLauncher
 
 
 
-
+                    //等待进程退出
                     await Task.Run(() => proceess.WaitForExit());
+                    //按钮形态改变
                     button_Launch.Text = "启动游戏";
                     button_Launch.Type = AntdUI.TTypeMini.Success;
                     button_Launch.Icon = Properties.Resources.launch;
@@ -928,6 +974,7 @@ namespace PVZLauncher
                     button_GameSettings.Enabled = true;
                     button_SelectGame.Enabled = true;
 
+                    //进程退出提示
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
                         Title = "进程已退出",
@@ -937,6 +984,7 @@ namespace PVZLauncher
                 }
                 catch (Exception ex)
                 {
+                    //错误报告
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
                         Title = "发生错误！",
@@ -944,6 +992,7 @@ namespace PVZLauncher
                         Icon = AntdUI.TType.Error
                     });
 
+                    //按钮形态改变
                     button_Launch.Text = "启动游戏";
                     button_Launch.Type = AntdUI.TTypeMini.Success;
                     button_Launch.Icon = Properties.Resources.launch;
@@ -951,6 +1000,7 @@ namespace PVZLauncher
                     button_GameSettings.Enabled = true;
                     button_SelectGame.Enabled = true;
 
+                    //进程退出提示
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
                         Title = "进程已退出",
@@ -962,10 +1012,12 @@ namespace PVZLauncher
             }
             else
             {
+                //当前进程为运行状态
                 if (!proceess.HasExited)
                 {
                     try
                     {
+                        //按钮状态改变
                         button_Launch.Text = "启动游戏";
                         button_Launch.Type = AntdUI.TTypeMini.Success;
                         button_Launch.Icon = Properties.Resources.launch;
@@ -973,11 +1025,12 @@ namespace PVZLauncher
                         button_GameSettings.Enabled = true;
                         button_SelectGame.Enabled = true;
 
+                        //结束进程
                         proceess.Kill();
                     }
                     catch (Exception ex)
                     {
-
+                        //错误报告
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                         {
                             Title = "发生错误！",
@@ -1088,12 +1141,40 @@ namespace PVZLauncher
 
         private void button_LaunchTrainer_Click(object sender, EventArgs e)
         {
-            Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+            //启动修改器
+            try
+            {
+                Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+
+            }
+            catch (Exception ex)
+            {
+
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在启动修改器进程时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+            }
         }
 
         private void button_GameSettings_Click(object sender, EventArgs e)
         {
+            //调用版本设置界面
             setGame_Window.ShowDialog();
+        }
+
+        private void button_About_Github_Click(object sender, EventArgs e)
+        {
+            //跳转github
+            Process.Start("https://www.github.com/bilibilihuazi/PVZLauncher");
+        }
+
+        private void button_About_Bilibili_Click(object sender, EventArgs e)
+        {
+            //跳转bilibili
+            Process.Start("https://space.bilibili.com/1794899926");
         }
     }
 }

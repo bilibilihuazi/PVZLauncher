@@ -199,6 +199,8 @@
     <None Include="assets\edit.png" />
     <None Include="assets\folder.png" />
     <None Include="assets\delete.png" />
+    <None Include="assets\github.png" />
+    <None Include="assets\bilibili.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
