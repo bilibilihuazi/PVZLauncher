@@ -29,17 +29,20 @@
         private void InitializeComponent()
         {
             this.pageHeader = new AntdUI.PageHeader();
+            this.button_Refresh = new AntdUI.Button();
             this.ListBox = new ReaLTaiizor.Controls.MaterialListBox();
             this.label_Gameinfo1 = new AntdUI.Label();
             this.button_Cancel = new AntdUI.Button();
             this.button_Done = new AntdUI.Button();
             this.image3D_GameIcon = new AntdUI.Image3D();
-            this.button_Refresh = new AntdUI.Button();
+            this.button_Load = new AntdUI.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.pageHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageHeader
             // 
+            this.pageHeader.Controls.Add(this.button_Load);
             this.pageHeader.Controls.Add(this.button_Refresh);
             this.pageHeader.HandCursor = System.Windows.Forms.Cursors.Default;
             this.pageHeader.Location = new System.Drawing.Point(0, 0);
@@ -52,6 +55,18 @@
             this.pageHeader.TabIndex = 0;
             this.pageHeader.Text = "选择版本";
             // 
+            // button_Refresh
+            // 
+            this.button_Refresh.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Refresh.Icon = global::PVZLauncher.Properties.Resources.refresh;
+            this.button_Refresh.IconRatio = 0.8F;
+            this.button_Refresh.Location = new System.Drawing.Point(312, 3);
+            this.button_Refresh.Name = "button_Refresh";
+            this.button_Refresh.Size = new System.Drawing.Size(30, 30);
+            this.button_Refresh.TabIndex = 5;
+            this.button_Refresh.Type = AntdUI.TTypeMini.Primary;
+            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
+            // 
             // ListBox
             // 
             this.ListBox.BackColor = System.Drawing.Color.White;
@@ -63,16 +78,16 @@
             this.ListBox.Name = "ListBox";
             this.ListBox.SelectedIndex = -1;
             this.ListBox.SelectedItem = null;
-            this.ListBox.Size = new System.Drawing.Size(275, 369);
+            this.ListBox.Size = new System.Drawing.Size(330, 369);
             this.ListBox.TabIndex = 1;
             this.ListBox.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.ListBox_SelectedIndexChanged);
             // 
             // label_Gameinfo1
             // 
             this.label_Gameinfo1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Gameinfo1.Location = new System.Drawing.Point(385, 37);
+            this.label_Gameinfo1.Location = new System.Drawing.Point(440, 37);
             this.label_Gameinfo1.Name = "label_Gameinfo1";
-            this.label_Gameinfo1.Size = new System.Drawing.Size(258, 23);
+            this.label_Gameinfo1.Size = new System.Drawing.Size(203, 23);
             this.label_Gameinfo1.TabIndex = 6;
             this.label_Gameinfo1.Text = "UNKNOWN";
             // 
@@ -105,22 +120,27 @@
             // 
             this.image3D_GameIcon.HandCursor = System.Windows.Forms.Cursors.Default;
             this.image3D_GameIcon.Image = global::PVZLauncher.Properties.Resources.icon;
-            this.image3D_GameIcon.Location = new System.Drawing.Point(293, 37);
+            this.image3D_GameIcon.Location = new System.Drawing.Point(348, 37);
             this.image3D_GameIcon.Name = "image3D_GameIcon";
             this.image3D_GameIcon.Size = new System.Drawing.Size(86, 86);
             this.image3D_GameIcon.TabIndex = 2;
             // 
-            // button_Refresh
+            // button_Load
             // 
-            this.button_Refresh.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Refresh.Icon = global::PVZLauncher.Properties.Resources.refresh;
-            this.button_Refresh.IconRatio = 0.8F;
-            this.button_Refresh.Location = new System.Drawing.Point(257, 1);
-            this.button_Refresh.Name = "button_Refresh";
-            this.button_Refresh.Size = new System.Drawing.Size(30, 30);
-            this.button_Refresh.TabIndex = 5;
-            this.button_Refresh.Type = AntdUI.TTypeMini.Primary;
-            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
+            this.button_Load.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Load.Icon = global::PVZLauncher.Properties.Resources.folder;
+            this.button_Load.IconRatio = 0.8F;
+            this.button_Load.Location = new System.Drawing.Point(182, 3);
+            this.button_Load.Name = "button_Load";
+            this.button_Load.Size = new System.Drawing.Size(128, 30);
+            this.button_Load.TabIndex = 6;
+            this.button_Load.Text = "导入";
+            this.button_Load.Type = AntdUI.TTypeMini.Warn;
+            this.button_Load.Click += new System.EventHandler(this.button_Load_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.Description = "请选择含有可执行文件的游戏目录";
             // 
             // SelectGame_Window
             // 
@@ -159,5 +179,7 @@
         private AntdUI.Button button_Cancel;
         private AntdUI.Button button_Refresh;
         private AntdUI.Label label_Gameinfo1;
+        private AntdUI.Button button_Load;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }

@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Microsoft.VisualBasic.Devices;
 
 namespace PVZLauncher
 {
@@ -550,6 +551,67 @@ namespace PVZLauncher
             return sections;
         }
 
+        //删除配置
+        public static void DeleteConfig(string filePath, string section, string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                throw new ArgumentException("Key cannot be empty", nameof(key));
+
+            var sections = ParseConfigFile(filePath);
+            section = section ?? "";
+
+            if (sections.TryGetValue(section, out var sectionData) && sectionData.Remove(key))
+            {
+                // 如果节已空则移除整个节
+                if (sectionData.Count == 0)
+                {
+                    sections.Remove(section);
+                }
+
+                SaveSectionsToFile(filePath, sections);
+
+            }
+        }
+
+        // 统一保存配置的方法
+        private static void SaveSectionsToFile(string filePath, Dictionary<string, Dictionary<string, string>> sections)
+        {
+            var lines = new List<string>();
+
+            // 处理默认节
+            if (sections.TryGetValue("", out var defaultSection) && defaultSection.Count > 0)
+            {
+                lines.AddRange(defaultSection.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+            }
+
+            // 处理带节名的配置（按字母排序）
+            foreach (var sec in sections.Keys
+                .Where(s => !string.IsNullOrEmpty(s))
+                .OrderBy(s => s, StringComparer.OrdinalIgnoreCase))
+            {
+                var sectionData = sections[sec];
+                if (sectionData.Count == 0) continue;
+
+                if (lines.Count > 0) lines.Add("");
+                lines.Add($"[{sec}]");
+                lines.AddRange(sectionData.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+            }
+
+            File.WriteAllLines(filePath, lines, Encoding.UTF8);
+        }
+
+        //删除配置节
+        public static void DeleteSection(string filePath, string section)
+        {
+            var sections = ParseConfigFile(filePath);
+            section = section ?? "";
+
+            if (sections.Remove(section))
+            {
+                SaveSectionsToFile(filePath, sections);
+            }
+        }
+
         //写PATH系统环境变量
         public static void AddPath(string directoryPath, bool systemLevel = true)
         {
@@ -693,6 +755,98 @@ namespace PVZLauncher
                 return false;
             }
         }
+
+        //移动文件夹
+        public bool MoveFolder(string source, string dest, bool overwrite, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                // 检查源文件夹
+                if (!Directory.Exists(source))
+                {
+                    errorMessage = "源文件夹不存在";
+                    return false;
+                }
+
+                // 判断是否跨磁盘移动（关键逻辑）
+                bool isSameDrive = Path.GetPathRoot(source)?.ToUpper()
+                                == Path.GetPathRoot(dest)?.ToUpper();
+
+                // 处理目标文件夹已存在的情况
+                if (Directory.Exists(dest))
+                {
+                    if (overwrite) Directory.Delete(dest, true);
+                    else
+                    {
+                        errorMessage = "目标文件夹已存在且未启用覆盖";
+                        return false;
+                    }
+                }
+
+                // 执行移动
+                if (isSameDrive)
+                {
+                    Directory.Move(source, dest); // 同一磁盘直接移动
+                }
+                else
+                {
+                    // 跨磁盘：复制+删除方案
+                    new Computer().FileSystem.CopyDirectory(source, dest, overwrite);
+                    Directory.Delete(source, true);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"{(ex is IOException ? "IO错误" : ex.GetType().Name)}: {ex.Message}";
+                return false;
+            }
+        }
+
+        //复制文件夹
+        public bool CopyFolder(string sourceFolder, string destFolder, bool overwrite)
+        {
+            try
+            {
+                // 检查源文件夹是否存在
+                if (!Directory.Exists(sourceFolder))
+                {
+                    return false;
+                }
+
+                // 处理目标文件夹已存在的情况
+                if (Directory.Exists(destFolder))
+                {
+                    if (overwrite)
+                    {
+                        // 递归删除目标文件夹
+                        Directory.Delete(destFolder, true);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                // 创建目标目录结构
+                Directory.CreateDirectory(Path.GetDirectoryName(destFolder));
+
+                // 执行复制操作（自动处理所有子内容和文件）
+                new Computer().FileSystem.CopyDirectory(
+                    sourceFolder,
+                    destFolder,
+                    overwrite
+                );
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         //加载游戏列表
@@ -719,30 +873,6 @@ namespace PVZLauncher
             }
             
 
-        }
-
-        //复制文件夹
-        public Task CopyDirectoryAsync(string sourceDir, string targetDir)
-        {
-            return Task.Run(() =>
-            {
-                // 创建目标目录
-                Directory.CreateDirectory(targetDir);
-
-                // 复制所有文件
-                foreach (string file in Directory.GetFiles(sourceDir))
-                {
-                    string destFile = Path.Combine(targetDir, Path.GetFileName(file));
-                    File.Copy(file, destFile, true);
-                }
-
-                // 递归复制子目录
-                foreach (string dir in Directory.GetDirectories(sourceDir))
-                {
-                    string destDir = Path.Combine(targetDir, Path.GetFileName(dir));
-                    CopyDirectoryAsync(dir, destDir).Wait();  // 同步等待子目录复制完成
-                }
-            });
         }
 
         //对象========================================================================================
@@ -840,6 +970,43 @@ namespace PVZLauncher
                 ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = Main_Window.GamesPath[i]));
 
             }
+        }
+
+        private void button_Load_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "导入",
+                    Content = $"是否将 {folderBrowserDialog1} 导入进游戏库？\n此操作仅复制文件夹，源文件夹不做改动",
+                    OkText = "导入",
+                    CancelText = "取消",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK)
+                {
+                    try
+                    {
+                        CopyFolder($"{folderBrowserDialog1.SelectedPath}", $"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", true);
+
+                        WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "ExecuteName", "PlantsVsZombies.exe");
+
+                        LoadGameList();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {//第1000行代码！！！
+                            Title = "发生错误！",
+                            Text = $"在导入游戏时发生错误！\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+
+                    }
+                }
+            }
+
         }
     }
 }

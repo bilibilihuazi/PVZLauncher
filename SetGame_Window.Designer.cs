@@ -163,7 +163,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(753, 381);
+            this.ClientSize = new System.Drawing.Size(753, 194);
             this.Controls.Add(this.button_OpenGameFoler);
             this.Controls.Add(this.button_ExecuteName_Browser);
             this.Controls.Add(this.input_ExecuteName);
@@ -178,9 +178,9 @@
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(753, 381);
+            this.MaximumSize = new System.Drawing.Size(753, 194);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(753, 381);
+            this.MinimumSize = new System.Drawing.Size(753, 194);
             this.Name = "SetGame_Window";
             this.Resizable = false;
             this.ShowInTaskbar = false;

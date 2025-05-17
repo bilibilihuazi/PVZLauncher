@@ -817,13 +817,13 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Beta 1.1.3.7";    //版本
-        public static string CompliedTime = "2025-5-16 19:10";     //编译时间
+        public static string Version = "Beta 1.2.3.11";    //版本
+        public static string CompliedTime = "2025-5-17 15:13";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
         public static string SGamesPath;    //当前游戏路径
-        public static int EggNum = 0;    //菜单计数器
+        public static int EggNum = 0;    //彩蛋计数器
         //事件========================================================================================
         public Main_Window()
         {
@@ -856,6 +856,21 @@ namespace PVZLauncher
                     Text = "游戏关键性文件夹 trainer 不存在，已成功创建！",
                     Icon = AntdUI.TType.Warn
                 });
+            }
+
+
+            //游戏资源检测
+            if(!File.Exists($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe") || !File.Exists($"{RunPath}\\trainer\\user1.dat"))
+            {
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "启动器文件缺失！",
+                    Content = "启动器主要文件缺失！请完整下载软件发布时携带的附属文件！",
+                    OkText = "确定",
+                    CancelText = null,
+                    Icon = AntdUI.TType.Error
+                });
+                this.Close();
             }
 
         }
@@ -898,6 +913,23 @@ namespace PVZLauncher
             SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
 
 
+
+
+
+
+            //游戏检测
+
+            if (GamesPath.Length == 0)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "提示",
+                    Text = "你还没有添加任何游戏，请在选择版本界面添加游戏！",
+                    Icon = AntdUI.TType.Warn
+                });
+            }
+
+
         }
 
         private void tabs_Main_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
@@ -929,7 +961,7 @@ namespace PVZLauncher
 
         private void timer_Main_Tick(object sender, EventArgs e)
         {
-            label_Home_Gamename.Text = $"当前版本:{SGamesPath}";//设置当前游戏名称
+            label_Home_Gamename.Text = $"{SGamesPath}";//设置当前游戏名称
         }
 
         private async void button_Launch_Click(object sender, EventArgs e)
@@ -965,7 +997,7 @@ namespace PVZLauncher
 
 
                     //等待进程退出
-                    await Task.Run(() => proceess.WaitForExit());
+                    await Task.Run(() => proceess.WaitForExit());//第1000行代码！！！
                     //按钮形态改变
                     button_Launch.Text = "启动游戏";
                     button_Launch.Type = AntdUI.TTypeMini.Success;
@@ -1175,6 +1207,123 @@ namespace PVZLauncher
         {
             //跳转bilibili
             Process.Start("https://space.bilibili.com/1794899926");
+        }
+
+        private void button_Settings_RemoveSave_Click(object sender, EventArgs e)
+        {
+            if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "确认操作",
+                Content = "此操作会移除游戏的所有存档，是否删除？",
+                CancelText = "我再想想",
+                OkText = "删除存档",
+                OkType = AntdUI.TTypeMini.Error,
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK) 
+            {
+                if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "最后一次确认",
+                    Content = "此对话框为最后一次警告，确认后立即删除存档！请慎重考虑！",
+                    CancelText = "我不删除了",
+                    OkText = "继续删除",
+                    OkType = AntdUI.TTypeMini.Error,
+                    Icon = AntdUI.TType.Error
+                }) == DialogResult.OK)
+                {
+                    if (button_Launch.Text != "结束进程")
+                    {
+                        try
+                        {
+                            DirectoryInfo directoryInfo = new DirectoryInfo($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata");
+
+                            directoryInfo.Delete(true);
+
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "成功删除！",
+                                Text = "存档删除成功！",
+                                Icon = AntdUI.TType.Success
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "发生错误！",
+                                Text = $"在删除存档文件夹时发生错误！\n错误原因:{ex.Message}",
+                                Icon = AntdUI.TType.Error
+                            });
+                        }
+                    }
+                    else
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = "检测到游戏正在运行，请先结束游戏进程！",
+                            Icon = AntdUI.TType.Error
+                        });
+                    }
+
+                    
+                }
+            }
+        }
+
+        private void button_Settings_TotalSave_Click(object sender, EventArgs e)
+        {
+            if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "是否替换？",
+                Content = "此操作会替换首个用户的存档文件(第一个创建的用户)；是否继续?",
+                CancelText = "取消替换",
+                OkText = "开始替换",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                if(!File.Exists($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat"))
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = "存档文件不存在，请先创建一个用户！",
+                        Icon = AntdUI.TType.Error
+                    });
+                }
+                else
+                {
+                    try
+                    {
+                        if(File.Exists($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat"))
+                        {
+                            File.Delete($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat");
+
+                        }
+                         
+                        File.Copy($"{RunPath}\\trainer\\user1.dat", $"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat");
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "替换成功！",
+                            Text = "通关存档已成功替换，请在游戏中重新加载存档\n(更换用户->确定)",
+                            Icon = AntdUI.TType.Success
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"替换存档失败！\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                        
+                    }
+                }
+            }
         }
     }
 }

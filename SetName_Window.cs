@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using AntdUI;
 
 namespace PVZLauncher
 {
@@ -776,16 +777,30 @@ namespace PVZLauncher
 
         private void button_Done_Click(object sender, EventArgs e)
         {
-            Directory.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}", $"{Main_Window.RunPath}\\games\\{textBox_Name.Text}");
+            try
+            {
+                Directory.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}", $"{Main_Window.RunPath}\\games\\{textBox_Name.Text}");
 
-            WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "ExecuteName", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName"));
-            DeleteSection(Main_Window.ConfigPath, Main_Window.SGamesPath);
+                WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "ExecuteName", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName"));
+                DeleteSection(Main_Window.ConfigPath, Main_Window.SGamesPath);
 
-            Main_Window.SGamesPath = textBox_Name.Text;
+                Main_Window.SGamesPath = textBox_Name.Text;
 
-            SetGame_Window.DialogState = true;
+                SetGame_Window.DialogState = true;
 
-            this.Close();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在更改名称时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+                
+            }
+            
         }
 
         private void SetName_Window_Load(object sender, EventArgs e)

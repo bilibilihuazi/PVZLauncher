@@ -201,6 +201,8 @@
     <None Include="assets\delete.png" />
     <None Include="assets\github.png" />
     <None Include="assets\bilibili.png" />
+    <None Include="assets\victory.png" />
+    <None Include="assets\victroy.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

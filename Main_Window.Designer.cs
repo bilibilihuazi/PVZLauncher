@@ -46,6 +46,10 @@
             this.tabs_Download = new AntdUI.Tabs();
             this.tabPage_Game = new AntdUI.TabPage();
             this.tabPage_Settings = new AntdUI.TabPage();
+            this.panel_Settings_Saves = new AntdUI.Panel();
+            this.button_Settings_TotalSave = new AntdUI.Button();
+            this.label_Settings_Saves = new AntdUI.Label();
+            this.button_Settings_RemoveSave = new AntdUI.Button();
             this.tabPage_About = new AntdUI.TabPage();
             this.button_About_Bilibili = new AntdUI.Button();
             this.button_About_Github = new AntdUI.Button();
@@ -60,6 +64,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
             this.tabPage_Download.SuspendLayout();
             this.tabs_Download.SuspendLayout();
+            this.tabPage_Settings.SuspendLayout();
+            this.panel_Settings_Saves.SuspendLayout();
             this.tabPage_About.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).BeginInit();
@@ -228,12 +234,60 @@
             // 
             // tabPage_Settings
             // 
+            this.tabPage_Settings.Controls.Add(this.panel_Settings_Saves);
             this.tabPage_Settings.Icon = global::PVZLauncher.Properties.Resources.settings;
-            this.tabPage_Settings.Location = new System.Drawing.Point(0, 0);
+            this.tabPage_Settings.Location = new System.Drawing.Point(-744, -335);
             this.tabPage_Settings.Name = "tabPage_Settings";
-            this.tabPage_Settings.Size = new System.Drawing.Size(0, 0);
+            this.tabPage_Settings.Size = new System.Drawing.Size(744, 335);
             this.tabPage_Settings.TabIndex = 2;
             this.tabPage_Settings.Text = "设置";
+            // 
+            // panel_Settings_Saves
+            // 
+            this.panel_Settings_Saves.Controls.Add(this.button_Settings_TotalSave);
+            this.panel_Settings_Saves.Controls.Add(this.label_Settings_Saves);
+            this.panel_Settings_Saves.Controls.Add(this.button_Settings_RemoveSave);
+            this.panel_Settings_Saves.Location = new System.Drawing.Point(9, 3);
+            this.panel_Settings_Saves.Name = "panel_Settings_Saves";
+            this.panel_Settings_Saves.Size = new System.Drawing.Size(726, 82);
+            this.panel_Settings_Saves.TabIndex = 1;
+            this.panel_Settings_Saves.Text = "panel1";
+            // 
+            // button_Settings_TotalSave
+            // 
+            this.button_Settings_TotalSave.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_TotalSave.Icon = global::PVZLauncher.Properties.Resources.victroy;
+            this.button_Settings_TotalSave.IconRatio = 1F;
+            this.button_Settings_TotalSave.Location = new System.Drawing.Point(165, 29);
+            this.button_Settings_TotalSave.Name = "button_Settings_TotalSave";
+            this.button_Settings_TotalSave.Size = new System.Drawing.Size(154, 45);
+            this.button_Settings_TotalSave.TabIndex = 2;
+            this.button_Settings_TotalSave.Text = "一键通关";
+            this.button_Settings_TotalSave.Type = AntdUI.TTypeMini.Success;
+            this.button_Settings_TotalSave.Click += new System.EventHandler(this.button_Settings_TotalSave_Click);
+            // 
+            // label_Settings_Saves
+            // 
+            this.label_Settings_Saves.BackColor = System.Drawing.Color.Transparent;
+            this.label_Settings_Saves.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Saves.Location = new System.Drawing.Point(5, 0);
+            this.label_Settings_Saves.Name = "label_Settings_Saves";
+            this.label_Settings_Saves.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Saves.TabIndex = 1;
+            this.label_Settings_Saves.Text = "存档管理";
+            // 
+            // button_Settings_RemoveSave
+            // 
+            this.button_Settings_RemoveSave.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_RemoveSave.Icon = global::PVZLauncher.Properties.Resources.delete;
+            this.button_Settings_RemoveSave.IconRatio = 1F;
+            this.button_Settings_RemoveSave.Location = new System.Drawing.Point(5, 29);
+            this.button_Settings_RemoveSave.Name = "button_Settings_RemoveSave";
+            this.button_Settings_RemoveSave.Size = new System.Drawing.Size(154, 45);
+            this.button_Settings_RemoveSave.TabIndex = 0;
+            this.button_Settings_RemoveSave.Text = "删除存档";
+            this.button_Settings_RemoveSave.Type = AntdUI.TTypeMini.Error;
+            this.button_Settings_RemoveSave.Click += new System.EventHandler(this.button_Settings_RemoveSave_Click);
             // 
             // tabPage_About
             // 
@@ -356,6 +410,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).EndInit();
             this.tabPage_Download.ResumeLayout(false);
             this.tabs_Download.ResumeLayout(false);
+            this.tabPage_Settings.ResumeLayout(false);
+            this.panel_Settings_Saves.ResumeLayout(false);
             this.tabPage_About.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).EndInit();
@@ -388,6 +444,10 @@
         private AntdUI.Button button_LaunchTrainer;
         private AntdUI.Button button_About_Github;
         private AntdUI.Button button_About_Bilibili;
+        private AntdUI.Button button_Settings_RemoveSave;
+        private AntdUI.Panel panel_Settings_Saves;
+        private AntdUI.Label label_Settings_Saves;
+        private AntdUI.Button button_Settings_TotalSave;
     }
 }
 

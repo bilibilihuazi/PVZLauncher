@@ -841,9 +841,8 @@ namespace PVZLauncher
                 OkType = AntdUI.TTypeMini.Error
             }) == DialogResult.OK)
             {
-                if (Main_Window.GamesPath.Length != 1)
+                try
                 {
-
                     DirectoryInfo directoryInfo = new DirectoryInfo($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
 
                     directoryInfo.Delete(true);
@@ -856,8 +855,8 @@ namespace PVZLauncher
 
                     main_Window.LoadGameList();
 
-                    Main_Window.SGamesPath = Main_Window.GamesPath[0];
-                    WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", Main_Window.GamesPath[0]);
+                    Main_Window.SGamesPath = "";
+                    WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", "");
 
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
@@ -868,15 +867,18 @@ namespace PVZLauncher
 
                     this.Close();
                 }
-                else
+                catch (Exception ex)
                 {
-                    AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
-                        Text = "游戏最少存在一个!",
+                        Title = "发生错误！",
+                        Text = $"在删除游戏时发生错误！\n错误原因:{ex.Message}",
                         Icon = AntdUI.TType.Error
                     });
+                    
                 }
                 
+
 
             }
         }
