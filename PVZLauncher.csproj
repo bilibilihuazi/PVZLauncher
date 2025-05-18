@@ -204,6 +204,8 @@
     <None Include="assets\victroy.png" />
     <None Include="assets\titlescreen.png" />
     <None Include="assets\titlescreen_full.png" />
+    <None Include="assets\save.png" />
+    <None Include="assets\PvzToolkit_.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

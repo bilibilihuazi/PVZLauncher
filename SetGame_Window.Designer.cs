@@ -41,6 +41,10 @@
             this.image3D_GameIcon = new AntdUI.Image3D();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.panel_Info = new AntdUI.Panel();
+            this.label_Info = new AntdUI.Label();
+            this.label_PlayTime = new AntdUI.Label();
+            this.panel_Info.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageHeader1
@@ -159,11 +163,43 @@
             this.timer.Interval = 10;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // panel_Info
+            // 
+            this.panel_Info.Controls.Add(this.label_PlayTime);
+            this.panel_Info.Controls.Add(this.label_Info);
+            this.panel_Info.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.panel_Info.Location = new System.Drawing.Point(12, 173);
+            this.panel_Info.Name = "panel_Info";
+            this.panel_Info.Size = new System.Drawing.Size(729, 132);
+            this.panel_Info.TabIndex = 10;
+            // 
+            // label_Info
+            // 
+            this.label_Info.BackColor = System.Drawing.Color.Transparent;
+            this.label_Info.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Info.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Info.Location = new System.Drawing.Point(5, 5);
+            this.label_Info.Name = "label_Info";
+            this.label_Info.Size = new System.Drawing.Size(120, 23);
+            this.label_Info.TabIndex = 0;
+            this.label_Info.Text = "统计信息";
+            // 
+            // label_PlayTime
+            // 
+            this.label_PlayTime.BackColor = System.Drawing.Color.Transparent;
+            this.label_PlayTime.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_PlayTime.Location = new System.Drawing.Point(5, 34);
+            this.label_PlayTime.Name = "label_PlayTime";
+            this.label_PlayTime.Size = new System.Drawing.Size(721, 23);
+            this.label_PlayTime.TabIndex = 1;
+            this.label_PlayTime.Text = "游玩时间: UNKNOWN 分钟";
+            // 
             // SetGame_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(753, 194);
+            this.ClientSize = new System.Drawing.Size(753, 317);
+            this.Controls.Add(this.panel_Info);
             this.Controls.Add(this.button_OpenGameFoler);
             this.Controls.Add(this.button_ExecuteName_Browser);
             this.Controls.Add(this.input_ExecuteName);
@@ -178,15 +214,16 @@
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(753, 194);
+            this.MaximumSize = new System.Drawing.Size(753, 317);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(753, 194);
+            this.MinimumSize = new System.Drawing.Size(753, 317);
             this.Name = "SetGame_Window";
             this.Resizable = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SetGame_Window";
             this.Load += new System.EventHandler(this.SetGame_Window_Load);
+            this.panel_Info.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -205,5 +242,8 @@
         private AntdUI.Button button_OpenGameFoler;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Timer timer;
+        private AntdUI.Panel panel_Info;
+        private AntdUI.Label label_Info;
+        private AntdUI.Label label_PlayTime;
     }
 }

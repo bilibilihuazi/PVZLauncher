@@ -768,6 +768,26 @@ namespace PVZLauncher
                 label_GamePath.Text = $"游戏路径:{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
 
                 input_ExecuteName.Text = ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName");
+
+
+
+                if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 60)
+                {
+                    label_PlayTime.Text = $"游玩时长: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")} 秒";
+
+                }
+                else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 60 && int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 3600)
+                {
+                    label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60} 分钟";
+                }
+                else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 3600)
+                {
+                    label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60 / 60} 小时";
+
+                }
+
+
+
             }
             catch (Exception ex)
             {

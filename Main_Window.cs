@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Reflection;
+using Microsoft.VisualBasic.Devices;
+using System.Threading;
 
 namespace PVZLauncher
 {
@@ -755,11 +757,158 @@ namespace PVZLauncher
                 return false;
             }
         }
+
+        //移动文件夹
+        public bool MoveFolder(string source, string dest, bool overwrite, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                // 检查源文件夹
+                if (!Directory.Exists(source))
+                {
+                    errorMessage = "源文件夹不存在";
+                    return false;
+                }
+
+                // 判断是否跨磁盘移动（关键逻辑）
+                bool isSameDrive = Path.GetPathRoot(source)?.ToUpper()
+                                == Path.GetPathRoot(dest)?.ToUpper();
+
+                // 处理目标文件夹已存在的情况
+                if (Directory.Exists(dest))
+                {
+                    if (overwrite) Directory.Delete(dest, true);
+                    else
+                    {
+                        errorMessage = "目标文件夹已存在且未启用覆盖";
+                        return false;
+                    }
+                }
+
+                // 执行移动
+                if (isSameDrive)
+                {
+                    Directory.Move(source, dest); // 同一磁盘直接移动
+                }
+                else
+                {
+                    // 跨磁盘：复制+删除方案
+                    new Computer().FileSystem.CopyDirectory(source, dest, overwrite);
+                    Directory.Delete(source, true);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"{(ex is IOException ? "IO错误" : ex.GetType().Name)}: {ex.Message}";
+                return false;
+            }
+        }
+
+        //复制文件夹
+        public bool CopyFolder(string sourceFolder, string destFolder, bool overwrite)
+        {
+            try
+            {
+                // 检查源文件夹是否存在
+                if (!Directory.Exists(sourceFolder))
+                {
+                    return false;
+                }
+
+                // 处理目标文件夹已存在的情况
+                if (Directory.Exists(destFolder))
+                {
+                    if (overwrite)
+                    {
+                        // 递归删除目标文件夹
+                        Directory.Delete(destFolder, true);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                // 创建目标目录结构
+                Directory.CreateDirectory(Path.GetDirectoryName(destFolder));
+
+                // 执行复制操作（自动处理所有子内容和文件）
+                new Computer().FileSystem.CopyDirectory(
+                    sourceFolder,
+                    destFolder,
+                    overwrite
+                );
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //异步HTTP读文件
+        public async Task DownloadFileAsync(string url, string savePath, IProgress<(int ProgressPercentage, long BytesReceived)> progress = null, CancellationToken cancellationToken = default)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // 获取响应头并验证状态
+                using (var response = await httpClient.GetAsync(
+                    url,
+                    HttpCompletionOption.ResponseHeadersRead,
+                    cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    // 创建保存目录
+                    var directory = Path.GetDirectoryName(savePath);
+                    if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+                    // 获取文件总大小
+                    var totalBytes = response.Content.Headers.ContentLength ?? -1L;
+                    var receivedBytes = 0L;
+
+                    // 创建文件流
+                    using (var contentStream = await response.Content.ReadAsStreamAsync())
+                    using (var fileStream = new FileStream(
+                        savePath,
+                        FileMode.Create,
+                        FileAccess.Write,
+                        FileShare.None,
+                        bufferSize: 8192,
+                        useAsync: true))
+                    {
+                        var buffer = new byte[8192];
+                        int bytesRead;
+
+                        // 分段下载并更新进度
+                        while ((bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead, cancellationToken);
+                            receivedBytes += bytesRead;
+
+                            if (totalBytes > 0)
+                            {
+                                var progressPercentage = (int)((double)receivedBytes / totalBytes * 100);
+                                progress?.Report((progressPercentage, receivedBytes));
+                            }
+                            else
+                            {
+                                progress?.Report((-1, receivedBytes));
+                            }
+                        }
+                    }
+                }
+            }
+        }
         #endregion
 
         //标题缓入
         public async void TitleFadeIn(int speed = 8)
         {
+            
             pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;//标题居中
             pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;//标题移到窗口外上方
 
@@ -818,8 +967,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Beta 1.3.3.8";    //版本
-        public static string CompliedTime = "2025-5-18 10:28";     //编译时间
+        public static string Version = "Beta 1.4.4.8";    //版本
+        public static string CompliedTime = "2025-5-18 16:58";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -894,9 +1043,11 @@ namespace PVZLauncher
                     //global
                     WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
                     WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
+                    WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
 
                     //games
-                    WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
+                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
+                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "PlayTime", "0");
                 }
             }
             catch (Exception ex)
@@ -910,29 +1061,47 @@ namespace PVZLauncher
                 });
 
             }
-            
+
 
 
             //读配置项
-            SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");//当前选择的游戏
-            if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")//修改器随游戏启动
+            try
             {
-                switch_Settings_TrainerWithGame.Checked = true;
+                SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");//当前选择的游戏
+
+                if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")//修改器随游戏启动
+                {
+                    switch_Settings_TrainerWithGame.Checked = true;
+                }
+                else if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "false")
+                {
+                    switch_Settings_TrainerWithGame.Checked = false;
+                }
+                else
+                {
+                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//恢复默认值
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = "在读取配置项 config.ini -> global -> TrainerWithGameLaunch 时发生错误！\n\n错误原因: 其配置项的值只能为 true 或 false 而该配置项为其他值！",
+                        Icon = AntdUI.TType.Error
+                    });
+                }
+
+                select_Launcher_Ld.SelectedIndex = int.Parse(ReadConfig(ConfigPath, "global", "LaunchedExecute"));//游戏启动后的操作
+
             }
-            else if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "false")
+            catch (Exception ex)
             {
-                switch_Settings_TrainerWithGame.Checked = false;
-            }
-            else
-            {
-                WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//恢复默认值
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",
-                    Text = "在读取配置项 config.ini -> global -> TrainerWithGameLaunch 时发生错误！\n\n错误原因: 其配置项的值只能为 true 或 false 而该配置项为其他值！",
+                    Text = $"在应用配置项时发生错误！\n错误原因:{ex.Message}",
                     Icon = AntdUI.TType.Error
                 });
+                
             }
+            
 
 
 
@@ -962,17 +1131,15 @@ namespace PVZLauncher
             }
             else if (tabs_Main.SelectedIndex == 1)
             {
-                tabs_Main.SelectedIndex = 0;
-                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                if (!Directory.Exists($"{RunPath}\\temp"))
                 {
-                    Title = "敬请期待",
-                    Content = "此功能正在开发中，可能需要几周？几月？几年？几个世纪！！！",
-                    Icon = AntdUI.TType.Warn,
-                    OkText = "我知道了",
-                    CancelText = null
-                });
-            }
+                    Directory.CreateDirectory($"{RunPath}\\temp");
+                }
 
+                
+            }
+            
+            
         }
 
         private void button_SelectGame_Click(object sender, EventArgs e)
@@ -1000,6 +1167,7 @@ namespace PVZLauncher
                     button_Launch.Text = "结束进程";
                     button_Launch.Type = AntdUI.TTypeMini.Error;
                     button_Launch.Icon = Properties.Resources.close;
+                    timer_PlayTime.Enabled = true;
 
                     button_GameSettings.Enabled = false;
                     button_SelectGame.Enabled = false;
@@ -1012,6 +1180,18 @@ namespace PVZLauncher
                     {
                         button_LaunchTrainer_Click(sender, e);//启动修改器
                     }
+
+                    //执行什么操作
+                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "1")
+                    {
+                        this.Close();
+                    }
+                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
+                    {
+                        this.Visible = false;
+                    }
+
+
 
 
                     //成功提示
@@ -1030,9 +1210,20 @@ namespace PVZLauncher
                     button_Launch.Text = "启动游戏";
                     button_Launch.Type = AntdUI.TTypeMini.Success;
                     button_Launch.Icon = Properties.Resources.launch;
+                    timer_PlayTime.Enabled = false;
 
                     button_GameSettings.Enabled = true;
                     button_SelectGame.Enabled = true;
+
+                    //执行操作
+                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
+                    {
+                        this.Visible = true;
+                    }
+
+
+
+
 
                     //进程退出提示
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
@@ -1056,6 +1247,7 @@ namespace PVZLauncher
                     button_Launch.Text = "启动游戏";
                     button_Launch.Type = AntdUI.TTypeMini.Success;
                     button_Launch.Icon = Properties.Resources.launch;
+                    timer_PlayTime.Enabled = false;
 
                     button_GameSettings.Enabled = true;
                     button_SelectGame.Enabled = true;
@@ -1081,6 +1273,7 @@ namespace PVZLauncher
                         button_Launch.Text = "启动游戏";
                         button_Launch.Type = AntdUI.TTypeMini.Success;
                         button_Launch.Icon = Properties.Resources.launch;
+                        timer_PlayTime.Enabled = false;
 
                         button_GameSettings.Enabled = true;
                         button_SelectGame.Enabled = true;
@@ -1371,6 +1564,17 @@ namespace PVZLauncher
             {
                 WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");
             }
+        }
+
+        private void timer_PlayTime_Tick(object sender, EventArgs e)
+        {
+            int temp = int.Parse(ReadConfig(ConfigPath, SGamesPath, "PlayTime"));
+            WriteConfig(ConfigPath, SGamesPath, "PlayTime", $"{temp + 1}");
+        }
+
+        private void select_Launcher_Ld_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
+        {
+            WriteConfig(ConfigPath, "global", "LaunchedExecute", $"{select_Launcher_Ld.SelectedIndex}");
         }
     }
 }

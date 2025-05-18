@@ -917,6 +917,7 @@ namespace PVZLauncher
                 if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
                 {
                     WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
+                    WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
                 }
 
                 Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\{ReadConfig(Main_Window.ConfigPath, $"{ListBox.SelectedItem.Text}", "ExecuteName")}");
@@ -943,6 +944,7 @@ namespace PVZLauncher
         {
             Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
             WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
+            
 
             
 
@@ -990,6 +992,7 @@ namespace PVZLauncher
                         CopyFolder($"{folderBrowserDialog1.SelectedPath}", $"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", true);
 
                         WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "ExecuteName", "PlantsVsZombies.exe");
+                        WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "PlayTime", "0");
 
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                         {
