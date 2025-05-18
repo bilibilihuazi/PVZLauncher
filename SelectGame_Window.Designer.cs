@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.pageHeader = new AntdUI.PageHeader();
-            this.button_Refresh = new AntdUI.Button();
             this.ListBox = new ReaLTaiizor.Controls.MaterialListBox();
             this.label_Gameinfo1 = new AntdUI.Label();
-            this.button_Cancel = new AntdUI.Button();
             this.button_Done = new AntdUI.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.button_Cancel = new AntdUI.Button();
             this.image3D_GameIcon = new AntdUI.Image3D();
             this.button_Load = new AntdUI.Button();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.button_Refresh = new AntdUI.Button();
             this.pageHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,18 +54,6 @@
             this.pageHeader.Size = new System.Drawing.Size(680, 30);
             this.pageHeader.TabIndex = 0;
             this.pageHeader.Text = "选择版本";
-            // 
-            // button_Refresh
-            // 
-            this.button_Refresh.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Refresh.Icon = global::PVZLauncher.Properties.Resources.refresh;
-            this.button_Refresh.IconRatio = 0.8F;
-            this.button_Refresh.Location = new System.Drawing.Point(312, 3);
-            this.button_Refresh.Name = "button_Refresh";
-            this.button_Refresh.Size = new System.Drawing.Size(30, 30);
-            this.button_Refresh.TabIndex = 5;
-            this.button_Refresh.Type = AntdUI.TTypeMini.Primary;
-            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // ListBox
             // 
@@ -91,18 +79,6 @@
             this.label_Gameinfo1.TabIndex = 6;
             this.label_Gameinfo1.Text = "UNKNOWN";
             // 
-            // button_Cancel
-            // 
-            this.button_Cancel.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Cancel.Icon = global::PVZLauncher.Properties.Resources.cancel;
-            this.button_Cancel.Location = new System.Drawing.Point(440, 364);
-            this.button_Cancel.Name = "button_Cancel";
-            this.button_Cancel.Size = new System.Drawing.Size(111, 42);
-            this.button_Cancel.TabIndex = 4;
-            this.button_Cancel.Text = "取消";
-            this.button_Cancel.Type = AntdUI.TTypeMini.Error;
-            this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
-            // 
             // button_Done
             // 
             this.button_Done.Enabled = false;
@@ -115,6 +91,22 @@
             this.button_Done.Text = "确定";
             this.button_Done.Type = AntdUI.TTypeMini.Success;
             this.button_Done.Click += new System.EventHandler(this.button_Done_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.Description = "请选择含有可执行文件的游戏目录";
+            // 
+            // button_Cancel
+            // 
+            this.button_Cancel.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Cancel.Icon = global::PVZLauncher.Properties.Resources.cancel;
+            this.button_Cancel.Location = new System.Drawing.Point(440, 364);
+            this.button_Cancel.Name = "button_Cancel";
+            this.button_Cancel.Size = new System.Drawing.Size(111, 42);
+            this.button_Cancel.TabIndex = 4;
+            this.button_Cancel.Text = "取消";
+            this.button_Cancel.Type = AntdUI.TTypeMini.Error;
+            this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
             // 
             // image3D_GameIcon
             // 
@@ -138,9 +130,17 @@
             this.button_Load.Type = AntdUI.TTypeMini.Warn;
             this.button_Load.Click += new System.EventHandler(this.button_Load_Click);
             // 
-            // folderBrowserDialog1
+            // button_Refresh
             // 
-            this.folderBrowserDialog1.Description = "请选择含有可执行文件的游戏目录";
+            this.button_Refresh.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Refresh.Icon = global::PVZLauncher.Properties.Resources.refresh;
+            this.button_Refresh.IconRatio = 0.8F;
+            this.button_Refresh.Location = new System.Drawing.Point(312, 3);
+            this.button_Refresh.Name = "button_Refresh";
+            this.button_Refresh.Size = new System.Drawing.Size(30, 30);
+            this.button_Refresh.TabIndex = 5;
+            this.button_Refresh.Type = AntdUI.TTypeMini.Primary;
+            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // SelectGame_Window
             // 

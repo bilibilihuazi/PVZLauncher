@@ -46,6 +46,10 @@
             this.tabs_Download = new AntdUI.Tabs();
             this.tabPage_Game = new AntdUI.TabPage();
             this.tabPage_Settings = new AntdUI.TabPage();
+            this.panel_Settings_Trainer = new AntdUI.Panel();
+            this.label_Settings_TrainerWithGame = new AntdUI.Label();
+            this.switch_Settings_TrainerWithGame = new AntdUI.Switch();
+            this.label_Settings_Trainer = new AntdUI.Label();
             this.panel_Settings_Saves = new AntdUI.Panel();
             this.button_Settings_TotalSave = new AntdUI.Button();
             this.label_Settings_Saves = new AntdUI.Label();
@@ -59,16 +63,19 @@
             this.label_About_info2 = new AntdUI.Label();
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
+            this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
             this.tabPage_Download.SuspendLayout();
             this.tabs_Download.SuspendLayout();
             this.tabPage_Settings.SuspendLayout();
+            this.panel_Settings_Trainer.SuspendLayout();
             this.panel_Settings_Saves.SuspendLayout();
             this.tabPage_About.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Background)).BeginInit();
             this.SuspendLayout();
             // 
             // pageHeader
@@ -141,6 +148,7 @@
             // 
             // pictureBox_Home_Title
             // 
+            this.pictureBox_Home_Title.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Home_Title.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
             this.pictureBox_Home_Title.Location = new System.Drawing.Point(163, 0);
             this.pictureBox_Home_Title.Name = "pictureBox_Home_Title";
@@ -177,6 +185,7 @@
             // 
             // label_Home_Gamename
             // 
+            this.label_Home_Gamename.BackColor = System.Drawing.Color.Transparent;
             this.label_Home_Gamename.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Home_Gamename.Location = new System.Drawing.Point(104, 184);
             this.label_Home_Gamename.Name = "label_Home_Gamename";
@@ -234,6 +243,7 @@
             // 
             // tabPage_Settings
             // 
+            this.tabPage_Settings.Controls.Add(this.panel_Settings_Trainer);
             this.tabPage_Settings.Controls.Add(this.panel_Settings_Saves);
             this.tabPage_Settings.Icon = global::PVZLauncher.Properties.Resources.settings;
             this.tabPage_Settings.Location = new System.Drawing.Point(-744, -335);
@@ -241,6 +251,46 @@
             this.tabPage_Settings.Size = new System.Drawing.Size(744, 335);
             this.tabPage_Settings.TabIndex = 2;
             this.tabPage_Settings.Text = "设置";
+            // 
+            // panel_Settings_Trainer
+            // 
+            this.panel_Settings_Trainer.Controls.Add(this.label_Settings_TrainerWithGame);
+            this.panel_Settings_Trainer.Controls.Add(this.switch_Settings_TrainerWithGame);
+            this.panel_Settings_Trainer.Controls.Add(this.label_Settings_Trainer);
+            this.panel_Settings_Trainer.Location = new System.Drawing.Point(9, 91);
+            this.panel_Settings_Trainer.Name = "panel_Settings_Trainer";
+            this.panel_Settings_Trainer.Size = new System.Drawing.Size(726, 70);
+            this.panel_Settings_Trainer.TabIndex = 2;
+            // 
+            // label_Settings_TrainerWithGame
+            // 
+            this.label_Settings_TrainerWithGame.BackColor = System.Drawing.Color.Transparent;
+            this.label_Settings_TrainerWithGame.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_TrainerWithGame.Location = new System.Drawing.Point(51, 29);
+            this.label_Settings_TrainerWithGame.Name = "label_Settings_TrainerWithGame";
+            this.label_Settings_TrainerWithGame.Size = new System.Drawing.Size(113, 23);
+            this.label_Settings_TrainerWithGame.TabIndex = 3;
+            this.label_Settings_TrainerWithGame.Text = "修改器随游戏启动";
+            // 
+            // switch_Settings_TrainerWithGame
+            // 
+            this.switch_Settings_TrainerWithGame.BackColor = System.Drawing.Color.Transparent;
+            this.switch_Settings_TrainerWithGame.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.switch_Settings_TrainerWithGame.Location = new System.Drawing.Point(5, 29);
+            this.switch_Settings_TrainerWithGame.Name = "switch_Settings_TrainerWithGame";
+            this.switch_Settings_TrainerWithGame.Size = new System.Drawing.Size(40, 23);
+            this.switch_Settings_TrainerWithGame.TabIndex = 2;
+            this.switch_Settings_TrainerWithGame.CheckedChanged += new AntdUI.BoolEventHandler(this.switch_Settings_TrainerWithGame_CheckedChanged);
+            // 
+            // label_Settings_Trainer
+            // 
+            this.label_Settings_Trainer.BackColor = System.Drawing.Color.Transparent;
+            this.label_Settings_Trainer.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer.Location = new System.Drawing.Point(5, 0);
+            this.label_Settings_Trainer.Name = "label_Settings_Trainer";
+            this.label_Settings_Trainer.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Trainer.TabIndex = 1;
+            this.label_Settings_Trainer.Text = "修改器";
             // 
             // panel_Settings_Saves
             // 
@@ -299,6 +349,7 @@
             this.tabPage_About.Controls.Add(this.label_About_info2);
             this.tabPage_About.Controls.Add(this.label_About_info1);
             this.tabPage_About.Controls.Add(this.pictureBox_About_Icon);
+            this.tabPage_About.Controls.Add(this.pictureBox_About_Background);
             this.tabPage_About.Icon = global::PVZLauncher.Properties.Resources.about;
             this.tabPage_About.Location = new System.Drawing.Point(-744, -335);
             this.tabPage_About.Name = "tabPage_About";
@@ -344,8 +395,9 @@
             // 
             // pictureBox_About_Egg
             // 
+            this.pictureBox_About_Egg.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_About_Egg.Image = global::PVZLauncher.Properties.Resources.PvZ_Logo;
-            this.pictureBox_About_Egg.Location = new System.Drawing.Point(635, 312);
+            this.pictureBox_About_Egg.Location = new System.Drawing.Point(9, 254);
             this.pictureBox_About_Egg.Name = "pictureBox_About_Egg";
             this.pictureBox_About_Egg.Size = new System.Drawing.Size(100, 20);
             this.pictureBox_About_Egg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -365,7 +417,7 @@
             // 
             this.label_About_info2.Location = new System.Drawing.Point(143, 39);
             this.label_About_info2.Name = "label_About_info2";
-            this.label_About_info2.Size = new System.Drawing.Size(301, 23);
+            this.label_About_info2.Size = new System.Drawing.Size(289, 23);
             this.label_About_info2.TabIndex = 2;
             this.label_About_info2.Text = "一款可以下载、管理、启动植物大战僵尸的启动器";
             // 
@@ -374,7 +426,7 @@
             this.label_About_info1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_About_info1.Location = new System.Drawing.Point(143, 3);
             this.label_About_info1.Name = "label_About_info1";
-            this.label_About_info1.Size = new System.Drawing.Size(341, 30);
+            this.label_About_info1.Size = new System.Drawing.Size(301, 30);
             this.label_About_info1.TabIndex = 1;
             this.label_About_info1.Text = "Plants Vs. Zombies Launcher";
             // 
@@ -387,6 +439,15 @@
             this.pictureBox_About_Icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_About_Icon.TabIndex = 0;
             this.pictureBox_About_Icon.TabStop = false;
+            // 
+            // pictureBox_About_Background
+            // 
+            this.pictureBox_About_Background.Image = global::PVZLauncher.Properties.Resources.titlescreen;
+            this.pictureBox_About_Background.Location = new System.Drawing.Point(450, 3);
+            this.pictureBox_About_Background.Name = "pictureBox_About_Background";
+            this.pictureBox_About_Background.Size = new System.Drawing.Size(297, 335);
+            this.pictureBox_About_Background.TabIndex = 8;
+            this.pictureBox_About_Background.TabStop = false;
             // 
             // Main_Window
             // 
@@ -411,10 +472,12 @@
             this.tabPage_Download.ResumeLayout(false);
             this.tabs_Download.ResumeLayout(false);
             this.tabPage_Settings.ResumeLayout(false);
+            this.panel_Settings_Trainer.ResumeLayout(false);
             this.panel_Settings_Saves.ResumeLayout(false);
             this.tabPage_About.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Background)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -448,6 +511,11 @@
         private AntdUI.Panel panel_Settings_Saves;
         private AntdUI.Label label_Settings_Saves;
         private AntdUI.Button button_Settings_TotalSave;
+        private System.Windows.Forms.PictureBox pictureBox_About_Background;
+        private AntdUI.Panel panel_Settings_Trainer;
+        private AntdUI.Label label_Settings_TrainerWithGame;
+        private AntdUI.Switch switch_Settings_TrainerWithGame;
+        private AntdUI.Label label_Settings_Trainer;
     }
 }
 

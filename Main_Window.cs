@@ -769,18 +769,19 @@ namespace PVZLauncher
                 await Task.Delay(1);//延迟
             }
 
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;//下落缓冲
-            await Task.Delay(1);
-            pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;
-            await Task.Delay(1);
+            for (int i = 0; i < 2; i++)
+            {
+                pictureBox_Home_Title.Top = pictureBox_Home_Title.Top + 5;//下落缓冲
+                await Task.Delay(1);
+            }
+            
+            
 
             for (int i = 0; i < 10; i++)
             {
                 pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;//回弹
                 await Task.Delay(1);
             }
-
-            pictureBox_Home_Title.Top = 0;//矫正位置
         }
 
         //加载游戏列表
@@ -817,8 +818,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Beta 1.2.3.11";    //版本
-        public static string CompliedTime = "2025-5-17 15:13";     //编译时间
+        public static string Version = "Beta 1.3.3.8";    //版本
+        public static string CompliedTime = "2025-5-18 10:28";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -890,8 +891,11 @@ namespace PVZLauncher
                 //生成默认配置
                 if (!File.Exists(ConfigPath))
                 {
+                    //global
                     WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
+                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
 
+                    //games
                     WriteConfig(ConfigPath, "PlantsVsZombiesV1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
                 }
             }
@@ -910,8 +914,25 @@ namespace PVZLauncher
 
 
             //读配置项
-            SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
-
+            SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");//当前选择的游戏
+            if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")//修改器随游戏启动
+            {
+                switch_Settings_TrainerWithGame.Checked = true;
+            }
+            else if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "false")
+            {
+                switch_Settings_TrainerWithGame.Checked = false;
+            }
+            else
+            {
+                WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//恢复默认值
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = "在读取配置项 config.ini -> global -> TrainerWithGameLaunch 时发生错误！\n\n错误原因: 其配置项的值只能为 true 或 false 而该配置项为其他值！",
+                    Icon = AntdUI.TType.Error
+                });
+            }
 
 
 
@@ -985,6 +1006,13 @@ namespace PVZLauncher
 
                     //吊起进程
                     proceess.Start();
+
+                    //启动器是否应该启动
+                    if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")
+                    {
+                        button_LaunchTrainer_Click(sender, e);//启动修改器
+                    }
+
 
                     //成功提示
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
@@ -1171,12 +1199,19 @@ namespace PVZLauncher
             #endregion
         }
 
-        private void button_LaunchTrainer_Click(object sender, EventArgs e)
+        public void button_LaunchTrainer_Click(object sender, EventArgs e)
         {
             //启动修改器
             try
             {
                 Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "启动成功！",
+                    Text = "修改器已成功启动！",
+                    Icon = AntdUI.TType.Success
+                });
 
             }
             catch (Exception ex)
@@ -1323,6 +1358,18 @@ namespace PVZLauncher
                         
                     }
                 }
+            }
+        }
+
+        private void switch_Settings_TrainerWithGame_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (switch_Settings_TrainerWithGame.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "true");
+            }
+            else
+            {
+                WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");
             }
         }
     }

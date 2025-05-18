@@ -886,6 +886,7 @@ namespace PVZLauncher
         private void input_ExecuteName_TextChanged(object sender, EventArgs e)
         {
             WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", input_ExecuteName.Text);
+            LoadGameInfo();
         }
     }
 }

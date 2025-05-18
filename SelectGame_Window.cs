@@ -991,7 +991,14 @@ namespace PVZLauncher
 
                         WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "ExecuteName", "PlantsVsZombies.exe");
 
-                        LoadGameList();
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "导入成功！",
+                            Text = "游戏已导入成功，请刷新游戏列表",
+                            Icon = AntdUI.TType.Success
+                        });
+
+                        
 
                     }
                     catch (Exception ex)
