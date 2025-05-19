@@ -17,6 +17,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using Microsoft.VisualBasic.Devices;
 using System.Threading;
+using System.Linq.Expressions;
 
 namespace PVZLauncher
 {
@@ -960,6 +961,59 @@ namespace PVZLauncher
 
         }
 
+        //加载修改器列表
+        public void LoadTrainerList()
+        {
+            try
+            {
+                List<string> temp = new List<string>();
+                for (int i = 0; i < Directory.GetFiles($"{RunPath}\\trainer").Length; i++)
+                {
+                    temp.Add(Path.GetFileName(Directory.GetFiles($"{RunPath}\\trainer")[i]));
+                }
+                TrainerPath = temp.ToArray();
+
+
+                select_Settings_Trainer_Select.Items.Clear();
+                for (int i = 0; i < TrainerPath.Length; i++)
+                {
+                    select_Settings_Trainer_Select.Items.Add(TrainerPath[i]);
+                }
+
+                select_Settings_Trainer_Select.Text = ReadConfig(ConfigPath, "global", "SelectTrainer");
+                STrainer = select_Settings_Trainer_Select.Text;
+
+
+                try
+                {
+                    Icon trainericon = Icon.ExtractAssociatedIcon($"{RunPath}\\trainer\\{STrainer}");
+                    image3D_Settings_Trainer.Image = trainericon.ToBitmap();
+                }
+                catch (Exception ex)
+                {
+                    /*AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在加载修改器图标时发生错误！\n\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });*/
+
+                    string a = ex.Message;//使用ex变量，使其没有警告提示
+                }
+
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载修改器信息时发生错误！\n\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+
+            }
+        }
+
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
         SelectGame_Window selectGame_Window = new SelectGame_Window();    //选择游戏窗口
@@ -967,12 +1021,14 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Beta 1.4.4.8";    //版本
-        public static string CompliedTime = "2025-5-18 16:58";     //编译时间
+        public static string Version = "Pre-Release 1.0.11.1";    //版本
+        public static string CompliedTime = "2025-5-19 21:15";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
         public static string SGamesPath;    //当前游戏路径
+        public static string[] TrainerPath;    //修改器列表
+        public static string STrainer;    //当前修改器路径
         public static int EggNum = 0;    //彩蛋计数器
         //事件========================================================================================
         public Main_Window()
@@ -1010,7 +1066,7 @@ namespace PVZLauncher
 
 
             //游戏资源检测
-            if(!File.Exists($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe") || !File.Exists($"{RunPath}\\trainer\\user1.dat"))
+            if (!File.Exists($"{RunPath}\\config\\user1.dat")) 
             {
                 AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
@@ -1022,6 +1078,14 @@ namespace PVZLauncher
                 });
                 this.Close();
             }
+
+
+
+
+
+            //加载修改器信息
+            LoadTrainerList();
+            
 
         }
 
@@ -1044,6 +1108,7 @@ namespace PVZLauncher
                     WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
                     WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
                     WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
+                    WriteConfig(ConfigPath, "global", "SelectTrainer", "PvzToolkit_1.22.0.exe");//当前选择的修改器
 
                     //games
                     WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
@@ -1107,7 +1172,7 @@ namespace PVZLauncher
 
 
 
-            //游戏检测
+            //游戏&修改器检测
 
             if (GamesPath.Length == 0)
             {
@@ -1116,6 +1181,15 @@ namespace PVZLauncher
                     Title = "提示",
                     Text = "你还没有添加任何游戏，请在选择版本界面添加游戏！",
                     Icon = AntdUI.TType.Warn
+                });
+            }
+            if (TrainerPath.Length == 0)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "提示",
+                    Text = "你没有添加任何修改器！请在设置界面添加修改器！",
+                    Icon = AntdUI.TType.Error
                 });
             }
 
@@ -1128,15 +1202,6 @@ namespace PVZLauncher
             {
                 TitleFadeIn();
 
-            }
-            else if (tabs_Main.SelectedIndex == 1)
-            {
-                if (!Directory.Exists($"{RunPath}\\temp"))
-                {
-                    Directory.CreateDirectory($"{RunPath}\\temp");
-                }
-
-                
             }
             
             
@@ -1397,7 +1462,7 @@ namespace PVZLauncher
             //启动修改器
             try
             {
-                Process.Start($"{RunPath}\\trainer\\PvzToolkit_1.22.0.exe");
+                Process.Start($"{RunPath}\\trainer\\{STrainer}");
 
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
@@ -1531,7 +1596,7 @@ namespace PVZLauncher
 
                         }
                          
-                        File.Copy($"{RunPath}\\trainer\\user1.dat", $"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat");
+                        File.Copy($"{RunPath}\\config\\user1.dat", $"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat");
 
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                         {
@@ -1575,6 +1640,138 @@ namespace PVZLauncher
         private void select_Launcher_Ld_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
             WriteConfig(ConfigPath, "global", "LaunchedExecute", $"{select_Launcher_Ld.SelectedIndex}");
+        }
+
+        private void tabs_Settings_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
+        {
+            if (tabs_Settings.SelectedIndex == 1)
+            {
+                LoadTrainerList();
+                
+                
+
+
+            }
+        }
+
+        private void select_Settings_Trainer_Select_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
+        {
+            WriteConfig(ConfigPath, "global", "SelectTrainer", select_Settings_Trainer_Select.Text);
+            STrainer = select_Settings_Trainer_Select.Text;
+
+            try
+            {
+                Icon trainericon = Icon.ExtractAssociatedIcon($"{RunPath}\\trainer\\{STrainer}");
+                image3D_Settings_Trainer.Image = trainericon.ToBitmap();
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载修改器图标时发生错误！\n\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+            }
+        }
+
+        private void button_Settings_Trainer_Load_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "提示",
+                    Content = $"是否将 {openFileDialog.FileName} 导入进启动器目录内？\n\n源文件不受影响",
+                    CancelText = "取消",
+                    OkText = "导入",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK) 
+                {
+                    try
+                    {
+                        File.Copy(openFileDialog.FileName, $"{RunPath}\\trainer\\{Path.GetFileName(openFileDialog.FileName)}");
+
+                        LoadTrainerList();
+
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "导入成功！",
+                            Text = "修改器已导入启动器目录中",
+                            Icon = AntdUI.TType.Success
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"在导入修改器时发生错误！\n\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                        
+                    }
+                }
+            }
+        }
+
+        private void button_Settings_Trainer_Delete_Click(object sender, EventArgs e)
+        {
+            if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "提示",
+                Content = "是否删除当前选择的修改器？",
+                CancelText = "取消",
+                OkText = "删除",
+                OkType = AntdUI.TTypeMini.Error,
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                try
+                {
+                    File.Delete($"{RunPath}\\trainer\\{STrainer}");
+
+                    LoadTrainerList();
+
+                    WriteConfig(ConfigPath, "global", "SelectTrainer", "");
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "删除成功！",
+                        Text = "选中的修改器已删除！",
+                        Icon = AntdUI.TType.Success
+                    });
+                }
+                catch (Exception ex)
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在删除修改器文件时发生错误！\n\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+                    
+                }
+            }
+        }
+
+        private void button_Settings_OpenSave_Click(object sender, EventArgs e)
+        {
+            if(Directory.Exists("C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata"))
+            {
+                Process.Start($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata");
+
+            }
+            else
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = "存档文件夹不存在，请进入游戏创建一个存档",
+                    Icon = AntdUI.TType.Error
+                });
+            }
         }
     }
 }

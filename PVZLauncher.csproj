@@ -206,6 +206,7 @@
     <None Include="assets\titlescreen_full.png" />
     <None Include="assets\save.png" />
     <None Include="assets\PvzToolkit_.png" />
+    <None Include="assets\icon_outline.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
