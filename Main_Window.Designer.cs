@@ -34,8 +34,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
             this.tabPage_Home = new AntdUI.TabPage();
             this.button_LaunchTrainer = new AntdUI.Button();
             this.pictureBox_Home_Title = new System.Windows.Forms.PictureBox();
@@ -46,10 +44,18 @@
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
             this.tabPage_Save = new AntdUI.TabPage();
+            this.button_Settings_OpenSave = new AntdUI.Button();
             this.label_Settings_Save = new AntdUI.Label();
             this.button_Settings_TotalSave = new AntdUI.Button();
             this.button_Settings_RemoveSave = new AntdUI.Button();
             this.tabPage_Trainer = new AntdUI.TabPage();
+            this.label_Settings_Trainer_Title = new AntdUI.Label();
+            this.button_Settings_Trainer_Delete = new AntdUI.Button();
+            this.button_Settings_Trainer_Load = new AntdUI.Button();
+            this.image3D_Settings_Trainer = new AntdUI.Image3D();
+            this.select_Settings_Trainer_Select = new AntdUI.Select();
+            this.label_Settings_Trainer_Select = new AntdUI.Label();
+            this.label_Settings_Trainer_Multi = new AntdUI.Label();
             this.label_Settings_Trainer = new AntdUI.Label();
             this.label_Settings_TrainerWithGame = new AntdUI.Label();
             this.switch_Settings_TrainerWithGame = new AntdUI.Switch();
@@ -67,15 +73,9 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
-            this.label_Settings_Trainer_Multi = new AntdUI.Label();
-            this.label_Settings_Trainer_Select = new AntdUI.Label();
-            this.select_Settings_Trainer_Select = new AntdUI.Select();
-            this.image3D_Settings_Trainer = new AntdUI.Image3D();
-            this.button_Settings_Trainer_Load = new AntdUI.Button();
-            this.button_Settings_Trainer_Delete = new AntdUI.Button();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.label_Settings_Trainer_Title = new AntdUI.Label();
-            this.button_Settings_OpenSave = new AntdUI.Button();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
@@ -121,17 +121,6 @@
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
-            // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // timer_PlayTime
-            // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
             // 
             // tabPage_Home
             // 
@@ -204,7 +193,6 @@
             this.label_Home_Gamename.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Home_Gamename.Location = new System.Drawing.Point(104, 184);
             this.label_Home_Gamename.Name = "label_Home_Gamename";
-            this.label_Home_Gamename.Shadow = 10;
             this.label_Home_Gamename.Size = new System.Drawing.Size(536, 23);
             this.label_Home_Gamename.TabIndex = 1;
             this.label_Home_Gamename.Text = "当前版本:{GameName}";
@@ -215,6 +203,7 @@
             this.button_Launch.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Launch.Icon = global::PVZLauncher.Properties.Resources.launch;
             this.button_Launch.IconRatio = 1F;
+            this.button_Launch.LocalizationText = "";
             this.button_Launch.Location = new System.Drawing.Point(249, 213);
             this.button_Launch.Name = "button_Launch";
             this.button_Launch.Size = new System.Drawing.Size(246, 69);
@@ -266,6 +255,19 @@
             this.tabPage_Save.TabIndex = 0;
             this.tabPage_Save.Text = "存档管理";
             // 
+            // button_Settings_OpenSave
+            // 
+            this.button_Settings_OpenSave.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_OpenSave.Icon = global::PVZLauncher.Properties.Resources.folder;
+            this.button_Settings_OpenSave.IconRatio = 1F;
+            this.button_Settings_OpenSave.Location = new System.Drawing.Point(5, 46);
+            this.button_Settings_OpenSave.Name = "button_Settings_OpenSave";
+            this.button_Settings_OpenSave.Size = new System.Drawing.Size(154, 45);
+            this.button_Settings_OpenSave.TabIndex = 6;
+            this.button_Settings_OpenSave.Text = "打开存档文件夹";
+            this.button_Settings_OpenSave.Type = AntdUI.TTypeMini.Warn;
+            this.button_Settings_OpenSave.Click += new System.EventHandler(this.button_Settings_OpenSave_Click);
+            // 
             // label_Settings_Save
             // 
             this.label_Settings_Save.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -286,6 +288,7 @@
             this.button_Settings_TotalSave.TabIndex = 4;
             this.button_Settings_TotalSave.Text = "一键通关";
             this.button_Settings_TotalSave.Type = AntdUI.TTypeMini.Success;
+            this.button_Settings_TotalSave.Click += new System.EventHandler(this.button_Settings_TotalSave_Click);
             // 
             // button_Settings_RemoveSave
             // 
@@ -298,6 +301,7 @@
             this.button_Settings_RemoveSave.TabIndex = 3;
             this.button_Settings_RemoveSave.Text = "删除存档";
             this.button_Settings_RemoveSave.Type = AntdUI.TTypeMini.Error;
+            this.button_Settings_RemoveSave.Click += new System.EventHandler(this.button_Settings_RemoveSave_Click);
             // 
             // tabPage_Trainer
             // 
@@ -317,6 +321,79 @@
             this.tabPage_Trainer.Size = new System.Drawing.Size(0, 0);
             this.tabPage_Trainer.TabIndex = 1;
             this.tabPage_Trainer.Text = "修改器";
+            // 
+            // label_Settings_Trainer_Title
+            // 
+            this.label_Settings_Trainer_Title.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer_Title.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Trainer_Title.Location = new System.Drawing.Point(5, 5);
+            this.label_Settings_Trainer_Title.Name = "label_Settings_Trainer_Title";
+            this.label_Settings_Trainer_Title.Size = new System.Drawing.Size(111, 35);
+            this.label_Settings_Trainer_Title.TabIndex = 14;
+            this.label_Settings_Trainer_Title.Text = "修改器";
+            // 
+            // button_Settings_Trainer_Delete
+            // 
+            this.button_Settings_Trainer_Delete.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Trainer_Delete.Icon = global::PVZLauncher.Properties.Resources.delete;
+            this.button_Settings_Trainer_Delete.IconRatio = 0.8F;
+            this.button_Settings_Trainer_Delete.Location = new System.Drawing.Point(139, 170);
+            this.button_Settings_Trainer_Delete.Name = "button_Settings_Trainer_Delete";
+            this.button_Settings_Trainer_Delete.Size = new System.Drawing.Size(128, 30);
+            this.button_Settings_Trainer_Delete.TabIndex = 13;
+            this.button_Settings_Trainer_Delete.Text = "删除";
+            this.button_Settings_Trainer_Delete.Type = AntdUI.TTypeMini.Error;
+            this.button_Settings_Trainer_Delete.Click += new System.EventHandler(this.button_Settings_Trainer_Delete_Click);
+            // 
+            // button_Settings_Trainer_Load
+            // 
+            this.button_Settings_Trainer_Load.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Trainer_Load.Icon = global::PVZLauncher.Properties.Resources.folder;
+            this.button_Settings_Trainer_Load.Location = new System.Drawing.Point(5, 170);
+            this.button_Settings_Trainer_Load.Name = "button_Settings_Trainer_Load";
+            this.button_Settings_Trainer_Load.Size = new System.Drawing.Size(128, 30);
+            this.button_Settings_Trainer_Load.TabIndex = 12;
+            this.button_Settings_Trainer_Load.Text = "导入";
+            this.button_Settings_Trainer_Load.Type = AntdUI.TTypeMini.Warn;
+            this.button_Settings_Trainer_Load.Click += new System.EventHandler(this.button_Settings_Trainer_Load_Click);
+            // 
+            // image3D_Settings_Trainer
+            // 
+            this.image3D_Settings_Trainer.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.image3D_Settings_Trainer.Location = new System.Drawing.Point(392, 134);
+            this.image3D_Settings_Trainer.Name = "image3D_Settings_Trainer";
+            this.image3D_Settings_Trainer.Size = new System.Drawing.Size(30, 30);
+            this.image3D_Settings_Trainer.TabIndex = 11;
+            // 
+            // select_Settings_Trainer_Select
+            // 
+            this.select_Settings_Trainer_Select.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.select_Settings_Trainer_Select.List = true;
+            this.select_Settings_Trainer_Select.ListAutoWidth = true;
+            this.select_Settings_Trainer_Select.Location = new System.Drawing.Point(73, 134);
+            this.select_Settings_Trainer_Select.Name = "select_Settings_Trainer_Select";
+            this.select_Settings_Trainer_Select.Size = new System.Drawing.Size(313, 30);
+            this.select_Settings_Trainer_Select.TabIndex = 10;
+            this.select_Settings_Trainer_Select.SelectedIndexChanged += new AntdUI.IntEventHandler(this.select_Settings_Trainer_Select_SelectedIndexChanged);
+            // 
+            // label_Settings_Trainer_Select
+            // 
+            this.label_Settings_Trainer_Select.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Trainer_Select.Location = new System.Drawing.Point(5, 134);
+            this.label_Settings_Trainer_Select.Name = "label_Settings_Trainer_Select";
+            this.label_Settings_Trainer_Select.Size = new System.Drawing.Size(75, 30);
+            this.label_Settings_Trainer_Select.TabIndex = 9;
+            this.label_Settings_Trainer_Select.Text = "当前修改器:";
+            // 
+            // label_Settings_Trainer_Multi
+            // 
+            this.label_Settings_Trainer_Multi.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer_Multi.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Trainer_Multi.Location = new System.Drawing.Point(5, 105);
+            this.label_Settings_Trainer_Multi.Name = "label_Settings_Trainer_Multi";
+            this.label_Settings_Trainer_Multi.Size = new System.Drawing.Size(139, 23);
+            this.label_Settings_Trainer_Multi.TabIndex = 8;
+            this.label_Settings_Trainer_Multi.Text = "选择修改器";
             // 
             // label_Settings_Trainer
             // 
@@ -345,6 +422,7 @@
             this.switch_Settings_TrainerWithGame.Name = "switch_Settings_TrainerWithGame";
             this.switch_Settings_TrainerWithGame.Size = new System.Drawing.Size(40, 23);
             this.switch_Settings_TrainerWithGame.TabIndex = 4;
+            this.switch_Settings_TrainerWithGame.CheckedChanged += new AntdUI.BoolEventHandler(this.switch_Settings_TrainerWithGame_CheckedChanged);
             // 
             // tabPage_Launcher
             // 
@@ -385,6 +463,7 @@
             this.select_Launcher_Ld.Size = new System.Drawing.Size(251, 30);
             this.select_Launcher_Ld.TabIndex = 5;
             this.select_Launcher_Ld.Text = "不执行任何操作";
+            this.select_Launcher_Ld.SelectedIndexChanged += new AntdUI.IntEventHandler(this.select_Launcher_Ld_SelectedIndexChanged);
             // 
             // label_Launcher_Ld
             // 
@@ -505,97 +584,22 @@
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
             // 
-            // label_Settings_Trainer_Multi
+            // timer_Main
             // 
-            this.label_Settings_Trainer_Multi.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Settings_Trainer_Multi.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_Settings_Trainer_Multi.Location = new System.Drawing.Point(5, 105);
-            this.label_Settings_Trainer_Multi.Name = "label_Settings_Trainer_Multi";
-            this.label_Settings_Trainer_Multi.Size = new System.Drawing.Size(139, 23);
-            this.label_Settings_Trainer_Multi.TabIndex = 8;
-            this.label_Settings_Trainer_Multi.Text = "选择修改器";
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
             // 
-            // label_Settings_Trainer_Select
+            // timer_PlayTime
             // 
-            this.label_Settings_Trainer_Select.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_Settings_Trainer_Select.Location = new System.Drawing.Point(5, 134);
-            this.label_Settings_Trainer_Select.Name = "label_Settings_Trainer_Select";
-            this.label_Settings_Trainer_Select.Size = new System.Drawing.Size(75, 30);
-            this.label_Settings_Trainer_Select.TabIndex = 9;
-            this.label_Settings_Trainer_Select.Text = "当前修改器:";
-            // 
-            // select_Settings_Trainer_Select
-            // 
-            this.select_Settings_Trainer_Select.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.select_Settings_Trainer_Select.List = true;
-            this.select_Settings_Trainer_Select.ListAutoWidth = true;
-            this.select_Settings_Trainer_Select.Location = new System.Drawing.Point(73, 134);
-            this.select_Settings_Trainer_Select.Name = "select_Settings_Trainer_Select";
-            this.select_Settings_Trainer_Select.Size = new System.Drawing.Size(313, 30);
-            this.select_Settings_Trainer_Select.TabIndex = 10;
-            this.select_Settings_Trainer_Select.SelectedIndexChanged += new AntdUI.IntEventHandler(this.select_Settings_Trainer_Select_SelectedIndexChanged);
-            // 
-            // image3D_Settings_Trainer
-            // 
-            this.image3D_Settings_Trainer.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.image3D_Settings_Trainer.Location = new System.Drawing.Point(392, 134);
-            this.image3D_Settings_Trainer.Name = "image3D_Settings_Trainer";
-            this.image3D_Settings_Trainer.Size = new System.Drawing.Size(30, 30);
-            this.image3D_Settings_Trainer.TabIndex = 11;
-            // 
-            // button_Settings_Trainer_Load
-            // 
-            this.button_Settings_Trainer_Load.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Trainer_Load.Icon = global::PVZLauncher.Properties.Resources.folder;
-            this.button_Settings_Trainer_Load.Location = new System.Drawing.Point(5, 170);
-            this.button_Settings_Trainer_Load.Name = "button_Settings_Trainer_Load";
-            this.button_Settings_Trainer_Load.Size = new System.Drawing.Size(128, 30);
-            this.button_Settings_Trainer_Load.TabIndex = 12;
-            this.button_Settings_Trainer_Load.Text = "导入";
-            this.button_Settings_Trainer_Load.Type = AntdUI.TTypeMini.Warn;
-            this.button_Settings_Trainer_Load.Click += new System.EventHandler(this.button_Settings_Trainer_Load_Click);
-            // 
-            // button_Settings_Trainer_Delete
-            // 
-            this.button_Settings_Trainer_Delete.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Trainer_Delete.Icon = global::PVZLauncher.Properties.Resources.delete;
-            this.button_Settings_Trainer_Delete.IconRatio = 0.8F;
-            this.button_Settings_Trainer_Delete.Location = new System.Drawing.Point(139, 170);
-            this.button_Settings_Trainer_Delete.Name = "button_Settings_Trainer_Delete";
-            this.button_Settings_Trainer_Delete.Size = new System.Drawing.Size(128, 30);
-            this.button_Settings_Trainer_Delete.TabIndex = 13;
-            this.button_Settings_Trainer_Delete.Text = "删除";
-            this.button_Settings_Trainer_Delete.Type = AntdUI.TTypeMini.Error;
-            this.button_Settings_Trainer_Delete.Click += new System.EventHandler(this.button_Settings_Trainer_Delete_Click);
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
             // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.Filter = "可执行文件|*.exe";
             this.openFileDialog.Title = "请选择修改器可执行文件";
-            // 
-            // label_Settings_Trainer_Title
-            // 
-            this.label_Settings_Trainer_Title.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Settings_Trainer_Title.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_Settings_Trainer_Title.Location = new System.Drawing.Point(5, 5);
-            this.label_Settings_Trainer_Title.Name = "label_Settings_Trainer_Title";
-            this.label_Settings_Trainer_Title.Size = new System.Drawing.Size(111, 35);
-            this.label_Settings_Trainer_Title.TabIndex = 14;
-            this.label_Settings_Trainer_Title.Text = "修改器";
-            // 
-            // button_Settings_OpenSave
-            // 
-            this.button_Settings_OpenSave.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_OpenSave.Icon = global::PVZLauncher.Properties.Resources.folder;
-            this.button_Settings_OpenSave.IconRatio = 1F;
-            this.button_Settings_OpenSave.Location = new System.Drawing.Point(5, 46);
-            this.button_Settings_OpenSave.Name = "button_Settings_OpenSave";
-            this.button_Settings_OpenSave.Size = new System.Drawing.Size(154, 45);
-            this.button_Settings_OpenSave.TabIndex = 6;
-            this.button_Settings_OpenSave.Text = "打开存档文件夹";
-            this.button_Settings_OpenSave.Type = AntdUI.TTypeMini.Warn;
-            this.button_Settings_OpenSave.Click += new System.EventHandler(this.button_Settings_OpenSave_Click);
             // 
             // Main_Window
             // 

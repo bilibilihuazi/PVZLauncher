@@ -786,11 +786,23 @@ namespace PVZLauncher
 
                 }
 
+                label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
 
 
             }
             catch (Exception ex)
             {
+                image3D_GameIcon.Image = Properties.Resources.icon;
+                label_GameName.Text = $"游戏名称: 未知";
+                label_GamePath.Text = $"游戏路径: 未知";
+                label_PlayTime.Text = $"游玩时间: 未知";
+                label_FirstLaunch.Text = $"初次启动: 未知";
+
+                input_ExecuteName.Text = "Unknown";
+
+
+
+
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",

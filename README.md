@@ -1,4 +1,5 @@
 # Plants Vs. Zombies Launcher
+[简体中文](README.md) | [English](README.en.md)
 
 ![启动器主页面](assets/Readme.md/mainpage.png)
 
@@ -60,8 +61,8 @@ Gitee克隆库:<br>
 
 自`Release1.0.0.0`起，每次版本发布将使用以下命名规则：
 
-Release版本: `[大版本].[小版本].[更改数].[Pre-Release个数]`<br>
-Pre-Release版本: `[目标Release大版本].[目标Release小版本].[更改数].[Pre-Release编号]`<br>
+Release版本: `[大版本].[小版本].[Pre-Release个数].[更改数]`<br>
+Pre-Release版本: `[目标Release大版本].[目标Release小版本].[Pre-Release编号].[更改数]`<br>
 
 |项|值|
 |-|-|
@@ -110,5 +111,6 @@ UI(2):
   1. **PvzToolkit** (启动器内置的修改器)
   2. **PopCap Games** (启动器内置的游戏)
 
-提供建议(1):
-  1. **小王** (提供部分建议)
+提供建议(2):
+  1. **小王** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
+  2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2做出建议以及反馈BUG)

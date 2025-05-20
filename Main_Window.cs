@@ -1021,8 +1021,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.0.11.1";    //版本
-        public static string CompliedTime = "2025-5-19 21:15";     //编译时间
+        public static string Version = "Pre-Release 1.0.9.2";    //版本
+        public static string CompliedTime = "2025-5-20 19:20";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1033,7 +1033,7 @@ namespace PVZLauncher
         //事件========================================================================================
         public Main_Window()
         {
-            InitializeComponent();
+            InitializeComponent();//初始化
 
             //初始化
 
@@ -1267,7 +1267,15 @@ namespace PVZLauncher
                         Icon = AntdUI.TType.Success
                     });
 
+                    if (ReadConfig(ConfigPath, SGamesPath, "FirstLaunch") == null)
+                    {
+                        WriteConfig(ConfigPath, SGamesPath, "FirstLaunch", $"{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}");
+                    }
 
+
+
+
+                    
 
                     //等待进程退出
                     await Task.Run(() => proceess.WaitForExit());//第1000行代码！！！
@@ -1504,6 +1512,7 @@ namespace PVZLauncher
 
         private void button_Settings_RemoveSave_Click(object sender, EventArgs e)
         {
+            //删除存档
             if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
             {
                 Title = "确认操作",
@@ -1524,7 +1533,7 @@ namespace PVZLauncher
                     Icon = AntdUI.TType.Error
                 }) == DialogResult.OK)
                 {
-                    if (button_Launch.Text != "结束进程")
+                    if (button_Launch.Text != "结束进程")//判断游戏是否运行中
                     {
                         try
                         {
@@ -1590,7 +1599,7 @@ namespace PVZLauncher
                 {
                     try
                     {
-                        if(File.Exists($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat"))
+                        if(File.Exists($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat"))//存档文件夹
                         {
                             File.Delete($"C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata\\user1.dat");
 

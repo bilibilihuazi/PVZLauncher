@@ -42,8 +42,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel_Info = new AntdUI.Panel();
-            this.label_Info = new AntdUI.Label();
             this.label_PlayTime = new AntdUI.Label();
+            this.label_Info = new AntdUI.Label();
+            this.label_FirstLaunch = new AntdUI.Label();
             this.panel_Info.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,17 +62,17 @@
             // 
             // label_GameName
             // 
-            this.label_GameName.Location = new System.Drawing.Point(113, 36);
+            this.label_GameName.Location = new System.Drawing.Point(70, 36);
             this.label_GameName.Name = "label_GameName";
-            this.label_GameName.Size = new System.Drawing.Size(628, 23);
+            this.label_GameName.Size = new System.Drawing.Size(671, 23);
             this.label_GameName.TabIndex = 2;
             this.label_GameName.Text = "游戏名称:";
             // 
             // label_GamePath
             // 
-            this.label_GamePath.Location = new System.Drawing.Point(113, 65);
+            this.label_GamePath.Location = new System.Drawing.Point(70, 65);
             this.label_GamePath.Name = "label_GamePath";
-            this.label_GamePath.Size = new System.Drawing.Size(628, 23);
+            this.label_GamePath.Size = new System.Drawing.Size(671, 23);
             this.label_GamePath.TabIndex = 3;
             this.label_GamePath.Text = "游戏路径:";
             // 
@@ -108,7 +109,7 @@
             this.button_OpenGameFoler.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_OpenGameFoler.Icon = global::PVZLauncher.Properties.Resources.folder;
             this.button_OpenGameFoler.IconRatio = 0.8F;
-            this.button_OpenGameFoler.Location = new System.Drawing.Point(271, 94);
+            this.button_OpenGameFoler.Location = new System.Drawing.Point(170, 94);
             this.button_OpenGameFoler.Name = "button_OpenGameFoler";
             this.button_OpenGameFoler.Size = new System.Drawing.Size(185, 37);
             this.button_OpenGameFoler.TabIndex = 9;
@@ -121,7 +122,7 @@
             this.button_DeleteGame.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_DeleteGame.Icon = global::PVZLauncher.Properties.Resources.delete;
             this.button_DeleteGame.IconRatio = 0.8F;
-            this.button_DeleteGame.Location = new System.Drawing.Point(462, 94);
+            this.button_DeleteGame.Location = new System.Drawing.Point(361, 94);
             this.button_DeleteGame.Name = "button_DeleteGame";
             this.button_DeleteGame.Size = new System.Drawing.Size(152, 37);
             this.button_DeleteGame.TabIndex = 5;
@@ -134,7 +135,7 @@
             this.button_SetName.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_SetName.Icon = global::PVZLauncher.Properties.Resources.edit;
             this.button_SetName.IconRatio = 0.8F;
-            this.button_SetName.Location = new System.Drawing.Point(113, 94);
+            this.button_SetName.Location = new System.Drawing.Point(12, 94);
             this.button_SetName.Name = "button_SetName";
             this.button_SetName.Size = new System.Drawing.Size(152, 37);
             this.button_SetName.TabIndex = 4;
@@ -148,7 +149,7 @@
             this.image3D_GameIcon.Image = global::PVZLauncher.Properties.Resources.icon;
             this.image3D_GameIcon.Location = new System.Drawing.Point(12, 36);
             this.image3D_GameIcon.Name = "image3D_GameIcon";
-            this.image3D_GameIcon.Size = new System.Drawing.Size(95, 95);
+            this.image3D_GameIcon.Size = new System.Drawing.Size(52, 52);
             this.image3D_GameIcon.TabIndex = 1;
             this.image3D_GameIcon.Text = "image3D1";
             // 
@@ -165,6 +166,7 @@
             // 
             // panel_Info
             // 
+            this.panel_Info.Controls.Add(this.label_FirstLaunch);
             this.panel_Info.Controls.Add(this.label_PlayTime);
             this.panel_Info.Controls.Add(this.label_Info);
             this.panel_Info.HandCursor = System.Windows.Forms.Cursors.Default;
@@ -172,6 +174,16 @@
             this.panel_Info.Name = "panel_Info";
             this.panel_Info.Size = new System.Drawing.Size(729, 132);
             this.panel_Info.TabIndex = 10;
+            // 
+            // label_PlayTime
+            // 
+            this.label_PlayTime.BackColor = System.Drawing.Color.Transparent;
+            this.label_PlayTime.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_PlayTime.Location = new System.Drawing.Point(5, 34);
+            this.label_PlayTime.Name = "label_PlayTime";
+            this.label_PlayTime.Size = new System.Drawing.Size(721, 23);
+            this.label_PlayTime.TabIndex = 1;
+            this.label_PlayTime.Text = "游玩时间: UNKNOWN 分钟";
             // 
             // label_Info
             // 
@@ -184,15 +196,15 @@
             this.label_Info.TabIndex = 0;
             this.label_Info.Text = "统计信息";
             // 
-            // label_PlayTime
+            // label_FirstLaunch
             // 
-            this.label_PlayTime.BackColor = System.Drawing.Color.Transparent;
-            this.label_PlayTime.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_PlayTime.Location = new System.Drawing.Point(5, 34);
-            this.label_PlayTime.Name = "label_PlayTime";
-            this.label_PlayTime.Size = new System.Drawing.Size(721, 23);
-            this.label_PlayTime.TabIndex = 1;
-            this.label_PlayTime.Text = "游玩时间: UNKNOWN 分钟";
+            this.label_FirstLaunch.BackColor = System.Drawing.Color.Transparent;
+            this.label_FirstLaunch.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_FirstLaunch.Location = new System.Drawing.Point(5, 58);
+            this.label_FirstLaunch.Name = "label_FirstLaunch";
+            this.label_FirstLaunch.Size = new System.Drawing.Size(721, 23);
+            this.label_FirstLaunch.TabIndex = 2;
+            this.label_FirstLaunch.Text = "初次启动: UNKNOWN";
             // 
             // SetGame_Window
             // 
@@ -245,5 +257,6 @@
         private AntdUI.Panel panel_Info;
         private AntdUI.Label label_Info;
         private AntdUI.Label label_PlayTime;
+        private AntdUI.Label label_FirstLaunch;
     }
 }
