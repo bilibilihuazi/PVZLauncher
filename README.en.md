@@ -2,7 +2,8 @@
 [简体中文](README.md) | [English](README.en.md)
 
 
-<font color="red">**Attention**<br>This README may not be the latest.  If you want to get the latest news, please switch to the Simplified Chinese version</font>
+<font color="red">**Attention**</font><br>
+<font color="red">This README may not be the latest.  If you want to get the latest news, please switch to the Simplified Chinese version</font>
 
 
 ![Launcher Main Page](assets/Readme.md/mainpage.png)  

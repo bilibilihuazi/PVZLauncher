@@ -909,8 +909,15 @@ namespace PVZLauncher
         //标题缓入
         public async void TitleFadeIn(int speed = 8)
         {
-            
-            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;//标题居中
+            if (ReadConfig(ConfigPath, "global", "TitleSkin") == "en")
+            {
+                pictureBox_Home_Title.Image = Properties.Resources.PvZ_Logo;
+            }
+            else
+            {
+                pictureBox_Home_Title.Image = Properties.Resources.PvZ_Logo_zh;
+            }
+
             pictureBox_Home_Title.Top = 0 - pictureBox_Home_Title.Height;//标题移到窗口外上方
 
             for (int i = 0; i < pictureBox_Home_Title.Height / speed; i++)
@@ -1014,6 +1021,61 @@ namespace PVZLauncher
             }
         }
 
+        //对齐控件
+        public void Align()
+        {
+            #region 主页
+
+            //标题居中
+            pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
+            //主标签栏大小
+            tabs_Main.Width = this.Width;
+            tabs_Main.Height = this.Height - 30;
+            //控制栏宽度
+            pageHeader.Width = this.Width;
+            //按钮位置
+            button_LaunchTrainer.Left = tabPage_Home.Width - button_LaunchTrainer.Width - 3;
+            button_LaunchTrainer.Top = tabPage_Home.Height - button_LaunchTrainer.Height - 3;
+
+            button_Launch.Left = tabPage_Home.Width - button_Launch.Width - 3;
+            button_Launch.Top = tabPage_Home.Height - 3 - button_Launch.Height - button_LaunchTrainer.Height;
+
+            button_GameSettings.Left = tabPage_Home.Width - button_GameSettings.Width - 3;
+            button_GameSettings.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height;
+
+            button_SelectGame.Left = tabPage_Home.Width - button_Launch.Width - 3;
+            button_SelectGame.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height;
+            //标签
+            label_Home_Gamename.Left = tabPage_Home.Width - button_Launch.Width - 3;
+            label_Home_Gamename.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height - label_Home_Gamename.Height;
+            //背景
+            pictureBox_Home_Background.Height = tabs_Main.Height - pictureBox_Home_Title.Height - 2;
+            pictureBox_Home_Background.Width = tabPage_Home.Width - button_Launch.Width - 5;
+
+            #endregion
+
+            #region 设置
+
+            //主标签栏
+            tabs_Settings.Width = tabPage_Settings.Width;
+            tabs_Settings.Height = tabPage_Settings.Height;
+
+            #endregion
+
+            #region 关于
+
+            //背景图
+            pictureBox_About_Background.Left = tabPage_About.Width - pictureBox_About_Background.Width;
+            pictureBox_About_Background.Top = tabPage_About.Height - pictureBox_About_Background.Height;
+
+            //信息
+            label_About_info4.Top = tabPage_About.Height - label_About_info4.Height - 2;
+            label_About_info3.Top = tabPage_About.Height - 2 - label_About_info4.Height - 2 - label_About_info3.Height;
+            pictureBox_About_Egg.Top = tabPage_About.Height - 2 - label_About_info4.Height - 2 - label_About_info3.Height - 2 - pictureBox_About_Egg.Height;
+
+            #endregion
+        }
+
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
         SelectGame_Window selectGame_Window = new SelectGame_Window();    //选择游戏窗口
@@ -1021,8 +1083,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.0.9.2";    //版本
-        public static string CompliedTime = "2025-5-20 19:20";     //编译时间
+        public static string Version = "Pre-Release 1.0.3.10";    //版本
+        public static string CompliedTime = "2025-5-21 20:31";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1040,6 +1102,107 @@ namespace PVZLauncher
             pageHeader.Text = $"{Title}";//设置标题
 
             LoadGameList();//加载游戏列表
+
+            //初始化配置文件
+            try
+            {
+                //初始化配置文件
+                if (!Directory.Exists($"{RunPath}\\config"))
+                {
+                    Directory.CreateDirectory($"{RunPath}\\config");
+                }
+                //生成默认配置
+                if (!File.Exists(ConfigPath))
+                {
+                    //global
+                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
+                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
+                    WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
+                    WriteConfig(ConfigPath, "global", "SelectTrainer", "PvzToolkit_1.22.0.exe");//当前选择的修改器
+                    WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");//宽度
+                    WriteConfig(ConfigPath, "globbal", "WindowHeight", $"{this.Height}");//高度
+                    WriteConfig(ConfigPath, "global", "TitleSkin", "en");//标题皮肤
+
+                    //games
+                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
+                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "PlayTime", "0");
+                }
+            }
+            catch (Exception ex)
+            {
+                //错误报告
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在初始化配置文件时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+
+            }
+
+            //读配置项
+            try
+            {
+                //当前选择的游戏
+                SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
+
+                //修改器随游戏启动
+                if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")
+                {
+                    switch_Settings_TrainerWithGame.Checked = true;
+                }
+                else if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "false")
+                {
+                    switch_Settings_TrainerWithGame.Checked = false;
+                }
+                else
+                {
+                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//恢复默认值
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = "在读取配置项 config.ini -> global -> TrainerWithGameLaunch 时发生错误！\n\n错误原因: 其配置项的值只能为 true 或 false 而该配置项为其他值！",
+                        Icon = AntdUI.TType.Error
+                    });
+                }
+
+                //游戏启动后的操作
+                select_Launcher_Ld.SelectedIndex = int.Parse(ReadConfig(ConfigPath, "global", "LaunchedExecute"));
+
+                //大小
+                this.Width = int.Parse(ReadConfig(ConfigPath, "global", "WindowWidth"));
+                this.Height = int.Parse(ReadConfig(ConfigPath, "global", "WindowHeight"));
+
+                //标题皮肤
+                if (ReadConfig(ConfigPath, "global", "TitleSkin") == "en")
+                {
+                    pictureBox_Home_Title.Image = Properties.Resources.PvZ_Logo;
+                    radio_Settings_Launcher_Skin1.Checked = true;
+                    radio_Settings_Launcher_Skin2.Checked = false;
+                }
+                else
+                {
+                    pictureBox_Home_Title.Image = Properties.Resources.PvZ_Logo_zh;
+                    radio_Settings_Launcher_Skin1.Checked = false;
+                    radio_Settings_Launcher_Skin2.Checked = true;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在应用配置项时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+
+            }
+
+
+
+
 
 
             //初始化游戏文件夹
@@ -1085,91 +1248,18 @@ namespace PVZLauncher
 
             //加载修改器信息
             LoadTrainerList();
-            
 
+
+
+
+
+            
         }
 
         private void Main_Window_Load(object sender, EventArgs e)
         {
             TitleFadeIn();//标题缓入
             label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";//设置关于界面版本信息
-
-            try
-            {
-                //初始化配置文件
-                if (!Directory.Exists($"{RunPath}\\config"))
-                {
-                    Directory.CreateDirectory($"{RunPath}\\config");
-                }
-                //生成默认配置
-                if (!File.Exists(ConfigPath))
-                {
-                    //global
-                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
-                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
-                    WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
-                    WriteConfig(ConfigPath, "global", "SelectTrainer", "PvzToolkit_1.22.0.exe");//当前选择的修改器
-
-                    //games
-                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
-                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "PlayTime", "0");
-                }
-            }
-            catch (Exception ex)
-            {
-                //错误报告
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "发生错误！",
-                    Text = $"在初始化配置文件时发生错误！\n错误原因:{ex.Message}",
-                    Icon = AntdUI.TType.Error
-                });
-
-            }
-
-
-
-            //读配置项
-            try
-            {
-                SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");//当前选择的游戏
-
-                if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")//修改器随游戏启动
-                {
-                    switch_Settings_TrainerWithGame.Checked = true;
-                }
-                else if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "false")
-                {
-                    switch_Settings_TrainerWithGame.Checked = false;
-                }
-                else
-                {
-                    WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//恢复默认值
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "发生错误！",
-                        Text = "在读取配置项 config.ini -> global -> TrainerWithGameLaunch 时发生错误！\n\n错误原因: 其配置项的值只能为 true 或 false 而该配置项为其他值！",
-                        Icon = AntdUI.TType.Error
-                    });
-                }
-
-                select_Launcher_Ld.SelectedIndex = int.Parse(ReadConfig(ConfigPath, "global", "LaunchedExecute"));//游戏启动后的操作
-
-            }
-            catch (Exception ex)
-            {
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "发生错误！",
-                    Text = $"在应用配置项时发生错误！\n错误原因:{ex.Message}",
-                    Icon = AntdUI.TType.Error
-                });
-                
-            }
-            
-
-
-
 
 
             //游戏&修改器检测
@@ -1196,15 +1286,19 @@ namespace PVZLauncher
 
         }
 
+        private void Main_Window_Resize(object sender, EventArgs e)
+        {
+            Align();
+        }
+
         private void tabs_Main_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
+
             if (tabs_Main.SelectedIndex == 0)
             {
                 TitleFadeIn();
-
             }
-            
-            
+
         }
 
         private void button_SelectGame_Click(object sender, EventArgs e)
@@ -1214,6 +1308,7 @@ namespace PVZLauncher
 
         private void timer_Main_Tick(object sender, EventArgs e)
         {
+            //Align();
             label_Home_Gamename.Text = $"{SGamesPath}";//设置当前游戏名称
         }
 
@@ -1653,7 +1748,7 @@ namespace PVZLauncher
 
         private void tabs_Settings_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
-            if (tabs_Settings.SelectedIndex == 1)
+            if (tabs_Settings.SelectedIndex == 2)
             {
                 LoadTrainerList();
                 
@@ -1780,6 +1875,51 @@ namespace PVZLauncher
                     Text = "存档文件夹不存在，请进入游戏创建一个存档",
                     Icon = AntdUI.TType.Error
                 });
+            }
+        }
+
+        private void tabPage_Home_Paint(object sender, PaintEventArgs e)
+        {
+            Align();
+        }
+
+        private void tabPage_Settings_Paint(object sender, PaintEventArgs e)
+        {
+            Align();
+        }
+
+        private void tabPage_About_Paint(object sender, PaintEventArgs e)
+        {
+            Align();
+        }
+
+        private void Main_Window_ResizeEnd(object sender, EventArgs e)
+        {
+            WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");
+            WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");
+        }
+
+        private void radio_Settings_Launcher_Skin1_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (radio_Settings_Launcher_Skin1.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "TitleSkin", "en");
+            }
+            else
+            {
+                WriteConfig(ConfigPath, "global", "TitleSkin", "zh");
+            }
+        }
+
+        private void radio_Settings_Launcher_Skin2_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (radio_Settings_Launcher_Skin2.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "TitleSkin", "zh");
+            }
+            else
+            {
+                WriteConfig(ConfigPath, "global", "TitleSkin", "en");
             }
         }
     }

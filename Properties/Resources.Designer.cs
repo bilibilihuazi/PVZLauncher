@@ -223,6 +223,16 @@ namespace PVZLauncher.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap PvZ_Logo_zh {
+            get {
+                object obj = ResourceManager.GetObject("PvZ_Logo_zh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap PvzToolkit {
             get {
                 object obj = ResourceManager.GetObject("PvzToolkit", resourceCulture);
@@ -296,6 +306,16 @@ namespace PVZLauncher.Properties {
         internal static System.Drawing.Bitmap titlescreen {
             get {
                 object obj = ResourceManager.GetObject("titlescreen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap titlescreen_home {
+            get {
+                object obj = ResourceManager.GetObject("titlescreen_home", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
