@@ -34,9 +34,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Background = new System.Windows.Forms.PictureBox();
             this.button_LaunchTrainer = new AntdUI.Button();
@@ -84,6 +81,9 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -126,30 +126,12 @@
             this.tabs_Main.Pages.Add(this.tabPage_Home);
             this.tabs_Main.Pages.Add(this.tabPage_Settings);
             this.tabs_Main.Pages.Add(this.tabPage_About);
-            this.tabs_Main.SelectedIndex = 2;
             this.tabs_Main.Size = new System.Drawing.Size(750, 370);
             styleCard21.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
             this.tabs_Main.Style = styleCard21;
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
-            // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // timer_PlayTime
-            // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "可执行文件|*.exe";
-            this.openFileDialog.Title = "请选择修改器可执行文件";
             // 
             // tabPage_Home
             // 
@@ -162,7 +144,7 @@
             this.tabPage_Home.Controls.Add(this.label_Home_Gamename);
             this.tabPage_Home.Controls.Add(this.button_Launch);
             this.tabPage_Home.Icon = global::PVZLauncher.Properties.Resources.home;
-            this.tabPage_Home.Location = new System.Drawing.Point(-744, -335);
+            this.tabPage_Home.Location = new System.Drawing.Point(3, 32);
             this.tabPage_Home.Name = "tabPage_Home";
             this.tabPage_Home.Size = new System.Drawing.Size(744, 335);
             this.tabPage_Home.TabIndex = 0;
@@ -599,7 +581,7 @@
             this.tabPage_About.Controls.Add(this.pictureBox_About_Icon);
             this.tabPage_About.Controls.Add(this.pictureBox_About_Background);
             this.tabPage_About.Icon = global::PVZLauncher.Properties.Resources.about;
-            this.tabPage_About.Location = new System.Drawing.Point(3, 32);
+            this.tabPage_About.Location = new System.Drawing.Point(-744, -335);
             this.tabPage_About.Name = "tabPage_About";
             this.tabPage_About.Size = new System.Drawing.Size(744, 335);
             this.tabPage_About.TabIndex = 3;
@@ -710,6 +692,23 @@
             this.pictureBox_About_Background.Size = new System.Drawing.Size(294, 335);
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // timer_PlayTime
+            // 
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "可执行文件|*.exe";
+            this.openFileDialog.Title = "请选择修改器可执行文件";
             // 
             // Main_Window
             // 

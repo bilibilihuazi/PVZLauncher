@@ -1108,6 +1108,49 @@ namespace PVZLauncher
             #endregion
         }
 
+        //检查更新
+        public void CheckUpdate()
+        {
+            string Updateinfo = HttpReadFile("https://hub.gitmirror.com/raw.githubusercontent.com/bilibilihuazi/PVZLauncher/refs/heads/master/update/version");
+
+            if (Updateinfo == "")
+            {
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "检测失败！",
+                    Content = "无法连接到更新服务器: https://hub.gitmirror.com/raw.githubusercontent.com/bilibilihuazi/PVZLauncher/refs/heads/master/update/version \n\n请检查你的网络连接！",
+                    CancelText = null,
+                    OkText = "确定",
+                    Icon = AntdUI.TType.Error
+                });
+            }
+            else if (Updateinfo == Version)
+            {
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "无可用更新",
+                    Content = "您使用的是最新版本",
+                    CancelText = null,
+                    OkText = "确定",
+                    Icon = AntdUI.TType.Success
+                });
+            }
+            else if (Updateinfo != Version)
+            {
+                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "检测到更新！",
+                    Content = $"检测到新版本！\n\n最新版本:{Updateinfo}\n当前版本:{Version}\n\n是否前往 https://github.com/bilibilihuazi/PVZLauncher/releases 下载最新版本？",
+                    CancelText = "取消",
+                    OkText = "前往更新",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK)
+                {
+                    Process.Start("https://github.com/bilibilihuazi/PVZLauncher/releases");
+                }
+            }
+        }
+
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
         SelectGame_Window selectGame_Window = new SelectGame_Window();    //选择游戏窗口
@@ -1301,6 +1344,7 @@ namespace PVZLauncher
 
             await LoadGameList();//加载游戏列表
 
+            CheckUpdate();
 
             //游戏&修改器检测
 
@@ -1997,18 +2041,10 @@ namespace PVZLauncher
             button_CheckUpdate.Loading = true;
             button_CheckUpdate.Text = "检测中...";
 
-            if(HttpReadFile())
+            CheckUpdate();
+
+            button_CheckUpdate.Loading = false;
+            button_CheckUpdate.Text = "检测更新";
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-//2000行代码！！！！！
