@@ -942,9 +942,9 @@ namespace PVZLauncher
         }
 
         //加载游戏列表
-        public void LoadGameList()
+        public async Task LoadGameList()
         {
-            try
+            /*try
             {
                 List<string> temp = new List<string>();//列表
                 for (int i = 0; i < Directory.GetDirectories($"{RunPath}\\games").Length; i++)
@@ -963,8 +963,35 @@ namespace PVZLauncher
                     Icon = AntdUI.TType.Error
                 });
                 
+            }*/
+
+
+            try
+            {
+                List<string> temp = new List<string>();
+                string gamesPath = Path.Combine(RunPath, "games");
+
+                // 异步获取所有子目录
+                string[] directories = await Task.Run(() => Directory.GetDirectories(gamesPath));
+
+                // 遍历并添加文件名（非阻塞）
+                foreach (string dir in directories)
+                {
+                    temp.Add(Path.GetFileName(dir));
+                }
+
+                GamesPath = temp.ToArray();
             }
-            
+            catch (Exception ex)
+            {
+                // 确保 UI 操作在主线程执行
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在加载游戏列表时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+            }
 
         }
 
@@ -1028,11 +1055,14 @@ namespace PVZLauncher
 
             //标题居中
             pictureBox_Home_Title.Left = tabPage_Home.Width / 2 - pictureBox_Home_Title.Width / 2;
+
             //主标签栏大小
             tabs_Main.Width = this.Width;
             tabs_Main.Height = this.Height - 30;
+
             //控制栏宽度
             pageHeader.Width = this.Width;
+
             //按钮位置
             button_LaunchTrainer.Left = tabPage_Home.Width - button_LaunchTrainer.Width - 3;
             button_LaunchTrainer.Top = tabPage_Home.Height - button_LaunchTrainer.Height - 3;
@@ -1045,13 +1075,15 @@ namespace PVZLauncher
 
             button_SelectGame.Left = tabPage_Home.Width - button_Launch.Width - 3;
             button_SelectGame.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height;
+
             //标签
             label_Home_Gamename.Left = tabPage_Home.Width - button_Launch.Width - 3;
             label_Home_Gamename.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height - label_Home_Gamename.Height;
+
             //背景
             pictureBox_Home_Background.Height = tabs_Main.Height - pictureBox_Home_Title.Height - 2;
             pictureBox_Home_Background.Width = tabPage_Home.Width - button_Launch.Width - 5;
-
+            //pictureBox_Home_Background.Top = tabPage_Home.Height - 3 - pictureBox_Home_Background.Height;
             #endregion
 
             #region 设置
@@ -1093,15 +1125,22 @@ namespace PVZLauncher
         public static string STrainer;    //当前修改器路径
         public static int EggNum = 0;    //彩蛋计数器
         //事件========================================================================================
+        //构造函数
         public Main_Window()
         {
             InitializeComponent();//初始化
 
-            //初始化
+            //初始化================================
 
             pageHeader.Text = $"{Title}";//设置标题
 
-            LoadGameList();//加载游戏列表
+            //加载修改器信息
+            LoadTrainerList();
+
+            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";//设置关于界面版本信息
+
+            //初始化end================================
+
 
             //初始化配置文件
             try
@@ -1120,7 +1159,7 @@ namespace PVZLauncher
                     WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
                     WriteConfig(ConfigPath, "global", "SelectTrainer", "PvzToolkit_1.22.0.exe");//当前选择的修改器
                     WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");//宽度
-                    WriteConfig(ConfigPath, "globbal", "WindowHeight", $"{this.Height}");//高度
+                    WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");//高度
                     WriteConfig(ConfigPath, "global", "TitleSkin", "en");//标题皮肤
 
                     //games
@@ -1246,8 +1285,7 @@ namespace PVZLauncher
 
 
 
-            //加载修改器信息
-            LoadTrainerList();
+            
 
 
 
@@ -1256,10 +1294,12 @@ namespace PVZLauncher
             
         }
 
-        private void Main_Window_Load(object sender, EventArgs e)
+        //窗口加载
+        private async void Main_Window_Load(object sender, EventArgs e)
         {
             TitleFadeIn();//标题缓入
-            label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";//设置关于界面版本信息
+
+            await LoadGameList();//加载游戏列表
 
 
             //游戏&修改器检测
@@ -1286,11 +1326,20 @@ namespace PVZLauncher
 
         }
 
+        //窗口大小改变
         private void Main_Window_Resize(object sender, EventArgs e)
         {
             Align();
         }
 
+        //窗口大小改变结束
+        private void Main_Window_ResizeEnd(object sender, EventArgs e)
+        {
+            WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");
+            WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");
+        }
+
+        //主标签栏索引改变
         private void tabs_Main_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
 
@@ -1301,17 +1350,22 @@ namespace PVZLauncher
 
         }
 
+        //选择游戏
         private void button_SelectGame_Click(object sender, EventArgs e)
         {
+            
+
             selectGame_Window.ShowDialog();//选择游戏
         }
 
+        //时间主循环
         private void timer_Main_Tick(object sender, EventArgs e)
         {
             //Align();
             label_Home_Gamename.Text = $"{SGamesPath}";//设置当前游戏名称
         }
 
+        //启动游戏
         private async void button_Launch_Click(object sender, EventArgs e)
         {
             #region 启动/结束游戏
@@ -1467,6 +1521,7 @@ namespace PVZLauncher
             #endregion
         }
 
+        //彩蛋
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             #region 彩蛋
@@ -1560,6 +1615,7 @@ namespace PVZLauncher
             #endregion
         }
 
+        //启动修改器
         public void button_LaunchTrainer_Click(object sender, EventArgs e)
         {
             //启动修改器
@@ -1587,24 +1643,28 @@ namespace PVZLauncher
             }
         }
 
+        //游戏设置
         private void button_GameSettings_Click(object sender, EventArgs e)
         {
             //调用版本设置界面
             setGame_Window.ShowDialog();
         }
 
+        //关于->github
         private void button_About_Github_Click(object sender, EventArgs e)
         {
             //跳转github
             Process.Start("https://www.github.com/bilibilihuazi/PVZLauncher");
         }
 
+        //关于->bilibili
         private void button_About_Bilibili_Click(object sender, EventArgs e)
         {
             //跳转bilibili
             Process.Start("https://space.bilibili.com/1794899926");
         }
 
+        //设置->删除存档
         private void button_Settings_RemoveSave_Click(object sender, EventArgs e)
         {
             //删除存档
@@ -1670,6 +1730,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->通关存档
         private void button_Settings_TotalSave_Click(object sender, EventArgs e)
         {
             if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
@@ -1723,6 +1784,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->修改器随游戏启动
         private void switch_Settings_TrainerWithGame_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
         {
             if (switch_Settings_TrainerWithGame.Checked == true)
@@ -1735,17 +1797,20 @@ namespace PVZLauncher
             }
         }
 
+        //游戏时间计时器
         private void timer_PlayTime_Tick(object sender, EventArgs e)
         {
             int temp = int.Parse(ReadConfig(ConfigPath, SGamesPath, "PlayTime"));
             WriteConfig(ConfigPath, SGamesPath, "PlayTime", $"{temp + 1}");
         }
 
+        //设置->启动器启动后操作
         private void select_Launcher_Ld_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
             WriteConfig(ConfigPath, "global", "LaunchedExecute", $"{select_Launcher_Ld.SelectedIndex}");
         }
 
+        //设置主标签栏索引改变
         private void tabs_Settings_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
             if (tabs_Settings.SelectedIndex == 2)
@@ -1758,6 +1823,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->选择修改器
         private void select_Settings_Trainer_Select_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
             WriteConfig(ConfigPath, "global", "SelectTrainer", select_Settings_Trainer_Select.Text);
@@ -1779,6 +1845,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->导入修改器
         private void button_Settings_Trainer_Load_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -1820,6 +1887,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->删除修改器
         private void button_Settings_Trainer_Delete_Click(object sender, EventArgs e)
         {
             if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
@@ -1860,6 +1928,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->打开存档文件夹
         private void button_Settings_OpenSave_Click(object sender, EventArgs e)
         {
             if(Directory.Exists("C:\\ProgramData\\PopCap Games\\PlantsVsZombies\\userdata"))
@@ -1878,27 +1947,25 @@ namespace PVZLauncher
             }
         }
 
+        //主页tabpage绘制
         private void tabPage_Home_Paint(object sender, PaintEventArgs e)
         {
             Align();
         }
 
+        //设置tabpage绘制
         private void tabPage_Settings_Paint(object sender, PaintEventArgs e)
         {
             Align();
         }
 
+        //关于tabpage绘制
         private void tabPage_About_Paint(object sender, PaintEventArgs e)
         {
             Align();
         }
 
-        private void Main_Window_ResizeEnd(object sender, EventArgs e)
-        {
-            WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");
-            WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");
-        }
-
+        //设置->标题皮肤en
         private void radio_Settings_Launcher_Skin1_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
         {
             if (radio_Settings_Launcher_Skin1.Checked == true)
@@ -1911,6 +1978,7 @@ namespace PVZLauncher
             }
         }
 
+        //设置->标题皮肤zh
         private void radio_Settings_Launcher_Skin2_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
         {
             if (radio_Settings_Launcher_Skin2.Checked == true)
@@ -1922,5 +1990,25 @@ namespace PVZLauncher
                 WriteConfig(ConfigPath, "global", "TitleSkin", "en");
             }
         }
+
+        //关于->检测更新
+        private void button_CheckUpdate_Click(object sender, EventArgs e)
+        {
+            button_CheckUpdate.Loading = true;
+            button_CheckUpdate.Text = "检测中...";
+
+            if(HttpReadFile())
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+//2000行代码！！！！！

@@ -48,6 +48,8 @@
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
             this.tabPage_Launcher = new AntdUI.TabPage();
+            this.radio_Settings_Launcher_Skin2 = new AntdUI.Radio();
+            this.radio_Settings_Launcher_Skin1 = new AntdUI.Radio();
             this.pictureBox_Settings_Launcher_Skin2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Settings_Launcher_Skin1 = new System.Windows.Forms.PictureBox();
             this.label_Settings_Launcher_Skin = new AntdUI.Label();
@@ -72,6 +74,7 @@
             this.label_Settings_TrainerWithGame = new AntdUI.Label();
             this.switch_Settings_TrainerWithGame = new AntdUI.Switch();
             this.tabPage_About = new AntdUI.TabPage();
+            this.button_CheckUpdate = new AntdUI.Button();
             this.button_About_Bilibili = new AntdUI.Button();
             this.button_About_Github = new AntdUI.Button();
             this.label_About_info4 = new AntdUI.Label();
@@ -81,8 +84,6 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
-            this.radio_Settings_Launcher_Skin1 = new AntdUI.Radio();
-            this.radio_Settings_Launcher_Skin2 = new AntdUI.Radio();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -125,6 +126,7 @@
             this.tabs_Main.Pages.Add(this.tabPage_Home);
             this.tabs_Main.Pages.Add(this.tabPage_Settings);
             this.tabs_Main.Pages.Add(this.tabPage_About);
+            this.tabs_Main.SelectedIndex = 2;
             this.tabs_Main.Size = new System.Drawing.Size(750, 370);
             styleCard21.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
             this.tabs_Main.Style = styleCard21;
@@ -160,7 +162,7 @@
             this.tabPage_Home.Controls.Add(this.label_Home_Gamename);
             this.tabPage_Home.Controls.Add(this.button_Launch);
             this.tabPage_Home.Icon = global::PVZLauncher.Properties.Resources.home;
-            this.tabPage_Home.Location = new System.Drawing.Point(3, 32);
+            this.tabPage_Home.Location = new System.Drawing.Point(-744, -335);
             this.tabPage_Home.Name = "tabPage_Home";
             this.tabPage_Home.Size = new System.Drawing.Size(744, 335);
             this.tabPage_Home.TabIndex = 0;
@@ -301,6 +303,27 @@
             this.tabPage_Launcher.Size = new System.Drawing.Size(651, 329);
             this.tabPage_Launcher.TabIndex = 2;
             this.tabPage_Launcher.Text = "启动器";
+            // 
+            // radio_Settings_Launcher_Skin2
+            // 
+            this.radio_Settings_Launcher_Skin2.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.radio_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 203);
+            this.radio_Settings_Launcher_Skin2.Name = "radio_Settings_Launcher_Skin2";
+            this.radio_Settings_Launcher_Skin2.Size = new System.Drawing.Size(192, 23);
+            this.radio_Settings_Launcher_Skin2.TabIndex = 12;
+            this.radio_Settings_Launcher_Skin2.Text = "植物大战僵尸";
+            this.radio_Settings_Launcher_Skin2.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_Skin2_CheckedChanged);
+            // 
+            // radio_Settings_Launcher_Skin1
+            // 
+            this.radio_Settings_Launcher_Skin1.Checked = true;
+            this.radio_Settings_Launcher_Skin1.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.radio_Settings_Launcher_Skin1.Location = new System.Drawing.Point(17, 203);
+            this.radio_Settings_Launcher_Skin1.Name = "radio_Settings_Launcher_Skin1";
+            this.radio_Settings_Launcher_Skin1.Size = new System.Drawing.Size(192, 23);
+            this.radio_Settings_Launcher_Skin1.TabIndex = 11;
+            this.radio_Settings_Launcher_Skin1.Text = "Plants Vs. Zombies";
+            this.radio_Settings_Launcher_Skin1.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_Skin1_CheckedChanged);
             // 
             // pictureBox_Settings_Launcher_Skin2
             // 
@@ -565,6 +588,7 @@
             // tabPage_About
             // 
             this.tabPage_About.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_About.Controls.Add(this.button_CheckUpdate);
             this.tabPage_About.Controls.Add(this.button_About_Bilibili);
             this.tabPage_About.Controls.Add(this.button_About_Github);
             this.tabPage_About.Controls.Add(this.label_About_info4);
@@ -575,12 +599,25 @@
             this.tabPage_About.Controls.Add(this.pictureBox_About_Icon);
             this.tabPage_About.Controls.Add(this.pictureBox_About_Background);
             this.tabPage_About.Icon = global::PVZLauncher.Properties.Resources.about;
-            this.tabPage_About.Location = new System.Drawing.Point(-744, -335);
+            this.tabPage_About.Location = new System.Drawing.Point(3, 32);
             this.tabPage_About.Name = "tabPage_About";
             this.tabPage_About.Size = new System.Drawing.Size(744, 335);
             this.tabPage_About.TabIndex = 3;
             this.tabPage_About.Text = "关于";
             this.tabPage_About.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_About_Paint);
+            // 
+            // button_CheckUpdate
+            // 
+            this.button_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_CheckUpdate.Icon = global::PVZLauncher.Properties.Resources.update;
+            this.button_CheckUpdate.IconRatio = 0.8F;
+            this.button_CheckUpdate.Location = new System.Drawing.Point(9, 137);
+            this.button_CheckUpdate.Name = "button_CheckUpdate";
+            this.button_CheckUpdate.Size = new System.Drawing.Size(128, 33);
+            this.button_CheckUpdate.TabIndex = 9;
+            this.button_CheckUpdate.Text = "检测更新";
+            this.button_CheckUpdate.Type = AntdUI.TTypeMini.Primary;
+            this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
             // 
             // button_About_Bilibili
             // 
@@ -674,27 +711,6 @@
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
             // 
-            // radio_Settings_Launcher_Skin1
-            // 
-            this.radio_Settings_Launcher_Skin1.Checked = true;
-            this.radio_Settings_Launcher_Skin1.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_Skin1.Location = new System.Drawing.Point(17, 203);
-            this.radio_Settings_Launcher_Skin1.Name = "radio_Settings_Launcher_Skin1";
-            this.radio_Settings_Launcher_Skin1.Size = new System.Drawing.Size(192, 23);
-            this.radio_Settings_Launcher_Skin1.TabIndex = 11;
-            this.radio_Settings_Launcher_Skin1.Text = "Plants Vs. Zombies";
-            this.radio_Settings_Launcher_Skin1.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_Skin1_CheckedChanged);
-            // 
-            // radio_Settings_Launcher_Skin2
-            // 
-            this.radio_Settings_Launcher_Skin2.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 203);
-            this.radio_Settings_Launcher_Skin2.Name = "radio_Settings_Launcher_Skin2";
-            this.radio_Settings_Launcher_Skin2.Size = new System.Drawing.Size(192, 23);
-            this.radio_Settings_Launcher_Skin2.TabIndex = 12;
-            this.radio_Settings_Launcher_Skin2.Text = "植物大战僵尸";
-            this.radio_Settings_Launcher_Skin2.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_Skin2_CheckedChanged);
-            // 
             // Main_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -785,5 +801,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Settings_Launcher_Skin1;
         private AntdUI.Radio radio_Settings_Launcher_Skin1;
         private AntdUI.Radio radio_Settings_Launcher_Skin2;
+        private AntdUI.Button button_CheckUpdate;
     }
 }

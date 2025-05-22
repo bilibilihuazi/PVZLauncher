@@ -786,7 +786,17 @@ namespace PVZLauncher
 
                 }
 
-                label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
+
+                if (ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch") == null)
+                {
+                    label_FirstLaunch.Text = $"初次启动: 从未启动过";
+
+                }
+                else
+                {
+                    label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
+
+                }
 
 
             }

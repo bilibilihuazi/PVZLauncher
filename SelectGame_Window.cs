@@ -929,12 +929,15 @@ namespace PVZLauncher
             }
             catch (Exception ex)
             {
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                string a = ex.Message;
+
+
+                /*AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",
                     Text = $"在加载游戏图标时发生错误，请检查游戏可执行文件名是否有效！\n返回的错误信息:{ex.Message}",
                     Icon = AntdUI.TType.Error
-                });
+                });*/
                 
             }
             
@@ -944,9 +947,6 @@ namespace PVZLauncher
         {
             Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
             WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
-            
-
-            
 
             this.Close();
         }
@@ -964,7 +964,7 @@ namespace PVZLauncher
             button_Done.Enabled = false;
 
             image3D_GameIcon.Image = Properties.Resources.icon;
-            label_Gameinfo1.Text = "UNKNOWN";
+            label_Gameinfo1.Text = "请选择游戏";
 
             ListBox.Items.Clear();
             for (int i = 0; i < Main_Window.GamesPath.Length; i++)
@@ -1001,7 +1001,7 @@ namespace PVZLauncher
                             Icon = AntdUI.TType.Success
                         });
 
-                        
+                        LoadGameList();
 
                     }
                     catch (Exception ex)

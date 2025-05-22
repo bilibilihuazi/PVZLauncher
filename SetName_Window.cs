@@ -765,7 +765,7 @@ namespace PVZLauncher
 
         private void textBox_Name_TextChanged(object sender, EventArgs e)
         {
-            if (textBox_Name.Text.Length > 0 && $"{Main_Window.SGamesPath}" != textBox_Name.Text) 
+            if (textBox_Name.Text.Length > 0 && textBox_Name.Text != $"{Main_Window.SGamesPath}") 
             {
                 button_Done.Enabled = true;
             }
@@ -781,7 +781,15 @@ namespace PVZLauncher
             {
                 Directory.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}", $"{Main_Window.RunPath}\\games\\{textBox_Name.Text}");
 
+
                 WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "ExecuteName", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName"));
+                WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "PlayTime", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime"));
+                if (ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch") != null)
+                {
+                    WriteConfig(Main_Window.ConfigPath, textBox_Name.Text, "FirstLaunch", ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch"));
+                }
+                
+
                 DeleteSection(Main_Window.ConfigPath, Main_Window.SGamesPath);
 
                 Main_Window.SGamesPath = textBox_Name.Text;
