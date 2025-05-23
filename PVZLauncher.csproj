@@ -210,6 +210,7 @@
     <None Include="assets\titlescreen_home.png" />
     <None Include="assets\PvZ_Logo_zh.png" />
     <None Include="assets\update.png" />
+    <None Include="assets\gitee.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

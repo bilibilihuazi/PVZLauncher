@@ -850,7 +850,7 @@ namespace PVZLauncher
             }
         }
 
-        //异步HTTP读文件
+        //异步HTTP下载文件
         public async Task DownloadFileAsync(string url, string savePath, IProgress<(int ProgressPercentage, long BytesReceived)> progress = null, CancellationToken cancellationToken = default)
         {
             using (var httpClient = new HttpClient())
@@ -904,8 +904,33 @@ namespace PVZLauncher
                 }
             }
         }
-        #endregion
 
+        //异步HTTP读文件
+        public async Task<string> HttpReadFileAsync(string url)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    // 设置超时时间（可选）
+                    client.Timeout = TimeSpan.FromSeconds(30);
+
+                    // 发送GET请求
+                    using (HttpResponseMessage response = await client.GetAsync(url))
+                    {
+                        response.EnsureSuccessStatusCode();  // 确保响应成功
+                        return await response.Content.ReadAsStringAsync();  // 读取内容为字符串
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 这里可以记录异常或进行其他处理
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                return null;  // 或者根据需求返回空字符串/抛出异常
+            }
+        }
+        #endregion
         //标题缓入
         public async void TitleFadeIn(int speed = 8)
         {
@@ -1109,16 +1134,16 @@ namespace PVZLauncher
         }
 
         //检查更新
-        public void CheckUpdate()
+        public async void CheckUpdate(bool LaunchTime = false)
         {
-            string Updateinfo = HttpReadFile("https://hub.gitmirror.com/raw.githubusercontent.com/bilibilihuazi/PVZLauncher/refs/heads/master/update/version");
+            string Updateinfo = await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/update/version");
 
             if (Updateinfo == "")
             {
                 AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
                     Title = "检测失败！",
-                    Content = "无法连接到更新服务器: https://hub.gitmirror.com/raw.githubusercontent.com/bilibilihuazi/PVZLauncher/refs/heads/master/update/version \n\n请检查你的网络连接！",
+                    Content = "无法连接到更新服务器: https://gitee.com/huamouren110/pvz-launcher/raw/master/update/version \n\n请检查你的网络连接！",
                     CancelText = null,
                     OkText = "确定",
                     Icon = AntdUI.TType.Error
@@ -1126,14 +1151,18 @@ namespace PVZLauncher
             }
             else if (Updateinfo == Version)
             {
-                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                if (LaunchTime != true)
                 {
-                    Title = "无可用更新",
-                    Content = "您使用的是最新版本",
-                    CancelText = null,
-                    OkText = "确定",
-                    Icon = AntdUI.TType.Success
-                });
+                    AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                    {
+                        Title = "无可用更新",
+                        Content = "您使用的是最新版本",
+                        CancelText = null,
+                        OkText = "确定",
+                        Icon = AntdUI.TType.Success
+                    });
+                }
+
             }
             else if (Updateinfo != Version)
             {
@@ -1149,6 +1178,7 @@ namespace PVZLauncher
                     Process.Start("https://github.com/bilibilihuazi/PVZLauncher/releases");
                 }
             }
+
         }
 
         //对象========================================================================================
@@ -1158,8 +1188,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.0.3.10";    //版本
-        public static string CompliedTime = "2025-5-21 20:31";     //编译时间
+        public static string Version = "Pre-Release 1.0.5.12";    //版本
+        public static string CompliedTime = "2025-5-23 20:31";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1204,10 +1234,11 @@ namespace PVZLauncher
                     WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");//宽度
                     WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");//高度
                     WriteConfig(ConfigPath, "global", "TitleSkin", "en");//标题皮肤
+                    WriteConfig(ConfigPath, "global", "LaunchCheckUpdate", "true");//启动时检查更新
 
                     //games
-                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
-                    WriteConfig(ConfigPath, "Plants Vs Zombies 1.0.0.1051", "PlayTime", "0");
+                    WriteConfig(ConfigPath, "Plants Vs Zombies", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
+                    WriteConfig(ConfigPath, "Plants Vs Zombies", "PlayTime", "0");
                 }
             }
             catch (Exception ex)
@@ -1269,6 +1300,15 @@ namespace PVZLauncher
                     radio_Settings_Launcher_Skin2.Checked = true;
                 }
 
+                //启动时检查更新
+                if (ReadConfig(ConfigPath, "global", "LaunchCheckUpdate") == "true")
+                {
+                    switch_Settings_Launcher_LaunchCheckUpdate.Checked = true;
+                }
+                else
+                {
+                    switch_Settings_Launcher_LaunchCheckUpdate.Checked = false;
+                }
 
             }
             catch (Exception ex)
@@ -1344,7 +1384,11 @@ namespace PVZLauncher
 
             await LoadGameList();//加载游戏列表
 
-            CheckUpdate();
+            if (ReadConfig(ConfigPath, "global", "LaunchCheckUpdate") == "true")
+            {
+                CheckUpdate(true);
+            }
+            
 
             //游戏&修改器检测
 
@@ -2045,6 +2089,25 @@ namespace PVZLauncher
 
             button_CheckUpdate.Loading = false;
             button_CheckUpdate.Text = "检测更新";
+        }
+
+        //设置->启动器启动时检查更新
+        private void switch_Settings_Launcher_LaunchCheckUpdate_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (switch_Settings_Launcher_LaunchCheckUpdate.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "LaunchCheckUpdate", "true");
+            }
+            else
+            {
+                WriteConfig(ConfigPath, "global", "LaunchCheckUpdate", "false");
+            }
+        }
+
+        //关于->Gitee
+        private void button_About_Gitee_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://gitee.com/huamouren110/pvz-launcher");
         }
     }
 }

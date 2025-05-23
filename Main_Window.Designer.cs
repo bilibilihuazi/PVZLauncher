@@ -34,6 +34,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Background = new System.Windows.Forms.PictureBox();
             this.button_LaunchTrainer = new AntdUI.Button();
@@ -45,6 +48,10 @@
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
             this.tabPage_Launcher = new AntdUI.TabPage();
+            this.label_Settings_Launcher_LaunchCheckUpdate = new AntdUI.Label();
+            this.switch_Settings_Launcher_LaunchCheckUpdate = new AntdUI.Switch();
+            this.button_CheckUpdate = new AntdUI.Button();
+            this.label_Settings_Launcher_Update = new AntdUI.Label();
             this.radio_Settings_Launcher_Skin2 = new AntdUI.Radio();
             this.radio_Settings_Launcher_Skin1 = new AntdUI.Radio();
             this.pictureBox_Settings_Launcher_Skin2 = new System.Windows.Forms.PictureBox();
@@ -71,7 +78,7 @@
             this.label_Settings_TrainerWithGame = new AntdUI.Label();
             this.switch_Settings_TrainerWithGame = new AntdUI.Switch();
             this.tabPage_About = new AntdUI.TabPage();
-            this.button_CheckUpdate = new AntdUI.Button();
+            this.button_About_Gitee = new AntdUI.Button();
             this.button_About_Bilibili = new AntdUI.Button();
             this.button_About_Github = new AntdUI.Button();
             this.label_About_info4 = new AntdUI.Label();
@@ -81,9 +88,6 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -132,6 +136,23 @@
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // timer_PlayTime
+            // 
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "可执行文件|*.exe";
+            this.openFileDialog.Title = "请选择修改器可执行文件";
             // 
             // tabPage_Home
             // 
@@ -270,6 +291,11 @@
             // 
             // tabPage_Launcher
             // 
+            this.tabPage_Launcher.AutoScroll = true;
+            this.tabPage_Launcher.Controls.Add(this.label_Settings_Launcher_LaunchCheckUpdate);
+            this.tabPage_Launcher.Controls.Add(this.switch_Settings_Launcher_LaunchCheckUpdate);
+            this.tabPage_Launcher.Controls.Add(this.button_CheckUpdate);
+            this.tabPage_Launcher.Controls.Add(this.label_Settings_Launcher_Update);
             this.tabPage_Launcher.Controls.Add(this.radio_Settings_Launcher_Skin2);
             this.tabPage_Launcher.Controls.Add(this.radio_Settings_Launcher_Skin1);
             this.tabPage_Launcher.Controls.Add(this.pictureBox_Settings_Launcher_Skin2);
@@ -285,6 +311,45 @@
             this.tabPage_Launcher.Size = new System.Drawing.Size(651, 329);
             this.tabPage_Launcher.TabIndex = 2;
             this.tabPage_Launcher.Text = "启动器";
+            // 
+            // label_Settings_Launcher_LaunchCheckUpdate
+            // 
+            this.label_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(51, 300);
+            this.label_Settings_Launcher_LaunchCheckUpdate.Name = "label_Settings_Launcher_LaunchCheckUpdate";
+            this.label_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(142, 23);
+            this.label_Settings_Launcher_LaunchCheckUpdate.TabIndex = 16;
+            this.label_Settings_Launcher_LaunchCheckUpdate.Text = "启动时检测更新";
+            // 
+            // switch_Settings_Launcher_LaunchCheckUpdate
+            // 
+            this.switch_Settings_Launcher_LaunchCheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.switch_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(5, 300);
+            this.switch_Settings_Launcher_LaunchCheckUpdate.Name = "switch_Settings_Launcher_LaunchCheckUpdate";
+            this.switch_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(40, 23);
+            this.switch_Settings_Launcher_LaunchCheckUpdate.TabIndex = 15;
+            this.switch_Settings_Launcher_LaunchCheckUpdate.CheckedChanged += new AntdUI.BoolEventHandler(this.switch_Settings_Launcher_LaunchCheckUpdate_CheckedChanged);
+            // 
+            // button_CheckUpdate
+            // 
+            this.button_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_CheckUpdate.Icon = global::PVZLauncher.Properties.Resources.update;
+            this.button_CheckUpdate.IconRatio = 0.8F;
+            this.button_CheckUpdate.Location = new System.Drawing.Point(5, 261);
+            this.button_CheckUpdate.Name = "button_CheckUpdate";
+            this.button_CheckUpdate.Size = new System.Drawing.Size(128, 33);
+            this.button_CheckUpdate.TabIndex = 14;
+            this.button_CheckUpdate.Text = "检测更新";
+            this.button_CheckUpdate.Type = AntdUI.TTypeMini.Primary;
+            this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
+            // 
+            // label_Settings_Launcher_Update
+            // 
+            this.label_Settings_Launcher_Update.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Launcher_Update.Location = new System.Drawing.Point(5, 232);
+            this.label_Settings_Launcher_Update.Name = "label_Settings_Launcher_Update";
+            this.label_Settings_Launcher_Update.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Launcher_Update.TabIndex = 13;
+            this.label_Settings_Launcher_Update.Text = "更新";
             // 
             // radio_Settings_Launcher_Skin2
             // 
@@ -570,7 +635,7 @@
             // tabPage_About
             // 
             this.tabPage_About.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage_About.Controls.Add(this.button_CheckUpdate);
+            this.tabPage_About.Controls.Add(this.button_About_Gitee);
             this.tabPage_About.Controls.Add(this.button_About_Bilibili);
             this.tabPage_About.Controls.Add(this.button_About_Github);
             this.tabPage_About.Controls.Add(this.label_About_info4);
@@ -588,18 +653,19 @@
             this.tabPage_About.Text = "关于";
             this.tabPage_About.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_About_Paint);
             // 
-            // button_CheckUpdate
+            // button_About_Gitee
             // 
-            this.button_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_CheckUpdate.Icon = global::PVZLauncher.Properties.Resources.update;
-            this.button_CheckUpdate.IconRatio = 0.8F;
-            this.button_CheckUpdate.Location = new System.Drawing.Point(9, 137);
-            this.button_CheckUpdate.Name = "button_CheckUpdate";
-            this.button_CheckUpdate.Size = new System.Drawing.Size(128, 33);
-            this.button_CheckUpdate.TabIndex = 9;
-            this.button_CheckUpdate.Text = "检测更新";
-            this.button_CheckUpdate.Type = AntdUI.TTypeMini.Primary;
-            this.button_CheckUpdate.Click += new System.EventHandler(this.button_CheckUpdate_Click);
+            this.button_About_Gitee.DefaultBack = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(29)))), ((int)(((byte)(35)))));
+            this.button_About_Gitee.ForeColor = System.Drawing.Color.White;
+            this.button_About_Gitee.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_About_Gitee.Icon = global::PVZLauncher.Properties.Resources.gitee;
+            this.button_About_Gitee.IconRatio = 1F;
+            this.button_About_Gitee.Location = new System.Drawing.Point(143, 102);
+            this.button_About_Gitee.Name = "button_About_Gitee";
+            this.button_About_Gitee.Size = new System.Drawing.Size(120, 35);
+            this.button_About_Gitee.TabIndex = 9;
+            this.button_About_Gitee.Text = "Gitee";
+            this.button_About_Gitee.Click += new System.EventHandler(this.button_About_Gitee_Click);
             // 
             // button_About_Bilibili
             // 
@@ -663,7 +729,7 @@
             this.label_About_info2.Name = "label_About_info2";
             this.label_About_info2.Size = new System.Drawing.Size(289, 23);
             this.label_About_info2.TabIndex = 2;
-            this.label_About_info2.Text = "一款可以下载、管理、启动植物大战僵尸的启动器";
+            this.label_About_info2.Text = "一款可以管理、启动植物大战僵尸的多功能启动器";
             // 
             // label_About_info1
             // 
@@ -692,23 +758,6 @@
             this.pictureBox_About_Background.Size = new System.Drawing.Size(294, 335);
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
-            // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // timer_PlayTime
-            // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "可执行文件|*.exe";
-            this.openFileDialog.Title = "请选择修改器可执行文件";
             // 
             // Main_Window
             // 
@@ -801,5 +850,9 @@
         private AntdUI.Radio radio_Settings_Launcher_Skin1;
         private AntdUI.Radio radio_Settings_Launcher_Skin2;
         private AntdUI.Button button_CheckUpdate;
+        private AntdUI.Label label_Settings_Launcher_Update;
+        private AntdUI.Switch switch_Settings_Launcher_LaunchCheckUpdate;
+        private AntdUI.Label label_Settings_Launcher_LaunchCheckUpdate;
+        private AntdUI.Button button_About_Gitee;
     }
 }

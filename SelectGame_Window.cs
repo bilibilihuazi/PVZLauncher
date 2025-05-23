@@ -981,7 +981,7 @@ namespace PVZLauncher
                 if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
                     Title = "导入",
-                    Content = $"是否将 {folderBrowserDialog1} 导入进游戏库？\n\n此操作仅复制文件夹，源文件夹不做改动",
+                    Content = $"是否将 \"{folderBrowserDialog1.SelectedPath}\" 导入进游戏库？\n\n此操作仅复制文件夹，源文件夹不做改动",
                     OkText = "导入",
                     CancelText = "取消",
                     Icon = AntdUI.TType.Warn
