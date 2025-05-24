@@ -1004,6 +1004,7 @@ namespace PvzLauncher
         public async void CheckUpdate(bool LaunchTime = false)
         {
             button_CheckUpdate.Loading = true;
+            
             string Updateinfo = await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/update/version");
 
             if (Updateinfo == "")
@@ -1043,6 +1044,8 @@ namespace PvzLauncher
                     Icon = AntdUI.TType.Warn
                 }) == DialogResult.OK)
                 {
+                    progress_Settings_CheckUpdate.Visible = true;
+
                     var progress = new Progress<int>(percent =>
                     {
                         progress_Settings_CheckUpdate.Value = percent / 100F;
@@ -1063,7 +1066,7 @@ namespace PvzLauncher
                             Text = $"在下载更新文件时发生错误！\n\n错误原因:{ex.Message}",
                             Icon = AntdUI.TType.Error
                         });
-                        
+                        progress_Settings_CheckUpdate.Visible = false;
                     }
 
                 }
@@ -1079,8 +1082,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Release 1.0.5.8";    //版本
-        public static string CompliedTime = "2025-5-24 13:26";     //编译时间
+        public static string Version = "Pre-Release 1.1.1.8";    //版本
+        public static string CompliedTime = "2025-5-24 16:46";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1123,7 +1126,7 @@ namespace PvzLauncher
                 if (!File.Exists(ConfigPath))
                 {
                     //global
-                    WriteConfig(ConfigPath, "global", "SelectGame", "PlantsVsZombiesV1.0.0.1051");//当前选择的游戏
+                    WriteConfig(ConfigPath, "global", "SelectGame", "请选择游戏");//当前选择的游戏
                     WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
                     WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
                     WriteConfig(ConfigPath, "global", "SelectTrainer", "PvzToolkit_1.22.0.exe");//当前选择的修改器
@@ -1131,6 +1134,7 @@ namespace PvzLauncher
                     WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");//高度
                     WriteConfig(ConfigPath, "global", "TitleSkin", "en");//标题皮肤
                     WriteConfig(ConfigPath, "global", "LaunchCheckUpdate", "true");//启动时检查更新
+                    WriteConfig(ConfigPath, "global", "FirstLaunch", "true");//首次启动
 
                     //games
                     WriteConfig(ConfigPath, "Plants Vs Zombies", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
@@ -1247,7 +1251,7 @@ namespace PvzLauncher
 
 
             //游戏资源检测
-            if (!File.Exists($"{RunPath}\\config\\user1.dat") && !File.Exists($"{RunPath}\\UpdateService.exe")) 
+            if (!File.Exists($"{RunPath}\\assets\\user1.dat") | !File.Exists($"{RunPath}\\UpdateService.exe") | !File.Exists($"{RunPath}\\assets\\bass.dll") | !File.Exists($"{RunPath}\\assets\\gdi42.dll")) 
             {
                 AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
@@ -1324,6 +1328,18 @@ namespace PvzLauncher
                 }
             }
 
+            if (ReadConfig(ConfigPath, "global", "FirstLaunch") == "true")
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "欢迎！",
+                    Text = "欢迎使用PvzLauncher！\n\n点击\"选择版本\"按钮开始游戏吧！",
+                    Icon = AntdUI.TType.Success
+                });
+                WriteConfig(ConfigPath, "global", "FirstLaunch", "false");
+            }
+
+
         }
 
         //窗口大小改变
@@ -1373,7 +1389,7 @@ namespace PvzLauncher
             //设置process信息
             proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
 
-            if (button_Launch.Text == "启动游戏")
+            if (button_Launch.Text == "启动游戏") 
             {
                 try
                 {
@@ -1516,6 +1532,7 @@ namespace PvzLauncher
                     }
                 }
                 
+                
             }
 
             #endregion
@@ -1535,7 +1552,7 @@ namespace PvzLauncher
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 20)
+            else if (EggNum == 15)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
@@ -1544,43 +1561,43 @@ namespace PvzLauncher
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 50)
+            else if (EggNum == 20)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
-                    Text = "我不是说了这里没有彩蛋了吗，不要再点了，你把鼠标点烂也不会有彩蛋",
+                    Text = "嗯..看起来你真的很闲",
                     Icon = AntdUI.TType.Warn,
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 70)
-            {
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "发生错误！",
-                    Text = "在程序正常运行时发生错误！\n返回的错误原因为: 系统找不到指定文件",
-                    Icon = AntdUI.TType.Error
-                });
-            }
-            else if (EggNum == 90)
+            else if (EggNum == 25)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
-                    Text = "好吧，这也骗不到你。",
+                    Text = "你可以去干一些其他的事情。打打小游戏，找找改版...\n而不是在这里点击图片！",
                     Icon = AntdUI.TType.Info,
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 100)
+            else if (EggNum == 30)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
-                    Text = "恭喜！100次点击",
+                    Text = "你还在点？",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 35)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "恭喜！35次点击",
                     Icon = AntdUI.TType.Success,
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 120)
+            else if (EggNum == 40)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
@@ -1589,7 +1606,7 @@ namespace PvzLauncher
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 160)
+            else if (EggNum == 45)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
@@ -1598,15 +1615,186 @@ namespace PvzLauncher
                     ShowInWindow = true
                 });
             }
-            else if (EggNum == 2147483647)
+            else if (EggNum == 50)
             {
                 AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
                 {
-                    Text = "不，你不可能到这里。你一定是使用了连点器？正常人平均6CPS，点到这里需要11.3年。这是不可能的(或者使用CE修改器修改的？！)",
+                    Text = "好了，不要再点了",
                     Icon = AntdUI.TType.Info,
                     ShowInWindow = true
                 });
             }
+            else if (EggNum == 55)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "这个图标其实是一个设计时随手添加的一个东西",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 60)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "在最初设计的时候，这里缺了一些东西，于是就是用了PVZ标题来填充",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 65)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "之后或许会被删掉。你就没有东西可以玩了！",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 70)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好了，我该告诉你的都告诉你了。你可以走了，彩蛋就做了这么点",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 75)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "不要再点了",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 80)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "哈哈，这样你就点不了了",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+                tabs_Main.SelectedIndex = 0;
+
+            }
+            else if (EggNum == 85)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "你怎么又切换回来了？",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 90)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好了！到此为止！！！",
+                    Icon = AntdUI.TType.Error,
+                    ShowInWindow = true
+                });
+                
+
+            }
+            else if (EggNum == 100)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "不 要 再 点 了！！！！",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 105)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "看来我必须做出一些措施了",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 110)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "哈哈，你的控制按钮被我吃掉了！你关不掉这个程序了！",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+                pageHeader.ShowButton = false;
+            }
+            else if (EggNum == 115)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试长文本测试\n",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 120)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "我想你的电脑刚刚肯定快炸了吧",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 125)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "...",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 130)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "我可没有那么多时间陪你玩了，我还要改BUG，添加新功能...",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 135)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "好吧，只能使用那一招了",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 140)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "再见！",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+            }
+            else if (EggNum == 145)
+            {
+                AntdUI.Message.open(new AntdUI.Message.Config(this, "", AntdUI.TType.None)
+                {
+                    Text = "",
+                    Icon = AntdUI.TType.Info,
+                    ShowInWindow = true
+                });
+                this.Close();
+            }
+
+
+
             else if (1 > 2 && 2 < 1)
             {
                 //你一定是翻看代码才看到这段话的对吧，正常操作根本无法到达此分支。即使你使用了CE修改器

@@ -212,6 +212,7 @@
     <None Include="assets\update.png" />
     <None Include="assets\gitee.png" />
     <None Include="assets\qq.png" />
+    <None Include="assets\add.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

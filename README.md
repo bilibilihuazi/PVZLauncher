@@ -115,5 +115,5 @@ UI(2):
   2. **PopCap Games** (启动器内置的游戏)
 
 提供建议(2):
-  1. **小王** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
+  1. **旅行者** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
   2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2及之后的版本做出建议以及反馈BUG)
