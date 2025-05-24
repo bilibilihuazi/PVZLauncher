@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4EF7A88C-22B0-4656-953F-6E9CB1CB7AF6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PVZLauncher</RootNamespace>
-    <AssemblyName>PVZLauncher</AssemblyName>
+    <RootNamespace>PvzLauncher</RootNamespace>
+    <AssemblyName>PvzLauncher</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -211,6 +211,7 @@
     <None Include="assets\PvZ_Logo_zh.png" />
     <None Include="assets\update.png" />
     <None Include="assets\gitee.png" />
+    <None Include="assets\qq.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

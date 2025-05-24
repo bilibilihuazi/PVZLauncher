@@ -1,4 +1,4 @@
-﻿namespace PVZLauncher
+﻿namespace PvzLauncher
 {
     partial class SetName_Window
     {

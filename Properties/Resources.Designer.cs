@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PVZLauncher.Properties {
+namespace PvzLauncher.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PVZLauncher.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PVZLauncher.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PvzLauncher.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -256,6 +256,16 @@ namespace PVZLauncher.Properties {
         internal static System.Drawing.Bitmap PvzToolkit_ {
             get {
                 object obj = ResourceManager.GetObject("PvzToolkit_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap qq {
+            get {
+                object obj = ResourceManager.GetObject("qq", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

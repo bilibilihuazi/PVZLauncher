@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace PVZLauncher
+namespace PvzLauncher
 {
     public partial class SetGame_Window: AntdUI.Window
     {
@@ -871,7 +871,7 @@ namespace PVZLauncher
             Process.Start($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
         }
 
-        private void button_DeleteGame_Click(object sender, EventArgs e)
+        private async void button_DeleteGame_Click(object sender, EventArgs e)
         {
             if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
             {
@@ -895,7 +895,7 @@ namespace PVZLauncher
 
                     Main_Window main_Window = new Main_Window();
 
-                    main_Window.LoadGameList();
+                    await main_Window.LoadGameList();
 
                     Main_Window.SGamesPath = "";
                     WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", "");

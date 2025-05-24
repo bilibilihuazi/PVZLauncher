@@ -1,4 +1,4 @@
-﻿namespace PVZLauncher
+﻿namespace PvzLauncher
 {
     partial class SetGame_Window
     {
@@ -107,7 +107,7 @@
             // button_OpenGameFoler
             // 
             this.button_OpenGameFoler.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_OpenGameFoler.Icon = global::PVZLauncher.Properties.Resources.folder;
+            this.button_OpenGameFoler.Icon = global::PvzLauncher.Properties.Resources.folder;
             this.button_OpenGameFoler.IconRatio = 0.8F;
             this.button_OpenGameFoler.Location = new System.Drawing.Point(170, 94);
             this.button_OpenGameFoler.Name = "button_OpenGameFoler";
@@ -120,7 +120,7 @@
             // button_DeleteGame
             // 
             this.button_DeleteGame.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_DeleteGame.Icon = global::PVZLauncher.Properties.Resources.delete;
+            this.button_DeleteGame.Icon = global::PvzLauncher.Properties.Resources.delete;
             this.button_DeleteGame.IconRatio = 0.8F;
             this.button_DeleteGame.Location = new System.Drawing.Point(361, 94);
             this.button_DeleteGame.Name = "button_DeleteGame";
@@ -133,7 +133,7 @@
             // button_SetName
             // 
             this.button_SetName.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_SetName.Icon = global::PVZLauncher.Properties.Resources.edit;
+            this.button_SetName.Icon = global::PvzLauncher.Properties.Resources.edit;
             this.button_SetName.IconRatio = 0.8F;
             this.button_SetName.Location = new System.Drawing.Point(12, 94);
             this.button_SetName.Name = "button_SetName";
@@ -146,7 +146,7 @@
             // image3D_GameIcon
             // 
             this.image3D_GameIcon.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.image3D_GameIcon.Image = global::PVZLauncher.Properties.Resources.icon;
+            this.image3D_GameIcon.Image = global::PvzLauncher.Properties.Resources.icon;
             this.image3D_GameIcon.Location = new System.Drawing.Point(12, 36);
             this.image3D_GameIcon.Name = "image3D_GameIcon";
             this.image3D_GameIcon.Size = new System.Drawing.Size(52, 52);

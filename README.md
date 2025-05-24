@@ -6,14 +6,17 @@
 
 ## 下载
 
-可直接在此仓库的Release界面下载最新版本
+可直接在Github仓库与Gitee镜像库的Release界面下载最新版本<br>
+Github仓库:[https://github.com/bilibilihuazi/PvzLauncher](https://github.com/bilibilihuazi/PvzLauncher)<br>
+Gitee镜像库:[https://gitee.com/huamouren110/pvz-launcher](https://gitee.com/huamouren110/pvz-launcher)<br><br>
 
-也可以使用以下的下载链接，但不能保证是最新版本:<br><br>
-蓝奏云:<br>
-123云盘主链接:<br>
-123云盘备用链接:<br>
-huang1111网盘:<br>
-Gitee克隆库:<br>
+
+也可以使用以下的下载链接，但不能保证是最新版本:<br>
+蓝奏云:[https://hhzyx.lanzouo.com/b00b4q0fxg 密码:2cds](https://hhzyx.lanzouo.com/b00b4q0fxg)<br>
+蓝奏云优享版:[https://www.ilanzou.com/s/6r4ZLvSU](https://www.ilanzou.com/s/6r4ZLvSU)<br>
+123云盘主链接:[https://www.123865.com/s/9hDQjv-LJBn3](https://www.123865.com/s/9hDQjv-LJBn3)<br>
+123云盘备用链接:[https://www.123684.com/s/9hDQjv-LJBn3](https://www.123684.com/s/9hDQjv-LJBn3)<br>
+huang1111网盘:[https://pan.huang1111.cn/s/mxK1os1](https://pan.huang1111.cn/s/mxK1os1)<br>
 
 
 ## 概述
@@ -30,7 +33,7 @@ Gitee克隆库:<br>
 
 本启动器可快捷地`导入、管理、启动`游戏；提供一个GUI交互界面，对游戏文件结构不熟悉的玩家也可以**轻松操作**
 
-启动器还提供了一个统计信息界面，可以**查看自己的游玩时间**等
+启动器还提供了一个统计信息界面，可以**查看自己的游玩时间、初次启动时间**等
 
 
 ### 内置修改器
@@ -100,11 +103,11 @@ Pre-Release版本: `[目标Release大版本].[目标Release小版本].[Pre-Relea
 
 UI(2):
   1. **华某人** (大部分UI)
-  2. **PCL2** (主体构造以及主体功能灵感来源)
+  2. **PCL2** (部分灵感来源)
 
 美术(3):
   1. **YesIcon** (大部分图标) [网站↗](https://yesicon.app/)
-  2. **华某人** (小部分手绘图标)
+  2. **华某人** (部分图片加工)
   3. **Plants Vs Zombies** (小部分图片)
 
 外部程序(2):
@@ -113,4 +116,4 @@ UI(2):
 
 提供建议(2):
   1. **小王** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
-  2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2做出建议以及反馈BUG)
+  2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2及之后的版本做出建议以及反馈BUG)

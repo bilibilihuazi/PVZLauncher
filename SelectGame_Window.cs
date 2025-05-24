@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using Microsoft.VisualBasic.Devices;
 
-namespace PVZLauncher
+namespace PvzLauncher
 {
     public partial class SelectGame_Window : AntdUI.Window
     {

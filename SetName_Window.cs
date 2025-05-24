@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using AntdUI;
 
-namespace PVZLauncher
+namespace PvzLauncher
 {
     public partial class SetName_Window: Form
     {

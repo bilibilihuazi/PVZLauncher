@@ -1,4 +1,4 @@
-﻿namespace PVZLauncher
+﻿namespace PvzLauncher
 {
     partial class SelectGame_Window
     {
@@ -58,7 +58,7 @@
             // button_Load
             // 
             this.button_Load.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Load.Icon = global::PVZLauncher.Properties.Resources.folder;
+            this.button_Load.Icon = global::PvzLauncher.Properties.Resources.folder;
             this.button_Load.IconRatio = 0.8F;
             this.button_Load.Location = new System.Drawing.Point(381, 0);
             this.button_Load.Name = "button_Load";
@@ -71,7 +71,7 @@
             // button_Refresh
             // 
             this.button_Refresh.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Refresh.Icon = global::PVZLauncher.Properties.Resources.refresh;
+            this.button_Refresh.Icon = global::PvzLauncher.Properties.Resources.refresh;
             this.button_Refresh.IconRatio = 0.8F;
             this.button_Refresh.Location = new System.Drawing.Point(515, 0);
             this.button_Refresh.Name = "button_Refresh";
@@ -99,7 +99,7 @@
             // 
             this.button_Done.Enabled = false;
             this.button_Done.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Done.Icon = global::PVZLauncher.Properties.Resources.done;
+            this.button_Done.Icon = global::PvzLauncher.Properties.Resources.done;
             this.button_Done.Location = new System.Drawing.Point(488, 364);
             this.button_Done.Name = "button_Done";
             this.button_Done.Size = new System.Drawing.Size(111, 42);
@@ -115,7 +115,7 @@
             // button_Cancel
             // 
             this.button_Cancel.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Cancel.Icon = global::PVZLauncher.Properties.Resources.cancel;
+            this.button_Cancel.Icon = global::PvzLauncher.Properties.Resources.cancel;
             this.button_Cancel.Location = new System.Drawing.Point(371, 364);
             this.button_Cancel.Name = "button_Cancel";
             this.button_Cancel.Size = new System.Drawing.Size(111, 42);
@@ -127,7 +127,7 @@
             // image3D_GameIcon
             // 
             this.image3D_GameIcon.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.image3D_GameIcon.Image = global::PVZLauncher.Properties.Resources.icon;
+            this.image3D_GameIcon.Image = global::PvzLauncher.Properties.Resources.icon;
             this.image3D_GameIcon.Location = new System.Drawing.Point(12, 364);
             this.image3D_GameIcon.Name = "image3D_GameIcon";
             this.image3D_GameIcon.Size = new System.Drawing.Size(42, 42);

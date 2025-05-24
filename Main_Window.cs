@@ -19,7 +19,7 @@ using Microsoft.VisualBasic.Devices;
 using System.Threading;
 using System.Linq.Expressions;
 
-namespace PVZLauncher
+namespace PvzLauncher
 {
     public partial class Main_Window: AntdUI.Window
     {
@@ -90,82 +90,6 @@ namespace PVZLauncher
         }
         //引用==================================================
 
-        //HTTP读取文件
-        public static string HttpReadFile(string url)
-        {
-            try
-            {
-                // 设置安全协议类型（支持TLS 1.2/1.1/1.0）
-                ServicePointManager.SecurityProtocol =
-                    SecurityProtocolType.Tls12 |
-                    SecurityProtocolType.Tls11 |
-                    SecurityProtocolType.Tls;
-
-                // 创建带自定义验证的HttpClient
-                using (var handler = new HttpClientHandler())
-                using (var client = new HttpClient(handler))
-                {
-                    // 忽略SSL证书验证
-                    handler.ServerCertificateCustomValidationCallback =
-                        (sender, cert, chain, sslPolicyErrors) => true;
-
-                    // 设置超时时间（10秒）
-                    client.Timeout = TimeSpan.FromSeconds(10);
-
-                    // 添加浏览器User-Agent
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                        "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-
-                    // 发送GET请求
-                    var response = client.GetAsync(url).Result;
-                    response.EnsureSuccessStatusCode();
-
-                    // 读取字节内容
-                    var bytes = response.Content.ReadAsByteArrayAsync().Result;
-
-                    // 检测编码
-                    var encoding = HttpReadFile_DetectEncoding(response, bytes);
-
-                    // 转换为字符串
-                    return encoding.GetString(bytes);
-                }
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
-
-        //HTTPS读文件(检测编码)
-        private static Encoding HttpReadFile_DetectEncoding(HttpResponseMessage response, byte[] bytes)
-        {
-            try
-            {
-                // 从Content-Type头获取编码
-                var contentType = response.Content.Headers.ContentType;
-                if (contentType?.CharSet != null)
-                {
-                    return Encoding.GetEncoding(contentType.CharSet);
-                }
-            }
-            catch
-            {
-                // 忽略编码解析错误
-            }
-
-            // 尝试通过BOM检测编码
-            if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
-                return Encoding.UTF8;
-            if (bytes.Length >= 2 && bytes[0] == 0xFE && bytes[1] == 0xFF)
-                return Encoding.BigEndianUnicode;
-            if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xFE)
-                return Encoding.Unicode;
-
-            // 默认使用UTF-8
-            return Encoding.UTF8;
-        }
-
         //写日志
         public static void Log(string level, string message)
         {
@@ -185,16 +109,6 @@ namespace PVZLauncher
             }
 
         }
-
-        //文件写一行
-        public static void FileAddLine(string content, string filePath)
-        {
-            using (StreamWriter sw = File.AppendText(filePath))
-            {
-                sw.WriteLine(content);
-            }
-        }
-
         //连通性测试
         public static object CheckUrlConnection(string url)
         {
@@ -282,30 +196,6 @@ namespace PVZLauncher
             }
         }
 
-        //搜索文件内容
-        public bool FileSearchText(string filePath, string searchText)
-        {
-            try
-            {
-                // 检查搜索文本是否有效
-                if (string.IsNullOrEmpty(searchText))
-                    return false;
-
-                // 读取文件全部内容
-                string fileContent = File.ReadAllText(filePath);
-
-                // 检查内容是否包含目标文本
-                return fileContent.Contains(searchText);
-            }
-            catch (Exception ex) when (ex is FileNotFoundException ||
-                                      ex is IOException ||
-                                      ex is UnauthorizedAccessException)
-            {
-                // 处理常见文件异常：文件不存在、无法访问或IO错误
-                return false;
-            }
-        }
-
         //弹出系统通知
         public static void ShowNotification(string title, string content)
         {
@@ -337,50 +227,6 @@ namespace PVZLauncher
 
             // 显示通知（3000ms=3秒显示时间）
             notifyIcon.ShowBalloonTip(3000, title, content, ToolTipIcon.None);
-        }
-
-        // 写入配置（常规）
-        public static void Legacy_WriteConfig(string filePath, string key, string value)
-        {
-            Dictionary<string, string> config = new Dictionary<string, string>();
-
-            // 如果文件存在，先读取现有配置
-            if (File.Exists(filePath))
-            {
-                foreach (string line in File.ReadAllLines(filePath))
-                {
-                    string[] parts = line.Split(new[] { '=' }, 2);
-                    if (parts.Length == 2 && !string.IsNullOrWhiteSpace(parts[0]))
-                    {
-                        config[parts[0].Trim()] = parts[1].Trim();
-                    }
-                }
-            }
-
-            // 添加/更新键值
-            config[key] = value;
-
-            // 写入所有配置项
-            File.WriteAllLines(filePath,
-                config.Select(kvp => $"{kvp.Key}={kvp.Value}"),
-                Encoding.UTF8);
-        }
-
-        // 读取配置（常规）
-        public static string Legacy_ReadConfig(string filePath, string key)
-        {
-            if (!File.Exists(filePath)) return null;
-
-            foreach (string line in File.ReadAllLines(filePath))
-            {
-                string[] parts = line.Split(new[] { '=' }, 2);
-                if (parts.Length == 2 &&
-                    parts[0].Trim().Equals(key, StringComparison.OrdinalIgnoreCase))
-                {
-                    return parts[1].Trim();
-                }
-            }
-            return null;
         }
 
         //写注册表项
@@ -459,7 +305,7 @@ namespace PVZLauncher
             }
         }
 
-        // 写入配置（支持节）
+        // 写入配置
         public static void WriteConfig(string filePath, string section, string key, string value)
         {
             var sections = ParseConfigFile(filePath);
@@ -497,7 +343,7 @@ namespace PVZLauncher
             File.WriteAllLines(filePath, lines, Encoding.UTF8);
         }
 
-        // 读取配置（支持节）
+        // 读取配置
         public static string ReadConfig(string filePath, string section, string key)
         {
             if (!File.Exists(filePath)) return null;
@@ -930,7 +776,24 @@ namespace PVZLauncher
                 return null;  // 或者根据需求返回空字符串/抛出异常
             }
         }
+
+        //异步HTTP下载文件带进度
+        public async Task DownloadFileAsync(string url, string savePath, IProgress<int> progress)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                // 设置进度报告事件
+                webClient.DownloadProgressChanged += (sender, e) =>
+                {
+                    progress?.Report(e.ProgressPercentage);
+                };
+
+                // 异步下载文件
+                await webClient.DownloadFileTaskAsync(new Uri(url), savePath);
+            }
+        }
         #endregion
+
         //标题缓入
         public async void TitleFadeIn(int speed = 8)
         {
@@ -964,6 +827,8 @@ namespace PVZLauncher
                 pictureBox_Home_Title.Top = pictureBox_Home_Title.Top - 1;//回弹
                 await Task.Delay(1);
             }
+
+
         }
 
         //加载游戏列表
@@ -1106,9 +971,9 @@ namespace PVZLauncher
             label_Home_Gamename.Top = tabPage_Home.Height - 3 - button_LaunchTrainer.Height - button_Launch.Height - button_GameSettings.Height - label_Home_Gamename.Height;
 
             //背景
-            pictureBox_Home_Background.Height = tabs_Main.Height - pictureBox_Home_Title.Height - 2;
-            pictureBox_Home_Background.Width = tabPage_Home.Width - button_Launch.Width - 5;
-            //pictureBox_Home_Background.Top = tabPage_Home.Height - 3 - pictureBox_Home_Background.Height;
+            //pictureBox_Home_Background.Height = tabs_Main.Height - pictureBox_Home_Title.Height - 2;
+            //pictureBox_Home_Background.Width = tabPage_Home.Width - button_Launch.Width - 5;
+            pictureBox_Home_Background.Top = tabPage_Home.Height - 3 - pictureBox_Home_Background.Height;
             #endregion
 
             #region 设置
@@ -1117,6 +982,8 @@ namespace PVZLauncher
             tabs_Settings.Width = tabPage_Settings.Width;
             tabs_Settings.Height = tabPage_Settings.Height;
 
+            //下载进度条
+            progress_Settings_CheckUpdate.Width = tabPage_Launcher.Width - progress_Settings_CheckUpdate.Left - 5;
             #endregion
 
             #region 关于
@@ -1136,6 +1003,7 @@ namespace PVZLauncher
         //检查更新
         public async void CheckUpdate(bool LaunchTime = false)
         {
+            button_CheckUpdate.Loading = true;
             string Updateinfo = await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/update/version");
 
             if (Updateinfo == "")
@@ -1169,15 +1037,38 @@ namespace PVZLauncher
                 if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
                     Title = "检测到更新！",
-                    Content = $"检测到新版本！\n\n最新版本:{Updateinfo}\n当前版本:{Version}\n\n是否前往 https://github.com/bilibilihuazi/PVZLauncher/releases 下载最新版本？",
+                    Content = $"检测到新版本！\n\n最新版本:{Updateinfo}\n当前版本:{Version}\n\n是否下载最新版本？",
                     CancelText = "取消",
-                    OkText = "前往更新",
+                    OkText = "下载更新",
                     Icon = AntdUI.TType.Warn
                 }) == DialogResult.OK)
                 {
-                    Process.Start("https://github.com/bilibilihuazi/PVZLauncher/releases");
+                    var progress = new Progress<int>(percent =>
+                    {
+                        progress_Settings_CheckUpdate.Value = percent / 100F;
+                    });
+
+                    try
+                    {
+                        await DownloadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/update/PvzLauncher_.exe", $"{RunPath}\\PvzLauncher_.exe", progress);
+
+                        Process.Start($"{RunPath}\\UpdateService.exe");
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "下载失败！",
+                            Text = $"在下载更新文件时发生错误！\n\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                        
+                    }
+
                 }
             }
+            button_CheckUpdate.Loading = false;
 
         }
 
@@ -1188,8 +1079,8 @@ namespace PVZLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.0.5.12";    //版本
-        public static string CompliedTime = "2025-5-23 20:31";     //编译时间
+        public static string Version = "Release 1.0.5.8";    //版本
+        public static string CompliedTime = "2025-5-24 13:26";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1197,6 +1088,7 @@ namespace PVZLauncher
         public static string[] TrainerPath;    //修改器列表
         public static string STrainer;    //当前修改器路径
         public static int EggNum = 0;    //彩蛋计数器
+        public static string[] args = Environment.GetCommandLineArgs();    //启动参数
         //事件========================================================================================
         //构造函数
         public Main_Window()
@@ -1211,6 +1103,10 @@ namespace PVZLauncher
             LoadTrainerList();
 
             label_About_info3.Text = $"版本:{Version}  编译时间:{CompliedTime}";//设置关于界面版本信息
+
+            //tabs初始选项卡
+            tabs_Main.SelectedIndex = 0;
+            tabs_Settings.SelectedIndex = 0;
 
             //初始化end================================
 
@@ -1351,7 +1247,7 @@ namespace PVZLauncher
 
 
             //游戏资源检测
-            if (!File.Exists($"{RunPath}\\config\\user1.dat")) 
+            if (!File.Exists($"{RunPath}\\config\\user1.dat") && !File.Exists($"{RunPath}\\UpdateService.exe")) 
             {
                 AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
@@ -1380,7 +1276,6 @@ namespace PVZLauncher
         //窗口加载
         private async void Main_Window_Load(object sender, EventArgs e)
         {
-            TitleFadeIn();//标题缓入
 
             await LoadGameList();//加载游戏列表
 
@@ -1411,6 +1306,23 @@ namespace PVZLauncher
                 });
             }
 
+            
+
+            //更新检测
+            if (args.Length == 2)
+            {
+                if (args[1] == "-update")
+                {
+                    AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                    {
+                        Title = $"启动器已更新至{Version}",
+                        Content = "开始使用吧！",
+                        Icon = AntdUI.TType.Success,
+                        OkText = "确定",
+                        CancelText = null
+                    });
+                }
+            }
 
         }
 
@@ -1742,7 +1654,7 @@ namespace PVZLauncher
         private void button_About_Github_Click(object sender, EventArgs e)
         {
             //跳转github
-            Process.Start("https://www.github.com/bilibilihuazi/PVZLauncher");
+            Process.Start("https://www.github.com/bilibilihuazi/PvzLauncher");
         }
 
         //关于->bilibili
@@ -2108,6 +2020,23 @@ namespace PVZLauncher
         private void button_About_Gitee_Click(object sender, EventArgs e)
         {
             Process.Start("https://gitee.com/huamouren110/pvz-launcher");
+        }
+
+        //关于->QQ
+        private void button_About_QQ_Click(object sender, EventArgs e)
+        {
+            if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "提示",
+                Content = "QQ群：1040764053\n\n是否复制到剪贴板？",
+                OkText = "确定",
+                CancelText = "取消",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                Clipboard.SetText("1040764053");
+            }
+            
         }
     }
 }
