@@ -1085,8 +1085,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Release 1.1.3.20";    //版本
-        public static string CompliedTime = "2025-5-25 15:27";     //编译时间
+        public static string Version = "Release 1.1.3.20_Warn";    //版本
+        public static string CompliedTime = "2025-5-25 16:05";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1519,7 +1519,7 @@ namespace PvzLauncher
             //设置process信息
             proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
             proceess.StartInfo.WorkingDirectory = $"{RunPath}\\games\\{SGamesPath}";
-            proceess.StartInfo.UseShellExecute = false;
+            //proceess.StartInfo.UseShellExecute = false;
 
             if (proceess.StartInfo.FileName.Length > 3 & proceess.StartInfo.FileName.Substring(proceess.StartInfo.FileName.Length - 4) == ".exe") 
             {
