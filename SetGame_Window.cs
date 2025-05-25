@@ -868,7 +868,21 @@ namespace PvzLauncher
 
         private void button_OpenGameFoler_Click(object sender, EventArgs e)
         {
-            Process.Start($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
+            try
+            {
+                Process.Start($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在打开游戏目录时发生错误！\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+                
+            }
+            
         }
 
         private async void button_DeleteGame_Click(object sender, EventArgs e)

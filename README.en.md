@@ -1,109 +1,96 @@
 # Plants Vs. Zombies Launcher  
-[简体中文](README.md) | [English](README.en.md)
-
-
-<font color="red">**Attention**</font><br>
-<font color="red">This README may not be the latest.  If you want to get the latest news, please switch to the Simplified Chinese version</font>
-
+[简体中文](README.md) | [English](README.en.md)  
 
 ![Launcher Main Page](assets/Readme.md/mainpage.png)  
 
 ## Download  
-
-You can download the latest version directly from the **Releases** section of this repository.  
+You can download the latest version directly from the Releases section of the Github repository or Gitee mirror:  
+Github Repository: [https://github.com/bilibilihuazi/PvzLauncher](https://github.com/bilibilihuazi/PvzLauncher)  
+Gitee Mirror: [https://gitee.com/huamouren110/pvz-launcher](https://gitee.com/huamouren110/pvz-launcher)  
+<br>  
 
 Alternative download links (may not be the latest version):  
-<br>  
-**Lanzou Cloud**:  
-**123 Cloud Main Link**:  
-**123 Cloud Backup Link**:  
-**huang1111 Cloud**:  
-**Gitee Clone Repository**:  
+LanZou Cloud: [https://hhzyx.lanzouo.com/b00b4q0fxg Password:2cds](https://hhzyx.lanzouo.com/b00b4q0fxg)  
+LanZou Cloud Premium: [https://www.ilanzou.com/s/6r4ZLvSU](https://www.ilanzou.com/s/6r4ZLvSU)  
+123 Cloud Disk (Primary): [https://www.123865.com/s/9hDQjv-LJBn3](https://www.123865.com/s/9hDQjv-LJBn3)  
+123 Cloud Disk (Backup): [https://www.123684.com/s/9hDQjv-LJBn3](https://www.123684.com/s/9hDQjv-LJBn3)  
+huang1111 Cloud: [https://pan.huang1111.cn/s/mxK1os1](https://pan.huang1111.cn/s/mxK1os1)  
 
 ## Overview  
-
 This launcher supports **launching and managing** the game.  
 
 ## Features  
-
 ### Version Management  
-
 ![Version Selection Interface](assets/Readme.md/selectgame.png)  
 ![Version Settings Interface](assets/Readme.md/setgame.png)  
 
-The launcher allows quick **importing, managing, and launching** of games. It provides a GUI interface, making operations **easy** even for players unfamiliar with game file structures.  
+The launcher allows quick **importing, managing, and launching** of games. It provides a GUI interface, making it easy for players unfamiliar with game file structures to operate.  
 
-A statistics interface is also included to **track playtime** and other metrics.  
+A statistics interface is also included, allowing users to **view playtime, first launch date**, and more.  
 
 ### Built-in Trainer  
-
 ![PvzToolkit Trainer](assets/Readme.md/trainer.png)  
 
-The launcher includes a built-in trainer, eliminating the need to search for external tools. The settings menu offers an option to **auto-launch the trainer with the game**, simplifying the process further.  
+The launcher includes a built-in trainer, eliminating the need to search for external tools. The settings menu offers an option to **launch the trainer automatically with the game**.  
 
 ### Save Management  
-
 ![Save Management Interface](assets/Readme.md/victorysave.png)  
 ![Game Interface](assets/Readme.md/game.png)  
 
-The trainer also provides save management functionality, allowing users to **replace saves with completed game files** instantly.  
+The trainer also provides save management functionality, allowing users to **replace saves with completed ones** effortlessly.  
 
 ## Why This Launcher Was Created  
+With numerous PVZ mods available, managing downloaded versions can be **challenging** due to **disorganized file structures**. Mod versions often have inconsistent file setups, requiring significant effort to launch. This launcher aims to simplify **launching and managing** games.  
 
-With numerous PVZ mods available, managing downloaded files can be **challenging** due to their **disorganized structures**. Launching mods often requires manual adjustments, which can be time-consuming. This launcher aims to streamline **game launching and management** for players.  
+Additionally, there are **no existing PVZ launchers** online, which motivated the creation of this tool. The built-in `PvzToolkit` trainer works with most game versions.  
 
-Additionally, there are **no existing PVZ-specific launchers** online, making this project unique. The integrated `Pvz Toolkit` trainer also supports modifications for most game versions.  
+## Version Numbering Rules  
+Starting from `Release1.0.0.0`, versions follow these rules:  
 
-## Version Naming Rules  
+Release version: `[Major].[Minor].[Pre-Release Count].[Change Count]`  
+Pre-Release version: `[Target Major].[Target Minor].[Pre-Release ID].[Change Count]`  
 
-Starting from `Release1.0.0.0`, versions follow this naming convention:  
-
-**Release Version**: `[Major].[Minor].[Changes].[Pre-Release Count]`  
-**Pre-Release Version**: `[Target Major].[Target Minor].[Changes].[Pre-Release ID]`  
-
-| Field               | Description                                                                 |  
+| Term                | Description                                                                 |  
 |---------------------|-----------------------------------------------------------------------------|  
-| Major               | Increments when Minor reaches 10                                            |  
-| Minor               | Increments with each release, resets to 0 at 10, triggering Major increment |  
-| Changes             | Total number of operations in this version                                  |  
-| Pre-Release Count   | Number of Pre-Release versions for this Release                             |  
-| Pre-Release ID      | Sequence number of the Pre-Release version                                  |  
+| Major Version       | Increments when Minor Version reaches 10                                    |  
+| Minor Version       | Increments per release, resets to 0 at 10, triggering Major Version increment|  
+| Change Count        | Total number of changes in the version                                      |  
+| Pre-Release Count   | Number of Pre-Release versions for the target Release                       |  
+| Pre-Release ID      | Sequence number of the Pre-Release for the target Release                   |  
 
-**Examples**:  
-- A Release with Major=`1`, Minor=`1`, 10 changes, and 3 Pre-Releases: `Release 1.1.10.3`  
-- A Pre-Release targeting Major=`1`, Minor=`2`, with 5 changes and ID=2: `Pre-Release 1.2.5.2`  
+Examples:  
+- A Release with Major `1`, Minor `1`, `1` Pre-Release, and `10` changes: `Release 1.1.10.3`.  
+- A Pre-Release targeting Major `1`, Minor `2`, as the 3rd Pre-Release with `5` changes: `Pre-Release 1.2.5.2`.  
 
 ## Dependencies  
-
 Built using `.NET Framework 4.8 WinForm`, with UI libraries `AntdUI` (primary) and `ReaLTaiizor` (secondary).  
 
 The package includes DLLs for both UI libraries. Download the .NET Framework Runtime [here](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework).  
 
 ## References  
-
 [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48)  
 [AntdUI](https://gitee.com/antdui/AntdUI)  
 [ReaLTaiizor](https://github.com/Taiizor/ReaLTaiizor)  
 
 ## Credits  
+**Code (2):**  
+1. **华某人** (Entire launcher code)  
+2. **DeepSeek** (Partial custom functions)  
 
-**Code (2)**:  
-  1. **华某人** (Full launcher code)  
-  2. **DeepSeek** (Custom function contributions)  
+**UI (2):**  
+1. **华某人** (Most UI elements)  
+2. **PCL2** (Partial design inspiration)  
 
-**UI (2)**:  
-  1. **华某人** (Primary UI design)  
-  2. **PCL2** (Inspiration for core structure and features)  
+**Art (3):**  
+1. **YesIcon** (Most icons) [Website↗](https://yesicon.app/)  
+2. **华某人** (Partial image editing)  
+3. **Plants Vs Zombies** (Minor images)  
 
-**Art (3)**:  
-  1. **YesIcon** (Most icons) [Website↗](https://yesicon.app/)  
-  2. **华某人** (Hand-drawn icons)  
-  3. **Plants Vs. Zombies** (Game assets)  
+**External Tools (2):**  
+1. **PvzToolkit** (Built-in trainer)  
+2. **PopCap Games** (Built-in game)  
 
-**External Tools (2)**:  
-  1. **PvzToolkit** (Built-in trainer)  
-  2. **PopCap Games** (Game integration)  
-
-**Contributors (2)**:  
-  1. **小王** (Feedback and suggestions for Pre-Release 1.0.x.1)  
-  2. **Fantasy-幻梦** (Feedback and suggestions for Pre-Release 1.0.x.2)  
+**Contributors (2):**  
+1. **ewrtuikh** (Identified critical bugs)  
+2. **旅行者** (Provided feedback for Pre-Release 1.0.x.1)  
+3. **Fantasy-幻梦** (Suggested improvements and reported bugs for Pre-Release 1.0.x.2+)  

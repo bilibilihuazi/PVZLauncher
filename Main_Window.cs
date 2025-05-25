@@ -1082,13 +1082,11 @@ namespace PvzLauncher
 
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
-        SelectGame_Window selectGame_Window = new SelectGame_Window();    //选择游戏窗口
-        SetGame_Window setGame_Window = new SetGame_Window();    //设置游戏窗口
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.1.3.5";    //版本
-        public static string CompliedTime = "2025-5-25 12:11";     //编译时间
+        public static string Version = "Release 1.1.3.20";    //版本
+        public static string CompliedTime = "2025-5-25 15:27";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1107,6 +1105,7 @@ namespace PvzLauncher
             try
             {
                 pageHeader.Text = $"{Title}";//设置标题
+                this.Text = $"{Title}";
 
                 //加载修改器信息
                 LoadTrainerList();
@@ -1499,9 +1498,10 @@ namespace PvzLauncher
         //选择游戏
         private void button_SelectGame_Click(object sender, EventArgs e)
         {
-            
-
-            selectGame_Window.ShowDialog();//选择游戏
+            using (SelectGame_Window selectGame_Window = new SelectGame_Window()) 
+            {
+                selectGame_Window.ShowDialog();
+            }            
         }
 
         //时间主循环
@@ -1518,63 +1518,68 @@ namespace PvzLauncher
             
             //设置process信息
             proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
+            proceess.StartInfo.WorkingDirectory = $"{RunPath}\\games\\{SGamesPath}";
+            proceess.StartInfo.UseShellExecute = false;
 
-            if (button_Launch.Text == "启动游戏") 
+            if (proceess.StartInfo.FileName.Length > 3 & proceess.StartInfo.FileName.Substring(proceess.StartInfo.FileName.Length - 4) == ".exe") 
             {
-                try
+                if (button_Launch.Text == "启动游戏")
                 {
-                    //按钮形态改变
-                    button_Launch.Text = "结束进程";
-                    button_Launch.Type = AntdUI.TTypeMini.Error;
-                    button_Launch.Icon = Properties.Resources.close;
-                    timer_PlayTime.Enabled = true;
-
-                    button_GameSettings.Enabled = false;
-                    button_SelectGame.Enabled = false;
-
-                    //全屏启动
-                    if (ReadConfig(ConfigPath, "global", "FullScreen") == "true")
+                    try
                     {
-                        WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode", 1, RegistryValueKind.DWord);
-                    }
-                    else
-                    {
-                        if ("" + ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode") != "0") 
+                        //按钮形态改变
+                        button_Launch.Text = "结束进程";
+                        button_Launch.Type = AntdUI.TTypeMini.Error;
+                        button_Launch.Icon = Properties.Resources.close;
+                        timer_PlayTime.Enabled = true;
+
+                        button_GameSettings.Enabled = false;
+                        button_SelectGame.Enabled = false;
+
+                        //全屏启动
+                        if (ReadConfig(ConfigPath, "global", "FullScreen") == "true")
                         {
-                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode", 0, RegistryValueKind.DWord);
-
+                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode", 1, RegistryValueKind.DWord);
                         }
-                    }
-                    //窗口位置
-                    if (ReadConfig(ConfigPath, "global", "GameWindowLocation") == "0")
-                    {
-                        if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX") + "" != Screen.PrimaryScreen.Bounds.Width / 2 - 400 + "") 
+                        else
                         {
-                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", Screen.PrimaryScreen.Bounds.Width / 2 - 400, RegistryValueKind.DWord);
+                            if ("" + ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode") != "0")
+                            {
+                                WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "ScreenMode", 0, RegistryValueKind.DWord);
+
+                            }
                         }
 
-                        if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY") + "" != Screen.PrimaryScreen.Bounds.Height / 2 - 300 + "")
+                        //窗口位置
+                        if (ReadConfig(ConfigPath, "global", "GameWindowLocation") == "0")
                         {
-                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", Screen.PrimaryScreen.Bounds.Height / 2 - 300, RegistryValueKind.DWord);
-                        }
-                    }
-                    else if (ReadConfig(ConfigPath, "global", "GameWindowLocation") == "1")
-                    {
-                        if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX") + "" != "0") 
-                        {
-                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", 0, RegistryValueKind.DWord);
-                        }
+                            if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX") + "" != Screen.PrimaryScreen.Bounds.Width / 2 - 400 + "")
+                            {
+                                WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", Screen.PrimaryScreen.Bounds.Width / 2 - 400, RegistryValueKind.DWord);
+                            }
 
-                        if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY") + "" != "0") 
-                        {
-                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", 0, RegistryValueKind.DWord);
+                            if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY") + "" != Screen.PrimaryScreen.Bounds.Height / 2 - 300 + "")
+                            {
+                                WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", Screen.PrimaryScreen.Bounds.Height / 2 - 300, RegistryValueKind.DWord);
+                            }
                         }
-                    }
-                    else
-                    {
-                        WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", random.Next(0, Screen.PrimaryScreen.Bounds.Width - 800), RegistryValueKind.DWord);
-                        WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", random.Next(0, Screen.PrimaryScreen.Bounds.Height - 600), RegistryValueKind.DWord);
-                    }
+                        else if (ReadConfig(ConfigPath, "global", "GameWindowLocation") == "1")
+                        {
+                            if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX") + "" != "0")
+                            {
+                                WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", 0, RegistryValueKind.DWord);
+                            }
+
+                            if (ReadRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY") + "" != "0")
+                            {
+                                WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", 0, RegistryValueKind.DWord);
+                            }
+                        }
+                        else
+                        {
+                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredX", random.Next(0, Screen.PrimaryScreen.Bounds.Width - 800), RegistryValueKind.DWord);
+                            WriteRegistryValue(Registry.CurrentUser, "SOFTWARE\\PopCap\\PlantsVsZombies", "PreferredY", random.Next(0, Screen.PrimaryScreen.Bounds.Height - 600), RegistryValueKind.DWord);
+                        }
 
 
 
@@ -1585,109 +1590,58 @@ namespace PvzLauncher
                         //吊起进程
                         proceess.Start();
 
-                    //启动器是否应该启动
-                    if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")
-                    {
-                        button_LaunchTrainer_Click(sender, e);//启动修改器
-                    }
+                        //启动器是否应该启动
+                        if (ReadConfig(ConfigPath, "global", "TrainerWithGameLaunch") == "true")
+                        {
+                            button_LaunchTrainer_Click(sender, e);//启动修改器
+                        }
 
-                    //执行什么操作
-                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "1")
-                    {
-                        this.Close();
-                    }
-                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
-                    {
-                        this.Visible = false;
-                    }
+                        //执行什么操作
+                        if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "1")
+                        {
+                            this.Close();
+                        }
+                        if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
+                        {
+                            this.Visible = false;
+                        }
 
+                        //成功提示
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "成功启动！",
+                            Text = $"游戏{SGamesPath}成功启动！",
+                            Icon = AntdUI.TType.Success
+                        });
 
-
-
-                    //成功提示
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "成功启动！",
-                        Text = $"游戏{SGamesPath}成功启动！",
-                        Icon = AntdUI.TType.Success
-                    });
-
-                    if (ReadConfig(ConfigPath, SGamesPath, "FirstLaunch") == null)
-                    {
-                        WriteConfig(ConfigPath, SGamesPath, "FirstLaunch", $"{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}");
-                    }
-
-
-
-
-                    
-
-                    //等待进程退出
-                    await Task.Run(() => proceess.WaitForExit());//第1000行代码！！！
-                    //按钮形态改变
-                    button_Launch.Text = "启动游戏";
-                    button_Launch.Type = AntdUI.TTypeMini.Success;
-                    button_Launch.Icon = Properties.Resources.launch;
-                    timer_PlayTime.Enabled = false;
-
-                    button_GameSettings.Enabled = true;
-                    button_SelectGame.Enabled = true;
-
-                    //执行操作
-                    if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
-                    {
-                        this.Visible = true;
-                    }
+                        if (ReadConfig(ConfigPath, SGamesPath, "FirstLaunch") == null)
+                        {
+                            WriteConfig(ConfigPath, SGamesPath, "FirstLaunch", $"{DateTime.Now.Year}年{DateTime.Now.Month}月{DateTime.Now.Day}日 {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}");
+                        }
 
 
 
 
 
-                    //进程退出提示
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "进程已退出",
-                        Text = $"游戏{SGamesPath}已退出!",
-                        Icon = AntdUI.TType.Info
-                    });
-                }
-                catch (Exception ex)
-                {
-                    //错误报告
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "发生错误！",
-                        Text = $"在启动游戏进程时发生错误！\n错误原因:{ex.Message}",
-                        Icon = AntdUI.TType.Error
-                    });
 
-                    //按钮形态改变
-                    button_Launch.Text = "启动游戏";
-                    button_Launch.Type = AntdUI.TTypeMini.Success;
-                    button_Launch.Icon = Properties.Resources.launch;
-                    timer_PlayTime.Enabled = false;
 
-                    button_GameSettings.Enabled = true;
-                    button_SelectGame.Enabled = true;
 
-                    //进程退出提示
-                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                    {
-                        Title = "进程已退出",
-                        Text = $"游戏{SGamesPath}已退出!",
-                        Icon = AntdUI.TType.Info
-                    });
-                }
-                
-            }
-            else
-            {
-                //当前进程为运行状态
-                if (!proceess.HasExited)
-                {
-                    try
-                    {
-                        //按钮状态改变
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //等待进程退出
+                        await Task.Run(() => proceess.WaitForExit());//第1000行代码！！！
+                                                                     //按钮形态改变
                         button_Launch.Text = "启动游戏";
                         button_Launch.Type = AntdUI.TTypeMini.Success;
                         button_Launch.Icon = Properties.Resources.launch;
@@ -1696,8 +1650,23 @@ namespace PvzLauncher
                         button_GameSettings.Enabled = true;
                         button_SelectGame.Enabled = true;
 
-                        //结束进程
-                        proceess.Kill();
+                        //执行操作
+                        if (ReadConfig(ConfigPath, "global", "LaunchedExecute") == "2")
+                        {
+                            this.Visible = true;
+                        }
+
+
+
+
+
+                        //进程退出提示
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "进程已退出",
+                            Text = $"游戏{SGamesPath}已退出!",
+                            Icon = AntdUI.TType.Info
+                        });
                     }
                     catch (Exception ex)
                     {
@@ -1705,15 +1674,75 @@ namespace PvzLauncher
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                         {
                             Title = "发生错误！",
-                            Text = $"在结束游戏进程时发生错误！\n错误原因:{ex.Message}",
+                            Text = $"在启动游戏进程时发生错误！\n错误原因:{ex.Message}",
                             Icon = AntdUI.TType.Error
                         });
-                       
+
+                        //按钮形态改变
+                        button_Launch.Text = "启动游戏";
+                        button_Launch.Type = AntdUI.TTypeMini.Success;
+                        button_Launch.Icon = Properties.Resources.launch;
+                        timer_PlayTime.Enabled = false;
+
+                        button_GameSettings.Enabled = true;
+                        button_SelectGame.Enabled = true;
+
+                        //进程退出提示
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "进程已退出",
+                            Text = $"游戏{SGamesPath}已退出!",
+                            Icon = AntdUI.TType.Info
+                        });
                     }
+
                 }
-                
-                
+                else
+                {
+                    //当前进程为运行状态
+                    if (!proceess.HasExited)
+                    {
+                        try
+                        {
+                            //按钮状态改变
+                            button_Launch.Text = "启动游戏";
+                            button_Launch.Type = AntdUI.TTypeMini.Success;
+                            button_Launch.Icon = Properties.Resources.launch;
+                            timer_PlayTime.Enabled = false;
+
+                            button_GameSettings.Enabled = true;
+                            button_SelectGame.Enabled = true;
+
+                            //结束进程
+                            proceess.Kill();
+                        }
+                        catch (Exception ex)
+                        {
+                            //错误报告
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "发生错误！",
+                                Text = $"在结束游戏进程时发生错误！\n错误原因:{ex.Message}",
+                                Icon = AntdUI.TType.Error
+                            });
+
+                        }
+                    }
+
+
+                }
             }
+            else
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "提示",
+                    Text = "选择的目标不是一个可执行文件！",
+                    Icon = AntdUI.TType.Error
+                });
+            }
+
+            
 
             #endregion
         }
@@ -2014,8 +2043,12 @@ namespace PvzLauncher
         //游戏设置
         private void button_GameSettings_Click(object sender, EventArgs e)
         {
-            //调用版本设置界面
-            setGame_Window.ShowDialog();
+            using(SetGame_Window setGame_Window=new SetGame_Window())
+            {
+                setGame_Window.ShowDialog();
+
+            }
+            
         }
 
         //关于->github
@@ -2606,8 +2639,8 @@ namespace PvzLauncher
         {
             if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
             {
-                Title = "确定保存？",
-                Content = "保存后会覆盖之前保存过的存档",
+                Title = "确定保存备份？",
+                Content = "此操作会覆盖之前的备份",
                 OkText = "保存",
                 CancelText = "取消",
                 Icon = AntdUI.TType.Warn
@@ -2669,7 +2702,7 @@ namespace PvzLauncher
                 if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
                 {
                     Title = "提示",
-                    Content = "是否删除备份存档？",
+                    Content = "是否删除备份？",
                     CancelText = "取消",
                     OkText = "删除",
                     Icon = AntdUI.TType.Warn
@@ -2707,7 +2740,7 @@ namespace PvzLauncher
             if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
             {
                 Title="提示",
-                Content="是否将备份的存档替换为当前存档?",
+                Content= "是否将当前存档替换为备份的存档?\n\n原存档的所有进度都将被替换为备份的内容\n(例如关卡进度、金钱等数据)",
                 CancelText="取消",
                 OkText="替换",
                 Icon=AntdUI.TType.Warn
@@ -2723,7 +2756,7 @@ namespace PvzLauncher
                     AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                     {
                         Title = "替换成功！",
-                        Text = "请启动游戏",
+                        Text = "",
                         Icon = AntdUI.TType.Success
                     });
 

@@ -64,7 +64,7 @@ huang1111网盘:[https://pan.huang1111.cn/s/mxK1os1](https://pan.huang1111.cn/s/
 
 自`Release1.0.0.0`起，每次版本发布将使用以下命名规则：
 
-Release版本: `[大版本].[小版本].[Pre-Release个数].[更改数]`<br>
+Release版本: `[大版本].[小版本].[Pre-Release个数].[更改数及所有预发布版本的更改数]`<br>
 Pre-Release版本: `[目标Release大版本].[目标Release小版本].[Pre-Release编号].[更改数]`<br>
 
 |项|值|
@@ -115,5 +115,6 @@ UI(2):
   2. **PopCap Games** (启动器内置的游戏)
 
 提供建议(2):
+  1. **ewrtuikh** (找出了一个影响巨大BUG的引发原因)
   1. **旅行者** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
   2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2及之后的版本做出建议以及反馈BUG)
