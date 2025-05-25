@@ -188,7 +188,6 @@
     <None Include="assets\settings_.png" />
     <None Include="assets\select.png" />
     <None Include="assets\game.png" />
-    <None Include="assets\cheater.png" />
     <None Include="assets\PvZ_Logo.png" />
     <None Include="assets\close.png" />
     <None Include="assets\PvzToolkit.png" />
@@ -213,6 +212,8 @@
     <None Include="assets\gitee.png" />
     <None Include="assets\qq.png" />
     <None Include="assets\add.png" />
+    <None Include="assets\error.png" />
+    <None Include="assets\save_.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

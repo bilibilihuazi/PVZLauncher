@@ -34,6 +34,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
+            this.tooltipComponent = new AntdUI.TooltipComponent();
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Background = new System.Windows.Forms.PictureBox();
             this.button_LaunchTrainer = new AntdUI.Button();
@@ -44,7 +49,18 @@
             this.button_Launch = new AntdUI.Button();
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
+            this.tabPage_Game = new AntdUI.TabPage();
+            this.button_Settings_Game_ErrorCheck = new AntdUI.Button();
+            this.label_Settings_Game = new AntdUI.Label();
             this.tabPage_Launcher = new AntdUI.TabPage();
+            this.label_Settings_Launcher_Tooltip = new AntdUI.Label();
+            this.switch_Settings_Launcher_Tooltip = new AntdUI.Switch();
+            this.button_Settings_Launch_SkinCustom = new AntdUI.Button();
+            this.radio_Settings_Launcher_SkinCustom = new AntdUI.Radio();
+            this.pictureBox_Settings_Launcher_SkinCustom = new System.Windows.Forms.PictureBox();
+            this.button_Settings_Launcher_ThemeColorReset = new AntdUI.Button();
+            this.label_Settings_Launcher_ThemeColor = new AntdUI.Label();
+            this.colorPicker_Settings_Launcher_ThemeColor = new AntdUI.ColorPicker();
             this.label_Settings_Launcher_HeightText = new AntdUI.Label();
             this.switch_Settings_Launcher_HeightText = new AntdUI.Switch();
             this.progress_Settings_CheckUpdate = new AntdUI.Progress();
@@ -62,6 +78,12 @@
             this.select_Launcher_Ld = new AntdUI.Select();
             this.label_Launcher_Ld = new AntdUI.Label();
             this.tabPage_Save = new AntdUI.TabPage();
+            this.button_Settings_Save_Select = new AntdUI.Button();
+            this.button_Settings_Save_Delete = new AntdUI.Button();
+            this.button_Settings_Save_Save = new AntdUI.Button();
+            this.materialListBox_Settings_Save = new ReaLTaiizor.Controls.MaterialListBox();
+            this.label_Settings_Save_Manger = new AntdUI.Label();
+            this.label_Settings_Save_Exe = new AntdUI.Label();
             this.button_Settings_OpenSave = new AntdUI.Button();
             this.label_Settings_Save = new AntdUI.Label();
             this.button_Settings_TotalSave = new AntdUI.Button();
@@ -89,23 +111,21 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.colorPicker_Settings_Launcher_ThemeColor = new AntdUI.ColorPicker();
-            this.label_Settings_Launcher_ThemeColor = new AntdUI.Label();
-            this.button_Settings_Launcher_ThemeColorReset = new AntdUI.Button();
-            this.pictureBox_Settings_Launcher_SkinCustom = new System.Windows.Forms.PictureBox();
-            this.radio_Settings_Launcher_SkinCustom = new AntdUI.Radio();
-            this.button_Settings_Launch_SkinCustom = new AntdUI.Button();
-            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
+            this.label_Settings_Game_Fix = new AntdUI.Label();
+            this.label_Settings_Game_Config = new AntdUI.Label();
+            this.label_Settings_Game_Full = new AntdUI.Label();
+            this.switch_Settings_Game_Full = new AntdUI.Switch();
+            this.label_Settnigs_Game_Location = new AntdUI.Label();
+            this.select_Settings_Game_Location = new AntdUI.Select();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
             this.tabPage_Settings.SuspendLayout();
             this.tabs_Settings.SuspendLayout();
+            this.tabPage_Game.SuspendLayout();
             this.tabPage_Launcher.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin1)).BeginInit();
             this.tabPage_Save.SuspendLayout();
@@ -114,7 +134,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Background)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).BeginInit();
             this.SuspendLayout();
             // 
             // pageHeader
@@ -150,6 +169,29 @@
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // timer_PlayTime
+            // 
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "可执行文件|*.exe";
+            this.openFileDialog.Title = "请选择修改器可执行文件";
+            // 
+            // openFileDialog_CustomSkin
+            // 
+            this.openFileDialog_CustomSkin.FileName = "";
+            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
+            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
             // 
             // tabPage_Home
             // 
@@ -270,10 +312,10 @@
             this.tabPage_Settings.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_Settings.Controls.Add(this.tabs_Settings);
             this.tabPage_Settings.Icon = global::PvzLauncher.Properties.Resources.settings;
-            this.tabPage_Settings.Location = new System.Drawing.Point(-742, -406);
+            this.tabPage_Settings.Location = new System.Drawing.Point(-742, -335);
             this.tabPage_Settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Settings.Name = "tabPage_Settings";
-            this.tabPage_Settings.Size = new System.Drawing.Size(742, 406);
+            this.tabPage_Settings.Size = new System.Drawing.Size(742, 335);
             this.tabPage_Settings.TabIndex = 2;
             this.tabPage_Settings.Text = "设置";
             this.tabPage_Settings.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_Settings_Paint);
@@ -282,6 +324,7 @@
             // 
             this.tabs_Settings.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.tabs_Settings.Controls.Add(this.tabPage_Launcher);
+            this.tabs_Settings.Controls.Add(this.tabPage_Game);
             this.tabs_Settings.Controls.Add(this.tabPage_Save);
             this.tabs_Settings.Controls.Add(this.tabPage_Trainer);
             this.tabs_Settings.Cursor = System.Windows.Forms.Cursors.Default;
@@ -291,6 +334,7 @@
             this.tabs_Settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabs_Settings.Name = "tabs_Settings";
             this.tabs_Settings.Pages.Add(this.tabPage_Launcher);
+            this.tabs_Settings.Pages.Add(this.tabPage_Game);
             this.tabs_Settings.Pages.Add(this.tabPage_Save);
             this.tabs_Settings.Pages.Add(this.tabPage_Trainer);
             this.tabs_Settings.Size = new System.Drawing.Size(746, 338);
@@ -299,9 +343,53 @@
             this.tabs_Settings.Type = AntdUI.TabType.Card;
             this.tabs_Settings.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Settings_SelectedIndexChanged);
             // 
+            // tabPage_Game
+            // 
+            this.tabPage_Game.Controls.Add(this.select_Settings_Game_Location);
+            this.tabPage_Game.Controls.Add(this.label_Settnigs_Game_Location);
+            this.tabPage_Game.Controls.Add(this.switch_Settings_Game_Full);
+            this.tabPage_Game.Controls.Add(this.label_Settings_Game_Full);
+            this.tabPage_Game.Controls.Add(this.label_Settings_Game_Config);
+            this.tabPage_Game.Controls.Add(this.label_Settings_Game_Fix);
+            this.tabPage_Game.Controls.Add(this.button_Settings_Game_ErrorCheck);
+            this.tabPage_Game.Controls.Add(this.label_Settings_Game);
+            this.tabPage_Game.Icon = global::PvzLauncher.Properties.Resources.game;
+            this.tabPage_Game.Location = new System.Drawing.Point(-650, -332);
+            this.tabPage_Game.Name = "tabPage_Game";
+            this.tabPage_Game.Size = new System.Drawing.Size(650, 332);
+            this.tabPage_Game.TabIndex = 3;
+            this.tabPage_Game.Text = "游戏";
+            // 
+            // button_Settings_Game_ErrorCheck
+            // 
+            this.button_Settings_Game_ErrorCheck.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Game_ErrorCheck.Icon = global::PvzLauncher.Properties.Resources.error;
+            this.button_Settings_Game_ErrorCheck.IconRatio = 1F;
+            this.button_Settings_Game_ErrorCheck.Location = new System.Drawing.Point(5, 76);
+            this.button_Settings_Game_ErrorCheck.Name = "button_Settings_Game_ErrorCheck";
+            this.button_Settings_Game_ErrorCheck.Size = new System.Drawing.Size(161, 48);
+            this.button_Settings_Game_ErrorCheck.TabIndex = 8;
+            this.button_Settings_Game_ErrorCheck.Text = "错误检测";
+            this.button_Settings_Game_ErrorCheck.Type = AntdUI.TTypeMini.Error;
+            this.button_Settings_Game_ErrorCheck.Click += new System.EventHandler(this.button_Settings_Game_ErrorCheck_Click);
+            // 
+            // label_Settings_Game
+            // 
+            this.label_Settings_Game.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Game.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Game.Location = new System.Drawing.Point(5, 6);
+            this.label_Settings_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Game.Name = "label_Settings_Game";
+            this.label_Settings_Game.Size = new System.Drawing.Size(104, 35);
+            this.label_Settings_Game.TabIndex = 7;
+            this.label_Settings_Game.Text = "游戏";
+            // 
             // tabPage_Launcher
             // 
             this.tabPage_Launcher.AutoScroll = true;
+            this.tabPage_Launcher.Controls.Add(this.label_Settings_Launcher_Tooltip);
+            this.tabPage_Launcher.Controls.Add(this.switch_Settings_Launcher_Tooltip);
             this.tabPage_Launcher.Controls.Add(this.button_Settings_Launch_SkinCustom);
             this.tabPage_Launcher.Controls.Add(this.radio_Settings_Launcher_SkinCustom);
             this.tabPage_Launcher.Controls.Add(this.pictureBox_Settings_Launcher_SkinCustom);
@@ -332,12 +420,95 @@
             this.tabPage_Launcher.TabIndex = 2;
             this.tabPage_Launcher.Text = "启动器";
             // 
+            // label_Settings_Launcher_Tooltip
+            // 
+            this.label_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(246, 232);
+            this.label_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Launcher_Tooltip.Name = "label_Settings_Launcher_Tooltip";
+            this.label_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(157, 23);
+            this.label_Settings_Launcher_Tooltip.TabIndex = 27;
+            this.label_Settings_Launcher_Tooltip.Text = "显示悬浮提示(重启后生效)";
+            // 
+            // switch_Settings_Launcher_Tooltip
+            // 
+            this.switch_Settings_Launcher_Tooltip.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.switch_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(201, 232);
+            this.switch_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.switch_Settings_Launcher_Tooltip.Name = "switch_Settings_Launcher_Tooltip";
+            this.switch_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(40, 23);
+            this.switch_Settings_Launcher_Tooltip.TabIndex = 26;
+            this.switch_Settings_Launcher_Tooltip.CheckedChanged += new AntdUI.BoolEventHandler(this.switch_Settings_Launcher_Tooltip_CheckedChanged);
+            // 
+            // button_Settings_Launch_SkinCustom
+            // 
+            this.button_Settings_Launch_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Launch_SkinCustom.Icon = global::PvzLauncher.Properties.Resources.folder;
+            this.button_Settings_Launch_SkinCustom.Location = new System.Drawing.Point(497, 200);
+            this.button_Settings_Launch_SkinCustom.Name = "button_Settings_Launch_SkinCustom";
+            this.button_Settings_Launch_SkinCustom.Size = new System.Drawing.Size(126, 29);
+            this.button_Settings_Launch_SkinCustom.TabIndex = 25;
+            this.button_Settings_Launch_SkinCustom.Text = "选择";
+            this.button_Settings_Launch_SkinCustom.Type = AntdUI.TTypeMini.Primary;
+            this.button_Settings_Launch_SkinCustom.Click += new System.EventHandler(this.button_Settings_Launch_SkinCustom_Click);
+            // 
+            // radio_Settings_Launcher_SkinCustom
+            // 
+            this.radio_Settings_Launcher_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.radio_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 203);
+            this.radio_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.radio_Settings_Launcher_SkinCustom.Name = "radio_Settings_Launcher_SkinCustom";
+            this.radio_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(72, 23);
+            this.radio_Settings_Launcher_SkinCustom.TabIndex = 24;
+            this.radio_Settings_Launcher_SkinCustom.Text = "自定义";
+            this.radio_Settings_Launcher_SkinCustom.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_SkinCustom_CheckedChanged);
+            // 
+            // pictureBox_Settings_Launcher_SkinCustom
+            // 
+            this.pictureBox_Settings_Launcher_SkinCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 137);
+            this.pictureBox_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.pictureBox_Settings_Launcher_SkinCustom.Name = "pictureBox_Settings_Launcher_SkinCustom";
+            this.pictureBox_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(192, 60);
+            this.pictureBox_Settings_Launcher_SkinCustom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_Settings_Launcher_SkinCustom.TabIndex = 23;
+            this.pictureBox_Settings_Launcher_SkinCustom.TabStop = false;
+            // 
+            // button_Settings_Launcher_ThemeColorReset
+            // 
+            this.button_Settings_Launcher_ThemeColorReset.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 261);
+            this.button_Settings_Launcher_ThemeColorReset.Name = "button_Settings_Launcher_ThemeColorReset";
+            this.button_Settings_Launcher_ThemeColorReset.Size = new System.Drawing.Size(139, 35);
+            this.button_Settings_Launcher_ThemeColorReset.TabIndex = 22;
+            this.button_Settings_Launcher_ThemeColorReset.Text = "恢复默认";
+            this.button_Settings_Launcher_ThemeColorReset.Type = AntdUI.TTypeMini.Primary;
+            this.button_Settings_Launcher_ThemeColorReset.Click += new System.EventHandler(this.button_Settings_Launcher_ThemeColorReset_Click);
+            // 
+            // label_Settings_Launcher_ThemeColor
+            // 
+            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 261);
+            this.label_Settings_Launcher_ThemeColor.Name = "label_Settings_Launcher_ThemeColor";
+            this.label_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(47, 35);
+            this.label_Settings_Launcher_ThemeColor.TabIndex = 21;
+            this.label_Settings_Launcher_ThemeColor.Text = "主题色:";
+            // 
+            // colorPicker_Settings_Launcher_ThemeColor
+            // 
+            this.colorPicker_Settings_Launcher_ThemeColor.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 261);
+            this.colorPicker_Settings_Launcher_ThemeColor.Name = "colorPicker_Settings_Launcher_ThemeColor";
+            this.colorPicker_Settings_Launcher_ThemeColor.ShowText = true;
+            this.colorPicker_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(115, 35);
+            this.colorPicker_Settings_Launcher_ThemeColor.TabIndex = 20;
+            this.colorPicker_Settings_Launcher_ThemeColor.Value = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(119)))), ((int)(((byte)(255)))));
+            this.colorPicker_Settings_Launcher_ThemeColor.ValueChanged += new AntdUI.ColorEventHandler(this.colorPicker_Settings_Launcher_ThemeColor_ValueChanged);
+            // 
             // label_Settings_Launcher_HeightText
             // 
             this.label_Settings_Launcher_HeightText.Location = new System.Drawing.Point(50, 232);
             this.label_Settings_Launcher_HeightText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_HeightText.Name = "label_Settings_Launcher_HeightText";
-            this.label_Settings_Launcher_HeightText.Size = new System.Drawing.Size(372, 23);
+            this.label_Settings_Launcher_HeightText.Size = new System.Drawing.Size(143, 23);
             this.label_Settings_Launcher_HeightText.TabIndex = 19;
             this.label_Settings_Launcher_HeightText.Text = "高质量文本(重启后生效)";
             // 
@@ -516,24 +687,107 @@
             // 
             // tabPage_Save
             // 
+            this.tabPage_Save.Controls.Add(this.button_Settings_Save_Select);
+            this.tabPage_Save.Controls.Add(this.button_Settings_Save_Delete);
+            this.tabPage_Save.Controls.Add(this.button_Settings_Save_Save);
+            this.tabPage_Save.Controls.Add(this.materialListBox_Settings_Save);
+            this.tabPage_Save.Controls.Add(this.label_Settings_Save_Manger);
+            this.tabPage_Save.Controls.Add(this.label_Settings_Save_Exe);
             this.tabPage_Save.Controls.Add(this.button_Settings_OpenSave);
             this.tabPage_Save.Controls.Add(this.label_Settings_Save);
             this.tabPage_Save.Controls.Add(this.button_Settings_TotalSave);
             this.tabPage_Save.Controls.Add(this.button_Settings_RemoveSave);
             this.tabPage_Save.Icon = global::PvzLauncher.Properties.Resources.save;
-            this.tabPage_Save.Location = new System.Drawing.Point(-651, -329);
+            this.tabPage_Save.Location = new System.Drawing.Point(-650, -332);
             this.tabPage_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Save.Name = "tabPage_Save";
-            this.tabPage_Save.Size = new System.Drawing.Size(651, 329);
+            this.tabPage_Save.Size = new System.Drawing.Size(650, 332);
             this.tabPage_Save.TabIndex = 0;
             this.tabPage_Save.Text = "存档管理";
+            // 
+            // button_Settings_Save_Select
+            // 
+            this.button_Settings_Save_Select.Enabled = false;
+            this.button_Settings_Save_Select.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Save_Select.Icon = global::PvzLauncher.Properties.Resources.select;
+            this.button_Settings_Save_Select.IconRatio = 1F;
+            this.button_Settings_Save_Select.Location = new System.Drawing.Point(262, 250);
+            this.button_Settings_Save_Select.Name = "button_Settings_Save_Select";
+            this.button_Settings_Save_Select.Size = new System.Drawing.Size(135, 41);
+            this.button_Settings_Save_Select.TabIndex = 13;
+            this.button_Settings_Save_Select.Text = "切换";
+            this.button_Settings_Save_Select.Type = AntdUI.TTypeMini.Primary;
+            this.button_Settings_Save_Select.Click += new System.EventHandler(this.button_Settings_Save_Select_Click);
+            // 
+            // button_Settings_Save_Delete
+            // 
+            this.button_Settings_Save_Delete.Enabled = false;
+            this.button_Settings_Save_Delete.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Save_Delete.Icon = global::PvzLauncher.Properties.Resources.delete;
+            this.button_Settings_Save_Delete.IconRatio = 1F;
+            this.button_Settings_Save_Delete.Location = new System.Drawing.Point(262, 203);
+            this.button_Settings_Save_Delete.Name = "button_Settings_Save_Delete";
+            this.button_Settings_Save_Delete.Size = new System.Drawing.Size(135, 41);
+            this.button_Settings_Save_Delete.TabIndex = 12;
+            this.button_Settings_Save_Delete.Text = "删除";
+            this.button_Settings_Save_Delete.Type = AntdUI.TTypeMini.Error;
+            this.button_Settings_Save_Delete.Click += new System.EventHandler(this.button_Settings_Save_Delete_Click);
+            // 
+            // button_Settings_Save_Save
+            // 
+            this.button_Settings_Save_Save.Enabled = false;
+            this.button_Settings_Save_Save.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Save_Save.Icon = global::PvzLauncher.Properties.Resources.save_;
+            this.button_Settings_Save_Save.IconRatio = 1F;
+            this.button_Settings_Save_Save.Location = new System.Drawing.Point(262, 156);
+            this.button_Settings_Save_Save.Name = "button_Settings_Save_Save";
+            this.button_Settings_Save_Save.Size = new System.Drawing.Size(135, 41);
+            this.button_Settings_Save_Save.TabIndex = 11;
+            this.button_Settings_Save_Save.Text = "保存";
+            this.button_Settings_Save_Save.Type = AntdUI.TTypeMini.Warn;
+            this.button_Settings_Save_Save.Click += new System.EventHandler(this.button_Settings_Save_Save_Click);
+            // 
+            // materialListBox_Settings_Save
+            // 
+            this.materialListBox_Settings_Save.BackColor = System.Drawing.Color.White;
+            this.materialListBox_Settings_Save.BorderColor = System.Drawing.Color.LightGray;
+            this.materialListBox_Settings_Save.Depth = 0;
+            this.materialListBox_Settings_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialListBox_Settings_Save.Location = new System.Drawing.Point(5, 156);
+            this.materialListBox_Settings_Save.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.materialListBox_Settings_Save.Name = "materialListBox_Settings_Save";
+            this.materialListBox_Settings_Save.SelectedIndex = -1;
+            this.materialListBox_Settings_Save.SelectedItem = null;
+            this.materialListBox_Settings_Save.Size = new System.Drawing.Size(251, 167);
+            this.materialListBox_Settings_Save.TabIndex = 10;
+            this.materialListBox_Settings_Save.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Settings_Save_SelectedIndexChanged);
+            // 
+            // label_Settings_Save_Manger
+            // 
+            this.label_Settings_Save_Manger.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Save_Manger.Location = new System.Drawing.Point(5, 127);
+            this.label_Settings_Save_Manger.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Save_Manger.Name = "label_Settings_Save_Manger";
+            this.label_Settings_Save_Manger.Size = new System.Drawing.Size(90, 23);
+            this.label_Settings_Save_Manger.TabIndex = 9;
+            this.label_Settings_Save_Manger.Text = "备份管理";
+            // 
+            // label_Settings_Save_Exe
+            // 
+            this.label_Settings_Save_Exe.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Save_Exe.Location = new System.Drawing.Point(5, 47);
+            this.label_Settings_Save_Exe.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Save_Exe.Name = "label_Settings_Save_Exe";
+            this.label_Settings_Save_Exe.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Save_Exe.TabIndex = 8;
+            this.label_Settings_Save_Exe.Text = "操作";
             // 
             // button_Settings_OpenSave
             // 
             this.button_Settings_OpenSave.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Settings_OpenSave.Icon = global::PvzLauncher.Properties.Resources.folder;
             this.button_Settings_OpenSave.IconRatio = 1F;
-            this.button_Settings_OpenSave.Location = new System.Drawing.Point(5, 45);
+            this.button_Settings_OpenSave.Location = new System.Drawing.Point(5, 76);
             this.button_Settings_OpenSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button_Settings_OpenSave.Name = "button_Settings_OpenSave";
             this.button_Settings_OpenSave.Size = new System.Drawing.Size(154, 45);
@@ -557,7 +811,7 @@
             this.button_Settings_TotalSave.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Settings_TotalSave.Icon = global::PvzLauncher.Properties.Resources.victroy;
             this.button_Settings_TotalSave.IconRatio = 1F;
-            this.button_Settings_TotalSave.Location = new System.Drawing.Point(326, 45);
+            this.button_Settings_TotalSave.Location = new System.Drawing.Point(326, 76);
             this.button_Settings_TotalSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button_Settings_TotalSave.Name = "button_Settings_TotalSave";
             this.button_Settings_TotalSave.Size = new System.Drawing.Size(154, 45);
@@ -571,7 +825,7 @@
             this.button_Settings_RemoveSave.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Settings_RemoveSave.Icon = global::PvzLauncher.Properties.Resources.delete;
             this.button_Settings_RemoveSave.IconRatio = 1F;
-            this.button_Settings_RemoveSave.Location = new System.Drawing.Point(164, 45);
+            this.button_Settings_RemoveSave.Location = new System.Drawing.Point(164, 76);
             this.button_Settings_RemoveSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button_Settings_RemoveSave.Name = "button_Settings_RemoveSave";
             this.button_Settings_RemoveSave.Size = new System.Drawing.Size(154, 45);
@@ -866,92 +1120,69 @@
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
             // 
-            // timer_Main
+            // label_Settings_Game_Fix
             // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            this.label_Settings_Game_Fix.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game_Fix.Location = new System.Drawing.Point(5, 47);
+            this.label_Settings_Game_Fix.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Game_Fix.Name = "label_Settings_Game_Fix";
+            this.label_Settings_Game_Fix.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Game_Fix.TabIndex = 9;
+            this.label_Settings_Game_Fix.Text = "修复";
             // 
-            // timer_PlayTime
+            // label_Settings_Game_Config
             // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            this.label_Settings_Game_Config.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game_Config.Location = new System.Drawing.Point(5, 130);
+            this.label_Settings_Game_Config.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.label_Settings_Game_Config.Name = "label_Settings_Game_Config";
+            this.label_Settings_Game_Config.Size = new System.Drawing.Size(75, 23);
+            this.label_Settings_Game_Config.TabIndex = 10;
+            this.label_Settings_Game_Config.Text = "配置";
             // 
-            // openFileDialog
+            // label_Settings_Game_Full
             // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "可执行文件|*.exe";
-            this.openFileDialog.Title = "请选择修改器可执行文件";
+            this.label_Settings_Game_Full.Location = new System.Drawing.Point(52, 159);
+            this.label_Settings_Game_Full.Name = "label_Settings_Game_Full";
+            this.label_Settings_Game_Full.Size = new System.Drawing.Size(104, 23);
+            this.label_Settings_Game_Full.TabIndex = 11;
+            this.label_Settings_Game_Full.Text = "强制全屏启动";
             // 
-            // colorPicker_Settings_Launcher_ThemeColor
+            // switch_Settings_Game_Full
             // 
-            this.colorPicker_Settings_Launcher_ThemeColor.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 261);
-            this.colorPicker_Settings_Launcher_ThemeColor.Name = "colorPicker_Settings_Launcher_ThemeColor";
-            this.colorPicker_Settings_Launcher_ThemeColor.ShowText = true;
-            this.colorPicker_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(115, 35);
-            this.colorPicker_Settings_Launcher_ThemeColor.TabIndex = 20;
-            this.colorPicker_Settings_Launcher_ThemeColor.Value = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(119)))), ((int)(((byte)(255)))));
-            this.colorPicker_Settings_Launcher_ThemeColor.ValueChanged += new AntdUI.ColorEventHandler(this.colorPicker_Settings_Launcher_ThemeColor_ValueChanged);
+            this.switch_Settings_Game_Full.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.switch_Settings_Game_Full.Location = new System.Drawing.Point(5, 159);
+            this.switch_Settings_Game_Full.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.switch_Settings_Game_Full.Name = "switch_Settings_Game_Full";
+            this.switch_Settings_Game_Full.Size = new System.Drawing.Size(40, 23);
+            this.switch_Settings_Game_Full.TabIndex = 19;
+            this.switch_Settings_Game_Full.CheckedChanged += new AntdUI.BoolEventHandler(this.switch_Settings_Game_Full_CheckedChanged);
             // 
-            // label_Settings_Launcher_ThemeColor
+            // label_Settnigs_Game_Location
             // 
-            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 261);
-            this.label_Settings_Launcher_ThemeColor.Name = "label_Settings_Launcher_ThemeColor";
-            this.label_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(47, 35);
-            this.label_Settings_Launcher_ThemeColor.TabIndex = 21;
-            this.label_Settings_Launcher_ThemeColor.Text = "主题色:";
+            this.label_Settnigs_Game_Location.Location = new System.Drawing.Point(5, 188);
+            this.label_Settnigs_Game_Location.Name = "label_Settnigs_Game_Location";
+            this.label_Settnigs_Game_Location.Size = new System.Drawing.Size(87, 30);
+            this.label_Settnigs_Game_Location.TabIndex = 20;
+            this.label_Settnigs_Game_Location.Text = "游戏窗口位置:";
             // 
-            // button_Settings_Launcher_ThemeColorReset
+            // select_Settings_Game_Location
             // 
-            this.button_Settings_Launcher_ThemeColorReset.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 261);
-            this.button_Settings_Launcher_ThemeColorReset.Name = "button_Settings_Launcher_ThemeColorReset";
-            this.button_Settings_Launcher_ThemeColorReset.Size = new System.Drawing.Size(139, 35);
-            this.button_Settings_Launcher_ThemeColorReset.TabIndex = 22;
-            this.button_Settings_Launcher_ThemeColorReset.Text = "恢复默认";
-            this.button_Settings_Launcher_ThemeColorReset.Type = AntdUI.TTypeMini.Primary;
-            this.button_Settings_Launcher_ThemeColorReset.Click += new System.EventHandler(this.button_Settings_Launcher_ThemeColorReset_Click);
-            // 
-            // pictureBox_Settings_Launcher_SkinCustom
-            // 
-            this.pictureBox_Settings_Launcher_SkinCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 137);
-            this.pictureBox_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.pictureBox_Settings_Launcher_SkinCustom.Name = "pictureBox_Settings_Launcher_SkinCustom";
-            this.pictureBox_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(192, 60);
-            this.pictureBox_Settings_Launcher_SkinCustom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_Settings_Launcher_SkinCustom.TabIndex = 23;
-            this.pictureBox_Settings_Launcher_SkinCustom.TabStop = false;
-            // 
-            // radio_Settings_Launcher_SkinCustom
-            // 
-            this.radio_Settings_Launcher_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 203);
-            this.radio_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radio_Settings_Launcher_SkinCustom.Name = "radio_Settings_Launcher_SkinCustom";
-            this.radio_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(72, 23);
-            this.radio_Settings_Launcher_SkinCustom.TabIndex = 24;
-            this.radio_Settings_Launcher_SkinCustom.Text = "自定义";
-            this.radio_Settings_Launcher_SkinCustom.CheckedChanged += new AntdUI.BoolEventHandler(this.radio_Settings_Launcher_SkinCustom_CheckedChanged);
-            // 
-            // button_Settings_Launch_SkinCustom
-            // 
-            this.button_Settings_Launch_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Launch_SkinCustom.Icon = global::PvzLauncher.Properties.Resources.folder;
-            this.button_Settings_Launch_SkinCustom.Location = new System.Drawing.Point(497, 200);
-            this.button_Settings_Launch_SkinCustom.Name = "button_Settings_Launch_SkinCustom";
-            this.button_Settings_Launch_SkinCustom.Size = new System.Drawing.Size(126, 29);
-            this.button_Settings_Launch_SkinCustom.TabIndex = 25;
-            this.button_Settings_Launch_SkinCustom.Text = "选择";
-            this.button_Settings_Launch_SkinCustom.Type = AntdUI.TTypeMini.Primary;
-            this.button_Settings_Launch_SkinCustom.Click += new System.EventHandler(this.button_Settings_Launch_SkinCustom_Click);
-            // 
-            // openFileDialog_CustomSkin
-            // 
-            this.openFileDialog_CustomSkin.FileName = "";
-            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
-            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
+            this.select_Settings_Game_Location.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.select_Settings_Game_Location.Items.AddRange(new object[] {
+            "屏幕居中",
+            "屏幕左上角",
+            "随机"});
+            this.select_Settings_Game_Location.List = true;
+            this.select_Settings_Game_Location.ListAutoWidth = true;
+            this.select_Settings_Game_Location.Location = new System.Drawing.Point(88, 188);
+            this.select_Settings_Game_Location.Name = "select_Settings_Game_Location";
+            this.select_Settings_Game_Location.SelectedIndex = 0;
+            this.select_Settings_Game_Location.SelectedValue = "屏幕居中";
+            this.select_Settings_Game_Location.Size = new System.Drawing.Size(231, 30);
+            this.select_Settings_Game_Location.TabIndex = 21;
+            this.select_Settings_Game_Location.Text = "屏幕居中";
+            this.select_Settings_Game_Location.SelectedIndexChanged += new AntdUI.IntEventHandler(this.select_Settings_Game_Location_SelectedIndexChanged);
             // 
             // Main_Window
             // 
@@ -978,7 +1209,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).EndInit();
             this.tabPage_Settings.ResumeLayout(false);
             this.tabs_Settings.ResumeLayout(false);
+            this.tabPage_Game.ResumeLayout(false);
             this.tabPage_Launcher.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin1)).EndInit();
             this.tabPage_Save.ResumeLayout(false);
@@ -987,7 +1220,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Egg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Icon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_About_Background)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1061,5 +1293,23 @@
         private System.Windows.Forms.PictureBox pictureBox_Settings_Launcher_SkinCustom;
         private AntdUI.Button button_Settings_Launch_SkinCustom;
         private System.Windows.Forms.OpenFileDialog openFileDialog_CustomSkin;
+        private AntdUI.Label label_Settings_Save_Exe;
+        private AntdUI.Label label_Settings_Save_Manger;
+        private ReaLTaiizor.Controls.MaterialListBox materialListBox_Settings_Save;
+        private AntdUI.Button button_Settings_Save_Save;
+        private AntdUI.Button button_Settings_Save_Select;
+        private AntdUI.Button button_Settings_Save_Delete;
+        private AntdUI.TooltipComponent tooltipComponent;
+        private AntdUI.Label label_Settings_Launcher_Tooltip;
+        private AntdUI.Switch switch_Settings_Launcher_Tooltip;
+        private AntdUI.TabPage tabPage_Game;
+        private AntdUI.Button button_Settings_Game_ErrorCheck;
+        private AntdUI.Label label_Settings_Game;
+        private AntdUI.Switch switch_Settings_Game_Full;
+        private AntdUI.Label label_Settings_Game_Full;
+        private AntdUI.Label label_Settings_Game_Config;
+        private AntdUI.Label label_Settings_Game_Fix;
+        private AntdUI.Select select_Settings_Game_Location;
+        private AntdUI.Label label_Settnigs_Game_Location;
     }
 }
