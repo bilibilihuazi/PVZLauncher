@@ -111,8 +111,8 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AntdUI, Version=1.9.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AntdUI.1.9.12\lib\net48\AntdUI.dll</HintPath>
+    <Reference Include="AntdUI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0e24e5118ea3d6af, processorArchitecture=MSIL">
+      <HintPath>packages\AntdUI.2.0.1\lib\net48\AntdUI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ReaLTaiizor, Version=3.8.1.2, Culture=neutral, processorArchitecture=MSIL">
@@ -217,7 +217,6 @@
     <None Include="assets\bilibili.png" />
     <None Include="assets\victroy.png" />
     <None Include="assets\titlescreen.png" />
-    <None Include="assets\titlescreen_full.png" />
     <None Include="assets\save.png" />
     <None Include="assets\PvzToolkit_.png" />
     <None Include="assets\icon_outline.png" />
@@ -229,6 +228,9 @@
     <None Include="assets\add.png" />
     <None Include="assets\error.png" />
     <None Include="assets\save_.png" />
+    <None Include="assets\replace.png" />
+    <None Include="assets\alphatest.png" />
+    <None Include="assets\titlescreen_home_.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>

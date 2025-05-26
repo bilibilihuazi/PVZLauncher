@@ -34,6 +34,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
+            this.tooltipComponent = new AntdUI.TooltipComponent();
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Background = new System.Windows.Forms.PictureBox();
             this.button_LaunchTrainer = new AntdUI.Button();
@@ -45,6 +50,7 @@
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
             this.tabPage_Launcher = new AntdUI.TabPage();
+            this.pictureBox_Settings_Launcher_HomeBg = new System.Windows.Forms.PictureBox();
             this.label_Settings_Launcher_Tooltip = new AntdUI.Label();
             this.switch_Settings_Launcher_Tooltip = new AntdUI.Switch();
             this.button_Settings_Launch_SkinCustom = new AntdUI.Button();
@@ -112,11 +118,6 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
-            this.tooltipComponent = new AntdUI.TooltipComponent();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -124,6 +125,7 @@
             this.tabPage_Settings.SuspendLayout();
             this.tabs_Settings.SuspendLayout();
             this.tabPage_Launcher.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_HomeBg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin1)).BeginInit();
@@ -151,6 +153,7 @@
             // 
             // tabs_Main
             // 
+            this.tabs_Main.BackColor = System.Drawing.Color.Transparent;
             this.tabs_Main.Centered = true;
             this.tabs_Main.Controls.Add(this.tabPage_Home);
             this.tabs_Main.Controls.Add(this.tabPage_Settings);
@@ -163,16 +166,40 @@
             this.tabs_Main.Pages.Add(this.tabPage_Home);
             this.tabs_Main.Pages.Add(this.tabPage_Settings);
             this.tabs_Main.Pages.Add(this.tabPage_About);
-            this.tabs_Main.Size = new System.Drawing.Size(750, 370);
+            this.tabs_Main.SelectedIndex = 1;
+            this.tabs_Main.Size = new System.Drawing.Size(750, 555);
             styleCard21.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
             this.tabs_Main.Style = styleCard21;
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
             // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // timer_PlayTime
+            // 
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "可执行文件|*.exe";
+            this.openFileDialog.Title = "请选择修改器可执行文件";
+            // 
+            // openFileDialog_CustomSkin
+            // 
+            this.openFileDialog_CustomSkin.FileName = "";
+            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
+            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
+            // 
             // tabPage_Home
             // 
-            this.tabPage_Home.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_Home.BackColor = System.Drawing.Color.Transparent;
             this.tabPage_Home.Controls.Add(this.pictureBox_Home_Background);
             this.tabPage_Home.Controls.Add(this.button_LaunchTrainer);
             this.tabPage_Home.Controls.Add(this.pictureBox_Home_Title);
@@ -181,22 +208,24 @@
             this.tabPage_Home.Controls.Add(this.label_Home_Gamename);
             this.tabPage_Home.Controls.Add(this.button_Launch);
             this.tabPage_Home.Icon = global::PvzLauncher.Properties.Resources.home;
-            this.tabPage_Home.Location = new System.Drawing.Point(4, 32);
+            this.tabPage_Home.Location = new System.Drawing.Point(-742, -520);
             this.tabPage_Home.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Home.Name = "tabPage_Home";
-            this.tabPage_Home.Size = new System.Drawing.Size(742, 335);
+            this.tabPage_Home.Size = new System.Drawing.Size(742, 520);
             this.tabPage_Home.TabIndex = 0;
             this.tabPage_Home.Text = "主页";
             this.tabPage_Home.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_Home_Paint);
             // 
             // pictureBox_Home_Background
             // 
-            this.pictureBox_Home_Background.Image = global::PvzLauncher.Properties.Resources.titlescreen_home;
+            this.pictureBox_Home_Background.BackgroundImage = global::PvzLauncher.Properties.Resources.titlescreen_home;
+            this.pictureBox_Home_Background.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_Home_Background.Image = global::PvzLauncher.Properties.Resources.titlescreen_home_;
             this.pictureBox_Home_Background.Location = new System.Drawing.Point(4, 81);
             this.pictureBox_Home_Background.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Home_Background.Name = "pictureBox_Home_Background";
-            this.pictureBox_Home_Background.Size = new System.Drawing.Size(482, 251);
-            this.pictureBox_Home_Background.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox_Home_Background.Size = new System.Drawing.Size(480, 250);
+            this.pictureBox_Home_Background.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Home_Background.TabIndex = 7;
             this.pictureBox_Home_Background.TabStop = false;
             // 
@@ -289,10 +318,10 @@
             this.tabPage_Settings.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_Settings.Controls.Add(this.tabs_Settings);
             this.tabPage_Settings.Icon = global::PvzLauncher.Properties.Resources.settings;
-            this.tabPage_Settings.Location = new System.Drawing.Point(-742, -335);
+            this.tabPage_Settings.Location = new System.Drawing.Point(4, 32);
             this.tabPage_Settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Settings.Name = "tabPage_Settings";
-            this.tabPage_Settings.Size = new System.Drawing.Size(742, 335);
+            this.tabPage_Settings.Size = new System.Drawing.Size(742, 520);
             this.tabPage_Settings.TabIndex = 2;
             this.tabPage_Settings.Text = "设置";
             this.tabPage_Settings.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_Settings_Paint);
@@ -314,7 +343,7 @@
             this.tabs_Settings.Pages.Add(this.tabPage_Game);
             this.tabs_Settings.Pages.Add(this.tabPage_Save);
             this.tabs_Settings.Pages.Add(this.tabPage_Trainer);
-            this.tabs_Settings.Size = new System.Drawing.Size(746, 338);
+            this.tabs_Settings.Size = new System.Drawing.Size(746, 568);
             this.tabs_Settings.Style = styleCard1;
             this.tabs_Settings.TabIndex = 5;
             this.tabs_Settings.Type = AntdUI.TabType.Card;
@@ -323,6 +352,8 @@
             // tabPage_Launcher
             // 
             this.tabPage_Launcher.AutoScroll = true;
+            this.tabPage_Launcher.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage_Launcher.Controls.Add(this.pictureBox_Settings_Launcher_HomeBg);
             this.tabPage_Launcher.Controls.Add(this.label_Settings_Launcher_Tooltip);
             this.tabPage_Launcher.Controls.Add(this.switch_Settings_Launcher_Tooltip);
             this.tabPage_Launcher.Controls.Add(this.button_Settings_Launch_SkinCustom);
@@ -351,13 +382,27 @@
             this.tabPage_Launcher.Location = new System.Drawing.Point(92, 3);
             this.tabPage_Launcher.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Launcher.Name = "tabPage_Launcher";
-            this.tabPage_Launcher.Size = new System.Drawing.Size(650, 332);
+            this.tabPage_Launcher.Size = new System.Drawing.Size(650, 562);
             this.tabPage_Launcher.TabIndex = 2;
             this.tabPage_Launcher.Text = "启动器";
             // 
+            // pictureBox_Settings_Launcher_HomeBg
+            // 
+            this.pictureBox_Settings_Launcher_HomeBg.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_Settings_Launcher_HomeBg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_Settings_Launcher_HomeBg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_Settings_Launcher_HomeBg.Image = global::PvzLauncher.Properties.Resources.titlescreen_home;
+            this.pictureBox_Settings_Launcher_HomeBg.Location = new System.Drawing.Point(18, 232);
+            this.pictureBox_Settings_Launcher_HomeBg.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.pictureBox_Settings_Launcher_HomeBg.Name = "pictureBox_Settings_Launcher_HomeBg";
+            this.pictureBox_Settings_Launcher_HomeBg.Size = new System.Drawing.Size(144, 75);
+            this.pictureBox_Settings_Launcher_HomeBg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_Settings_Launcher_HomeBg.TabIndex = 28;
+            this.pictureBox_Settings_Launcher_HomeBg.TabStop = false;
+            // 
             // label_Settings_Launcher_Tooltip
             // 
-            this.label_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(246, 232);
+            this.label_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(246, 313);
             this.label_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Tooltip.Name = "label_Settings_Launcher_Tooltip";
             this.label_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(157, 23);
@@ -367,7 +412,7 @@
             // switch_Settings_Launcher_Tooltip
             // 
             this.switch_Settings_Launcher_Tooltip.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(201, 232);
+            this.switch_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(201, 313);
             this.switch_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_Tooltip.Name = "switch_Settings_Launcher_Tooltip";
             this.switch_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(40, 23);
@@ -411,7 +456,7 @@
             // button_Settings_Launcher_ThemeColorReset
             // 
             this.button_Settings_Launcher_ThemeColorReset.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 261);
+            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 342);
             this.button_Settings_Launcher_ThemeColorReset.Name = "button_Settings_Launcher_ThemeColorReset";
             this.button_Settings_Launcher_ThemeColorReset.Size = new System.Drawing.Size(139, 35);
             this.button_Settings_Launcher_ThemeColorReset.TabIndex = 22;
@@ -421,7 +466,7 @@
             // 
             // label_Settings_Launcher_ThemeColor
             // 
-            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 261);
+            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 342);
             this.label_Settings_Launcher_ThemeColor.Name = "label_Settings_Launcher_ThemeColor";
             this.label_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(47, 35);
             this.label_Settings_Launcher_ThemeColor.TabIndex = 21;
@@ -430,7 +475,7 @@
             // colorPicker_Settings_Launcher_ThemeColor
             // 
             this.colorPicker_Settings_Launcher_ThemeColor.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 261);
+            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 342);
             this.colorPicker_Settings_Launcher_ThemeColor.Name = "colorPicker_Settings_Launcher_ThemeColor";
             this.colorPicker_Settings_Launcher_ThemeColor.ShowText = true;
             this.colorPicker_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(115, 35);
@@ -440,7 +485,7 @@
             // 
             // label_Settings_Launcher_HeightText
             // 
-            this.label_Settings_Launcher_HeightText.Location = new System.Drawing.Point(50, 232);
+            this.label_Settings_Launcher_HeightText.Location = new System.Drawing.Point(50, 313);
             this.label_Settings_Launcher_HeightText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_HeightText.Name = "label_Settings_Launcher_HeightText";
             this.label_Settings_Launcher_HeightText.Size = new System.Drawing.Size(143, 23);
@@ -450,7 +495,7 @@
             // switch_Settings_Launcher_HeightText
             // 
             this.switch_Settings_Launcher_HeightText.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_HeightText.Location = new System.Drawing.Point(5, 232);
+            this.switch_Settings_Launcher_HeightText.Location = new System.Drawing.Point(5, 313);
             this.switch_Settings_Launcher_HeightText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_HeightText.Name = "switch_Settings_Launcher_HeightText";
             this.switch_Settings_Launcher_HeightText.Size = new System.Drawing.Size(40, 23);
@@ -461,7 +506,7 @@
             // 
             this.progress_Settings_CheckUpdate.ContainerControl = this;
             this.progress_Settings_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.progress_Settings_CheckUpdate.Location = new System.Drawing.Point(139, 331);
+            this.progress_Settings_CheckUpdate.Location = new System.Drawing.Point(139, 412);
             this.progress_Settings_CheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.progress_Settings_CheckUpdate.Name = "progress_Settings_CheckUpdate";
             this.progress_Settings_CheckUpdate.Size = new System.Drawing.Size(484, 33);
@@ -471,7 +516,7 @@
             // 
             // label_Settings_Launcher_LaunchCheckUpdate
             // 
-            this.label_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(51, 370);
+            this.label_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(51, 451);
             this.label_Settings_Launcher_LaunchCheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_LaunchCheckUpdate.Name = "label_Settings_Launcher_LaunchCheckUpdate";
             this.label_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(372, 23);
@@ -481,7 +526,7 @@
             // switch_Settings_Launcher_LaunchCheckUpdate
             // 
             this.switch_Settings_Launcher_LaunchCheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(5, 370);
+            this.switch_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(5, 451);
             this.switch_Settings_Launcher_LaunchCheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_LaunchCheckUpdate.Name = "switch_Settings_Launcher_LaunchCheckUpdate";
             this.switch_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(40, 23);
@@ -493,7 +538,7 @@
             this.button_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_CheckUpdate.Icon = global::PvzLauncher.Properties.Resources.update;
             this.button_CheckUpdate.IconRatio = 0.8F;
-            this.button_CheckUpdate.Location = new System.Drawing.Point(5, 331);
+            this.button_CheckUpdate.Location = new System.Drawing.Point(5, 412);
             this.button_CheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button_CheckUpdate.Name = "button_CheckUpdate";
             this.button_CheckUpdate.Size = new System.Drawing.Size(128, 33);
@@ -504,8 +549,8 @@
             // 
             // label_Settings_Launcher_Update
             // 
-            this.label_Settings_Launcher_Update.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Settings_Launcher_Update.Location = new System.Drawing.Point(5, 302);
+            this.label_Settings_Launcher_Update.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Launcher_Update.Location = new System.Drawing.Point(5, 383);
             this.label_Settings_Launcher_Update.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Update.Name = "label_Settings_Launcher_Update";
             this.label_Settings_Launcher_Update.Size = new System.Drawing.Size(75, 23);
@@ -561,7 +606,7 @@
             // 
             // label_Settings_Launcher_Skin
             // 
-            this.label_Settings_Launcher_Skin.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Launcher_Skin.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Launcher_Skin.Location = new System.Drawing.Point(5, 108);
             this.label_Settings_Launcher_Skin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Skin.Name = "label_Settings_Launcher_Skin";
@@ -571,7 +616,7 @@
             // 
             // label_Settings_Launcher_Execute
             // 
-            this.label_Settings_Launcher_Execute.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Launcher_Execute.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Launcher_Execute.Location = new System.Drawing.Point(5, 45);
             this.label_Settings_Launcher_Execute.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Execute.Name = "label_Settings_Launcher_Execute";
@@ -582,12 +627,12 @@
             // label_Settings_Launcher
             // 
             this.label_Settings_Launcher.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label_Settings_Launcher.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Launcher.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Launcher.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Settings_Launcher.Location = new System.Drawing.Point(5, 6);
             this.label_Settings_Launcher.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher.Name = "label_Settings_Launcher";
-            this.label_Settings_Launcher.Size = new System.Drawing.Size(104, 35);
+            this.label_Settings_Launcher.Size = new System.Drawing.Size(236, 33);
             this.label_Settings_Launcher.TabIndex = 6;
             this.label_Settings_Launcher.Text = "启动器";
             // 
@@ -683,7 +728,7 @@
             // 
             // label_Settings_Game_Config
             // 
-            this.label_Settings_Game_Config.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game_Config.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Game_Config.Location = new System.Drawing.Point(5, 130);
             this.label_Settings_Game_Config.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Game_Config.Name = "label_Settings_Game_Config";
@@ -693,7 +738,7 @@
             // 
             // label_Settings_Game_Fix
             // 
-            this.label_Settings_Game_Fix.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game_Fix.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Game_Fix.Location = new System.Drawing.Point(5, 47);
             this.label_Settings_Game_Fix.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Game_Fix.Name = "label_Settings_Game_Fix";
@@ -717,7 +762,7 @@
             // label_Settings_Game
             // 
             this.label_Settings_Game.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label_Settings_Game.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Game.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Game.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Settings_Game.Location = new System.Drawing.Point(5, 6);
             this.label_Settings_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -805,7 +850,7 @@
             // 
             // label_Settings_Save_Manger
             // 
-            this.label_Settings_Save_Manger.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Save_Manger.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Save_Manger.Location = new System.Drawing.Point(5, 127);
             this.label_Settings_Save_Manger.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Save_Manger.Name = "label_Settings_Save_Manger";
@@ -815,7 +860,7 @@
             // 
             // label_Settings_Save_Exe
             // 
-            this.label_Settings_Save_Exe.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Save_Exe.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Save_Exe.Location = new System.Drawing.Point(5, 47);
             this.label_Settings_Save_Exe.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Save_Exe.Name = "label_Settings_Save_Exe";
@@ -839,7 +884,7 @@
             // 
             // label_Settings_Save
             // 
-            this.label_Settings_Save.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Save.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Save.Location = new System.Drawing.Point(5, 6);
             this.label_Settings_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Save.Name = "label_Settings_Save";
@@ -897,7 +942,7 @@
             // 
             // label_Settings_Trainer_Title
             // 
-            this.label_Settings_Trainer_Title.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer_Title.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Trainer_Title.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Settings_Trainer_Title.Location = new System.Drawing.Point(5, 6);
             this.label_Settings_Trainer_Title.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -966,7 +1011,7 @@
             // 
             // label_Settings_Trainer_Multi
             // 
-            this.label_Settings_Trainer_Multi.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer_Multi.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Trainer_Multi.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Settings_Trainer_Multi.Location = new System.Drawing.Point(5, 105);
             this.label_Settings_Trainer_Multi.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -977,7 +1022,7 @@
             // 
             // label_Settings_Trainer
             // 
-            this.label_Settings_Trainer.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Settings_Trainer.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Settings_Trainer.Location = new System.Drawing.Point(5, 45);
             this.label_Settings_Trainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Trainer.Name = "label_Settings_Trainer";
@@ -1161,34 +1206,11 @@
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
             // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // timer_PlayTime
-            // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "可执行文件|*.exe";
-            this.openFileDialog.Title = "请选择修改器可执行文件";
-            // 
-            // openFileDialog_CustomSkin
-            // 
-            this.openFileDialog_CustomSkin.FileName = "";
-            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
-            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
-            // 
             // Main_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 400);
+            this.ClientSize = new System.Drawing.Size(750, 642);
             this.Controls.Add(this.tabs_Main);
             this.Controls.Add(this.pageHeader);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -1210,6 +1232,7 @@
             this.tabPage_Settings.ResumeLayout(false);
             this.tabs_Settings.ResumeLayout(false);
             this.tabPage_Launcher.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_HomeBg)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_SkinCustom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Settings_Launcher_Skin1)).EndInit();
@@ -1311,5 +1334,6 @@
         private AntdUI.Label label_Settings_Game_Fix;
         private AntdUI.Select select_Settings_Game_Location;
         private AntdUI.Label label_Settnigs_Game_Location;
+        private System.Windows.Forms.PictureBox pictureBox_Settings_Launcher_HomeBg;
     }
 }

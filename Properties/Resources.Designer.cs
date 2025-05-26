@@ -83,6 +83,16 @@ namespace PvzLauncher.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap alphatest {
+            get {
+                object obj = ResourceManager.GetObject("alphatest", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap bilibili {
             get {
                 object obj = ResourceManager.GetObject("bilibili", resourceCulture);
@@ -303,6 +313,16 @@ namespace PvzLauncher.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap replace {
+            get {
+                object obj = ResourceManager.GetObject("replace", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap save {
             get {
                 object obj = ResourceManager.GetObject("save", resourceCulture);
@@ -366,6 +386,16 @@ namespace PvzLauncher.Properties {
         internal static System.Drawing.Bitmap titlescreen_home {
             get {
                 object obj = ResourceManager.GetObject("titlescreen_home", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap titlescreen_home_ {
+            get {
+                object obj = ResourceManager.GetObject("titlescreen_home_", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -37,11 +37,14 @@
             this.button_Cancel = new AntdUI.Button();
             this.image3D_GameIcon = new AntdUI.Image3D();
             this.label_Gameinfo1 = new AntdUI.Label();
+            this.button_VirtualLoad = new AntdUI.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageHeader
             // 
+            this.pageHeader.Controls.Add(this.button_VirtualLoad);
             this.pageHeader.Controls.Add(this.button_Load);
             this.pageHeader.Controls.Add(this.button_Refresh);
             this.pageHeader.HandCursor = System.Windows.Forms.Cursors.Default;
@@ -142,6 +145,25 @@
             this.label_Gameinfo1.TabIndex = 5;
             this.label_Gameinfo1.Text = "请选择游戏";
             // 
+            // button_VirtualLoad
+            // 
+            this.button_VirtualLoad.BackExtend = "135, #6253E1, #04BEFE";
+            this.button_VirtualLoad.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_VirtualLoad.Icon = global::PvzLauncher.Properties.Resources.folder;
+            this.button_VirtualLoad.IconRatio = 0.8F;
+            this.button_VirtualLoad.Location = new System.Drawing.Point(247, 0);
+            this.button_VirtualLoad.Name = "button_VirtualLoad";
+            this.button_VirtualLoad.Size = new System.Drawing.Size(128, 30);
+            this.button_VirtualLoad.TabIndex = 7;
+            this.button_VirtualLoad.Text = "虚拟导入";
+            this.button_VirtualLoad.Type = AntdUI.TTypeMini.Primary;
+            this.button_VirtualLoad.Click += new System.EventHandler(this.button_VirtualLoad_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "可执行文件|*.exe";
+            this.openFileDialog1.Title = "请选择游戏的可执行文件";
+            // 
             // SelectGame_Window
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -181,5 +203,7 @@
         private AntdUI.Button button_Load;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private AntdUI.Label label_Gameinfo1;
+        private AntdUI.Button button_VirtualLoad;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

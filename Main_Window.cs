@@ -1107,6 +1107,7 @@ namespace PvzLauncher
                 pageHeader.Text = $"{Title}";//设置标题
                 this.Text = $"{Title}";
 
+
                 //加载修改器信息
                 LoadTrainerList();
 
@@ -1517,9 +1518,22 @@ namespace PvzLauncher
             #region 启动/结束游戏
             
             //设置process信息
+
+
+
+
             proceess.StartInfo.FileName = $"{RunPath}\\games\\{SGamesPath}\\{ReadConfig(ConfigPath, $"{SGamesPath}", "ExecuteName")}";
             proceess.StartInfo.WorkingDirectory = $"{RunPath}\\games\\{SGamesPath}";
             //proceess.StartInfo.UseShellExecute = false;
+
+            if (File.Exists($"{RunPath}\\games\\{SGamesPath}\\info.vg"))
+            {
+                proceess.StartInfo.FileName = ReadConfig($"{RunPath}\\games\\{SGamesPath}\\info.vg", "config", "Path");
+                proceess.StartInfo.WorkingDirectory = Path.GetDirectoryName(ReadConfig($"{RunPath}\\games\\{SGamesPath}\\info.vg", "config", "Path"));
+            }
+
+
+
 
             if (proceess.StartInfo.FileName.Length > 3 & proceess.StartInfo.FileName.Substring(proceess.StartInfo.FileName.Length - 4) == ".exe") 
             {
@@ -2196,8 +2210,9 @@ namespace PvzLauncher
             {
                 WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");
             }
+            
         }
-
+        
         //游戏时间计时器
         private void timer_PlayTime_Tick(object sender, EventArgs e)
         {

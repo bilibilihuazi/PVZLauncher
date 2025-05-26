@@ -914,10 +914,20 @@ namespace PvzLauncher
                     button_Done.Enabled = false;
                 }
 
-                if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
+                if (!File.Exists($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\info.vg"))
                 {
-                    WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
-                    WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
+                    if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
+                    {
+                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
+                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
+                    }
+                }
+                else
+                {
+                    if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime") == null)
+                    {
+                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
+                    }
                 }
 
                 Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\{ReadConfig(Main_Window.ConfigPath, $"{ListBox.SelectedItem.Text}", "ExecuteName")}");
@@ -947,6 +957,10 @@ namespace PvzLauncher
         {
             Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
             WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
+
+
+            
+
 
             this.Close();
         }
@@ -991,7 +1005,6 @@ namespace PvzLauncher
                     {
                         CopyFolder($"{folderBrowserDialog1.SelectedPath}", $"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", true);
 
-                        WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "ExecuteName", "PlantsVsZombies.exe");
                         WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "PlayTime", "0");
 
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
@@ -1003,11 +1016,104 @@ namespace PvzLauncher
 
                         LoadGameList();
 
+
+                        if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\PlantsVsZombies.exe"))
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "PlantsVsZombies.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 PlantsVsZombies.exe \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\GHtrEXE.exe")) 
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "GHtrEXE.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 Ghtr版 \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\beta6.30.exe"))
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "beta6.30.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 beta版v6.30 \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\原？版1.25.50.exe"))
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "原？版1.25.50.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 原？版v1.25.50 \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\pvzHE-Launcher.exe"))
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "pvzHE-Launcher.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 杂交版 \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\PlantsVsZombiesRH.exe"))
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "PlantsVsZombiesRH.exe");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"已识别到 融合版 \n\n已自动写入可执行文件名，开始游玩吧！",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+                        else
+                        {
+                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "未知的版本，请手动选择可执行文件");
+
+                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                            {
+                                Title = "提示",
+                                Text = $"未识别任何到版本 \n\n请手动选择可执行文件名",
+                                Icon = AntdUI.TType.Info
+                            });
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     }
                     catch (Exception ex)
                     {
                         AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {//第1000行代码！！！
+                        {
                             Title = "发生错误！",
                             Text = $"在导入游戏时发生错误！\n错误原因:{ex.Message}",
                             Icon = AntdUI.TType.Error
@@ -1017,6 +1123,47 @@ namespace PvzLauncher
                 }
             }
 
+        }
+
+        private void button_VirtualLoad_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "虚拟导入",
+                    Content = $"是否将 \"{openFileDialog1.FileName}\" 虚拟导入进游戏库中？\n\n仅创建配置文件，源文件不动，直接从源位置启动游戏",
+                    OkText = "导入",
+                    CancelText = "取消",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK)
+                {
+                    try
+                    {
+                        MessageBox.Show($"{Main_Window.RunPath}\\games\\{Path.GetFileName(Path.GetDirectoryName(openFileDialog1.FileName))}");
+                        Directory.CreateDirectory($"{Main_Window.RunPath}\\games\\{Path.GetFileName(Path.GetDirectoryName(openFileDialog1.FileName))}");
+
+                        WriteConfig($"{Main_Window.RunPath}\\games\\{Path.GetFileName(Path.GetDirectoryName(openFileDialog1.FileName))}\\info.vg", "config", "Path", $"{openFileDialog1.FileName}");
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "成功导入",
+                            Text = "成功创建游戏信息",
+                            Icon = AntdUI.TType.Success
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"在创建游戏信息时发生错误！\n\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                    }
+                }
+            }
         }
     }
 }

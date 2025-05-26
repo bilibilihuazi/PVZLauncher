@@ -759,68 +759,157 @@ namespace PvzLauncher
         //加载游戏信息
         public void LoadGameInfo()
         {
-            try
+            if (File.Exists($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\info.vg"))
             {
-                Icon GameIcon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\{ReadConfig(Main_Window.ConfigPath, $"{Main_Window.SGamesPath}", "ExecuteName")}");
-                image3D_GameIcon.Image = GameIcon.ToBitmap();
-
-                label_GameName.Text = $"游戏名称:{Main_Window.SGamesPath}";
-                label_GamePath.Text = $"游戏路径:{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
-
-                input_ExecuteName.Text = ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName");
-
-
-
-                if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 60)
+                try
                 {
-                    label_PlayTime.Text = $"游玩时长: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")} 秒";
+                    Icon GameIcon = Icon.ExtractAssociatedIcon(ReadConfig($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\info.vg", "config", "Path"));
+                    image3D_GameIcon.Image = GameIcon.ToBitmap();
+
+                    label_GameName.Text = $"游戏名称:{Main_Window.SGamesPath}";
+                    label_GamePath.Text = $"游戏路径:{Path.GetDirectoryName(ReadConfig($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\info.vg", "config", "Path"))}";
+
+                    input_ExecuteName.Text = "虚拟导入的游戏不支持编辑可执行文件名";
+                    input_ExecuteName.Enabled = false;
+                    button_ExecuteName_Browser.Enabled = false;
+
+                    button_Pak.Enabled = false;
+                    button_RePak.Enabled = false;
+                    button_Pak.Text = "不支持此功能";
+                    button_RePak.Text = "不支持此功能";
+
+
+                    if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 60)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")} 秒";
+
+                    }
+                    else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 60 && int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 3600)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60} 分钟";
+                    }
+                    else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 3600)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60 / 60} 小时";
+
+                    }
+
+
+                    if (ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch") == null)
+                    {
+                        label_FirstLaunch.Text = $"初次启动: 从未启动过";
+
+                    }
+                    else
+                    {
+                        label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
+
+                    }
+
+
+
+
+
+
+
 
                 }
-                else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 60 && int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 3600)
+                catch (Exception ex)
                 {
-                    label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60} 分钟";
-                }
-                else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 3600)
-                {
-                    label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60 / 60} 小时";
+                    image3D_GameIcon.Image = Properties.Resources.icon;
+                    label_GameName.Text = $"游戏名称: 未知";
+                    label_GamePath.Text = $"游戏路径: 未知";
+                    label_PlayTime.Text = $"游玩时间: 未知";
+                    label_FirstLaunch.Text = $"初次启动: 未知";
+
+                    input_ExecuteName.Text = "Unknown";
+
+
+
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在加载游戏信息时发生错误！\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
 
                 }
-
-
-                if (ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch") == null)
-                {
-                    label_FirstLaunch.Text = $"初次启动: 从未启动过";
-
-                }
-                else
-                {
-                    label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
-
-                }
-
-
             }
-            catch (Exception ex)
+            else
             {
-                image3D_GameIcon.Image = Properties.Resources.icon;
-                label_GameName.Text = $"游戏名称: 未知";
-                label_GamePath.Text = $"游戏路径: 未知";
-                label_PlayTime.Text = $"游玩时间: 未知";
-                label_FirstLaunch.Text = $"初次启动: 未知";
-
-                input_ExecuteName.Text = "Unknown";
-
-
-
-
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                try
                 {
-                    Title = "发生错误！",
-                    Text = $"在加载游戏信息时发生错误！\n错误原因:{ex.Message}",
-                    Icon = AntdUI.TType.Error
-                });
+                    Icon GameIcon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\{ReadConfig(Main_Window.ConfigPath, $"{Main_Window.SGamesPath}", "ExecuteName")}");
+                    image3D_GameIcon.Image = GameIcon.ToBitmap();
 
+                    label_GameName.Text = $"游戏名称:{Main_Window.SGamesPath}";
+                    label_GamePath.Text = $"游戏路径:{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}";
+
+                    input_ExecuteName.Text = ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName");
+                    input_ExecuteName.Enabled = true;
+                    button_ExecuteName_Browser.Enabled = true;
+
+
+                    if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 60)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")} 秒";
+
+                    }
+                    else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 60 && int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) < 3600)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60} 分钟";
+                    }
+                    else if (int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) >= 3600)
+                    {
+                        label_PlayTime.Text = $"游玩时长: {int.Parse(ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "PlayTime")) / 60 / 60} 小时";
+
+                    }
+
+
+                    if (ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch") == null)
+                    {
+                        label_FirstLaunch.Text = $"初次启动: 从未启动过";
+
+                    }
+                    else
+                    {
+                        label_FirstLaunch.Text = $"初次启动: {ReadConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "FirstLaunch")}";
+
+                    }
+
+
+
+
+
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    image3D_GameIcon.Image = Properties.Resources.icon;
+                    label_GameName.Text = $"游戏名称: 未知";
+                    label_GamePath.Text = $"游戏路径: 未知";
+                    label_PlayTime.Text = $"游玩时间: 未知";
+                    label_FirstLaunch.Text = $"初次启动: 未知";
+
+                    input_ExecuteName.Text = "Unknown";
+
+
+
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在加载游戏信息时发生错误！\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+
+                }
             }
+
+                
             
         }
         //对象========================================================================================
@@ -868,20 +957,42 @@ namespace PvzLauncher
 
         private void button_OpenGameFoler_Click(object sender, EventArgs e)
         {
-            try
+            if (File.Exists($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\info.vg"))
             {
-                Process.Start($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
-            }
-            catch (Exception ex)
-            {
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                try
                 {
-                    Title = "发生错误！",
-                    Text = $"在打开游戏目录时发生错误！\n错误原因:{ex.Message}",
-                    Icon = AntdUI.TType.Error
-                });
-                
+                    Process.Start(Path.GetDirectoryName(ReadConfig($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\info.vg", "config", "Path")));
+                }
+                catch (Exception ex)
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在打开游戏目录时发生错误！\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+
+                }
             }
+            else
+            {
+                try
+                {
+                    Process.Start($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}");
+                }
+                catch (Exception ex)
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在打开游戏目录时发生错误！\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+
+                }
+            }
+
+                
             
         }
 
@@ -943,6 +1054,100 @@ namespace PvzLauncher
         {
             WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", input_ExecuteName.Text);
             LoadGameInfo();
+        }
+
+        private void button_Pak_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog_pak.ShowDialog() == DialogResult.OK)
+            {
+                if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "确认替换？",
+                    Content = "此操作会将源pak文件备份，替换为新文件\n\n是否替换?\n\n(如已有备份文件将替换为新的备份文件)",
+                    OkText = "替换",
+                    CancelText = "取消",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK)
+                {
+                    try
+                    {
+                        if (File.Exists($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak.bak"))
+                        {
+                            File.Delete($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak.bak");
+                        }
+
+                        File.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak", $"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak.bak");
+
+                        File.Copy($"{openFileDialog_pak.FileName}", $"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak", true);
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "替换成功！",
+                            Text = "已将pak文件替换为新文件",
+                            Icon = AntdUI.TType.Success
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"在替换pak文件时发生错误！\n\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                        
+                    }
+                }
+            }
+        }
+
+        private void button_RePak_Click(object sender, EventArgs e)
+        {
+            if (File.Exists($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak.bak"))
+            {
+                if(AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "是否恢复?",
+                    Content = "此操作会将备份文件恢复为源文件",
+                    OkText = "恢复",
+                    CancelText = "取消",
+                    Icon = AntdUI.TType.Warn
+                }) == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.Delete($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak");
+
+                        File.Move($"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak.bak", $"{Main_Window.RunPath}\\games\\{Main_Window.SGamesPath}\\main.pak");
+
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "恢复成功！",
+                            Text = "已将备份文件恢复为源文件",
+                            Icon = AntdUI.TType.Success
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                        {
+                            Title = "发生错误！",
+                            Text = $"在恢复备份文件时发生错误！\n\n错误原因:{ex.Message}",
+                            Icon = AntdUI.TType.Error
+                        });
+                        
+                    }
+                }
+            }
+            else
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"未找到备份文件！",
+                    Icon = AntdUI.TType.Error
+                });
+            }
         }
     }
 }
