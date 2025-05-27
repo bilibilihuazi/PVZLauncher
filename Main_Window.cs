@@ -1085,8 +1085,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
         public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Release 1.1.3.20_Warn";    //版本
-        public static string CompliedTime = "2025-5-25 16:05";     //编译时间
+        public static string Version = "Pre-Release 1.2.1.6";    //版本
+        public static string CompliedTime = "2025-5-27 19:19";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1204,6 +1204,7 @@ namespace PvzLauncher
                     WriteConfig(ConfigPath, "global", "WindowWidth", $"{this.Width}");//宽度
                     WriteConfig(ConfigPath, "global", "WindowHeight", $"{this.Height}");//高度
                     WriteConfig(ConfigPath, "global", "TitleSkin", "en");//标题皮肤
+                    WriteConfig(ConfigPath, "global", "BgSkin", "default");//背景样式
                     WriteConfig(ConfigPath, "global", "LaunchCheckUpdate", "true");//启动时检查更新
                     WriteConfig(ConfigPath, "global", "FirstLaunch", "true");//首次启动
                     WriteConfig(ConfigPath, "global", "HeightText", "true");//高质量文本
@@ -1281,15 +1282,17 @@ namespace PvzLauncher
                 }
                 else
                 {
-                    if (File.Exists($"{RunPath}\\assets\\CustomTitle.png"))
-                    {
-                        pictureBox_Settings_Launcher_SkinCustom.Image = Image.FromFile($"{RunPath}\\assets\\CustomTitle.png");
-                        
-                    }
+                    
                     pictureBox_Home_Title.Image = Image.FromFile($"{RunPath}\\assets\\CustomTitle.png");
                     radio_Settings_Launcher_Skin1.Checked = false;
                     radio_Settings_Launcher_Skin2.Checked = false;
                     radio_Settings_Launcher_SkinCustom.Checked = true;
+                }
+
+                if (File.Exists($"{RunPath}\\assets\\CustomTitle.png"))
+                {
+                    pictureBox_Settings_Launcher_SkinCustom.Image = Image.FromFile($"{RunPath}\\assets\\CustomTitle.png");
+
                 }
 
                 //启动时检查更新
@@ -1339,6 +1342,28 @@ namespace PvzLauncher
                 select_Settings_Game_Location.SelectedIndex = int.Parse(ReadConfig(ConfigPath, "global", "GameWindowLocation"));
 
 
+                //背景样式
+                if (ReadConfig(ConfigPath, "global", "BgSkin") == "default")
+                {
+                    radio_Settings_Launcher_BgSkin1.Checked = true;
+                    radio_Settings_Launcher_BgSkinCustom.Checked = false;
+                    pictureBox_Home_Background.BackgroundImage = Properties.Resources.titlescreen_home;
+                }
+                else
+                {
+                    radio_Settings_Launcher_BgSkin1.Checked = false;
+                    radio_Settings_Launcher_BgSkinCustom.Checked = true;
+                    if (File.Exists($"{RunPath}\\assets\\CustomBg.png"))
+                    {
+                        pictureBox_Home_Background.BackgroundImage = Image.FromFile($"{RunPath}\\assets\\CustomBg.png");
+
+                    }
+                }
+                if (File.Exists($"{RunPath}\\assets\\CustomBg.png"))
+                {
+                    pictureBox_Settings_Launcher_BgSkinCustom.Image = Image.FromFile($"{RunPath}\\assets\\CustomBg.png");
+
+                }
 
             }
             catch (Exception ex)
@@ -2396,31 +2421,17 @@ namespace PvzLauncher
             {
                 WriteConfig(ConfigPath, "global", "TitleSkin", "en");
             }
-            else if (radio_Settings_Launcher_Skin2.Checked == true)
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "zh");
-            }
-            else
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "custom");
-            }
+            
         }
 
         //设置->标题皮肤zh
         private void radio_Settings_Launcher_Skin2_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
         {
-            if (radio_Settings_Launcher_Skin1.Checked == true)
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "en");
-            }
-            else if (radio_Settings_Launcher_Skin2.Checked == true)
+            if (radio_Settings_Launcher_Skin2.Checked == true)
             {
                 WriteConfig(ConfigPath, "global", "TitleSkin", "zh");
             }
-            else
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "custom");
-            }
+            
         }
 
         //关于->检测更新
@@ -2531,15 +2542,7 @@ namespace PvzLauncher
         //设置->自定义皮肤
         private void radio_Settings_Launcher_SkinCustom_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
         {
-            if (radio_Settings_Launcher_Skin1.Checked == true)
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "en");
-            }
-            else if (radio_Settings_Launcher_Skin2.Checked == true)
-            {
-                WriteConfig(ConfigPath, "global", "TitleSkin", "zh");
-            }
-            else
+            if (radio_Settings_Launcher_SkinCustom.Checked == true)
             {
                 WriteConfig(ConfigPath, "global", "TitleSkin", "custom");
             }
@@ -2807,6 +2810,68 @@ namespace PvzLauncher
         private void select_Settings_Game_Location_SelectedIndexChanged(object sender, AntdUI.IntEventArgs e)
         {
             WriteConfig(ConfigPath, "global", "GameWindowLocation", $"{select_Settings_Game_Location.SelectedIndex}");
+        }
+
+        //设置->背景1
+        private void radio_Settings_Launcher_BgSkin1_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (radio_Settings_Launcher_BgSkin1.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "BgSkin", "default");
+                pictureBox_Home_Background.BackgroundImage = Properties.Resources.titlescreen_home;
+            }
+
+        }
+
+        //设置->背景自定义
+        private void radio_Settings_Launcher_BgSkinCustom_CheckedChanged(object sender, AntdUI.BoolEventArgs e)
+        {
+            if (radio_Settings_Launcher_BgSkinCustom.Checked == true)
+            {
+                WriteConfig(ConfigPath, "global", "BgSkin", "custom");
+                if (File.Exists($"{RunPath}\\assets\\CustomBg.png"))
+                {
+                    pictureBox_Home_Background.BackgroundImage = Image.FromFile($"{RunPath}\\assets\\CustomBg.png");
+
+                }
+            }
+        }
+
+        //设置->背景自定义导入
+        private void button_Settings_Launcher_BgCustom_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog_CustomBg.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if (File.Exists($"{RunPath}\\assets\\CustomBg.png"))
+                    {
+                        File.Delete($"{RunPath}\\assets\\CustomBg.png");
+                    }
+
+
+                    File.Copy(openFileDialog_CustomBg.FileName, $"{RunPath}\\assets\\CustomBg.png");
+
+                    pictureBox_Settings_Launcher_BgSkinCustom.Image = Image.FromFile($"{RunPath}\\assets\\CustomBg.png");
+
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "导入成功",
+                        Text = "自定义图片已成功导入",
+                        Icon = AntdUI.TType.Success
+                    });
+                }
+                catch (Exception ex)
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "发生错误！",
+                        Text = $"在导入自定义图像的过程中发生错误\n\n错误原因:{ex.Message}",
+                        Icon = AntdUI.TType.Error
+                    });
+                    
+                }
+            }
         }
     }
 }
