@@ -42,9 +42,19 @@
             this.button_SelectGame = new AntdUI.Button();
             this.label_Home_Gamename = new AntdUI.Label();
             this.button_Launch = new AntdUI.Button();
+            this.tabPage_Download = new AntdUI.TabPage();
+            this.materialListBox_Download_ReZh = new ReaLTaiizor.Controls.MaterialListBox();
+            this.label_Download_ReZh = new AntdUI.Label();
+            this.materialListBox_Download_OriZh = new ReaLTaiizor.Controls.MaterialListBox();
+            this.label_Download_OriZh = new AntdUI.Label();
+            this.materialListBox_Download_OriEn = new ReaLTaiizor.Controls.MaterialListBox();
+            this.label_Downlaod_OriEn = new AntdUI.Label();
             this.tabPage_Settings = new AntdUI.TabPage();
             this.tabs_Settings = new AntdUI.Tabs();
             this.tabPage_Launcher = new AntdUI.TabPage();
+            this.button_Settings_Launcher_Title_Reset = new AntdUI.Button();
+            this.label_Settings_Launcher_Title = new AntdUI.Label();
+            this.input_Settings_Launcher_Title = new AntdUI.Input();
             this.button_Settings_Launcher_BgCustom = new AntdUI.Button();
             this.pictureBox_Settings_Launcher_BgSkinCustom = new System.Windows.Forms.PictureBox();
             this.pictureBox_Settings_Launcher_BgSkin1 = new System.Windows.Forms.PictureBox();
@@ -124,10 +134,12 @@
             this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
             this.tooltipComponent = new AntdUI.TooltipComponent();
             this.openFileDialog_CustomBg = new System.Windows.Forms.OpenFileDialog();
+            this.panel_An = new System.Windows.Forms.Panel();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).BeginInit();
+            this.tabPage_Download.SuspendLayout();
             this.tabPage_Settings.SuspendLayout();
             this.tabs_Settings.SuspendLayout();
             this.tabPage_Launcher.SuspendLayout();
@@ -151,7 +163,6 @@
             this.pageHeader.HandCursor = System.Windows.Forms.Cursors.Default;
             this.pageHeader.Location = new System.Drawing.Point(0, 0);
             this.pageHeader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.pageHeader.MaximizeBox = false;
             this.pageHeader.Name = "pageHeader";
             this.pageHeader.ShowButton = true;
             this.pageHeader.ShowIcon = true;
@@ -164,6 +175,7 @@
             this.tabs_Main.BackColor = System.Drawing.Color.Transparent;
             this.tabs_Main.Centered = true;
             this.tabs_Main.Controls.Add(this.tabPage_Home);
+            this.tabs_Main.Controls.Add(this.tabPage_Download);
             this.tabs_Main.Controls.Add(this.tabPage_Settings);
             this.tabs_Main.Controls.Add(this.tabPage_About);
             this.tabs_Main.Cursor = System.Windows.Forms.Cursors.Default;
@@ -172,6 +184,7 @@
             this.tabs_Main.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabs_Main.Name = "tabs_Main";
             this.tabs_Main.Pages.Add(this.tabPage_Home);
+            this.tabs_Main.Pages.Add(this.tabPage_Download);
             this.tabs_Main.Pages.Add(this.tabPage_Settings);
             this.tabs_Main.Pages.Add(this.tabPage_About);
             this.tabs_Main.Size = new System.Drawing.Size(750, 370);
@@ -297,15 +310,104 @@
             this.button_Launch.Type = AntdUI.TTypeMini.Success;
             this.button_Launch.Click += new System.EventHandler(this.button_Launch_Click);
             // 
+            // tabPage_Download
+            // 
+            this.tabPage_Download.AutoScroll = true;
+            this.tabPage_Download.Controls.Add(this.materialListBox_Download_ReZh);
+            this.tabPage_Download.Controls.Add(this.label_Download_ReZh);
+            this.tabPage_Download.Controls.Add(this.materialListBox_Download_OriZh);
+            this.tabPage_Download.Controls.Add(this.label_Download_OriZh);
+            this.tabPage_Download.Controls.Add(this.materialListBox_Download_OriEn);
+            this.tabPage_Download.Controls.Add(this.label_Downlaod_OriEn);
+            this.tabPage_Download.Icon = global::PvzLauncher.Properties.Resources.download;
+            this.tabPage_Download.Location = new System.Drawing.Point(-742, -577);
+            this.tabPage_Download.Name = "tabPage_Download";
+            this.tabPage_Download.Size = new System.Drawing.Size(742, 577);
+            this.tabPage_Download.TabIndex = 4;
+            this.tabPage_Download.Text = "下载";
+            this.tabPage_Download.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_Download_Paint);
+            // 
+            // materialListBox_Download_ReZh
+            // 
+            this.materialListBox_Download_ReZh.BackColor = System.Drawing.Color.White;
+            this.materialListBox_Download_ReZh.BorderColor = System.Drawing.Color.LightGray;
+            this.materialListBox_Download_ReZh.Depth = 0;
+            this.materialListBox_Download_ReZh.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.materialListBox_Download_ReZh.Location = new System.Drawing.Point(11, 395);
+            this.materialListBox_Download_ReZh.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.materialListBox_Download_ReZh.Name = "materialListBox_Download_ReZh";
+            this.materialListBox_Download_ReZh.SelectedIndex = -1;
+            this.materialListBox_Download_ReZh.SelectedItem = null;
+            this.materialListBox_Download_ReZh.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_ReZh.TabIndex = 5;
+            this.materialListBox_Download_ReZh.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_ReZh_SelectedIndexChanged);
+            // 
+            // label_Download_ReZh
+            // 
+            this.label_Download_ReZh.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Download_ReZh.Location = new System.Drawing.Point(8, 359);
+            this.label_Download_ReZh.Name = "label_Download_ReZh";
+            this.label_Download_ReZh.Size = new System.Drawing.Size(114, 30);
+            this.label_Download_ReZh.TabIndex = 4;
+            this.label_Download_ReZh.Text = "中文改版";
+            // 
+            // materialListBox_Download_OriZh
+            // 
+            this.materialListBox_Download_OriZh.BackColor = System.Drawing.Color.White;
+            this.materialListBox_Download_OriZh.BorderColor = System.Drawing.Color.LightGray;
+            this.materialListBox_Download_OriZh.Depth = 0;
+            this.materialListBox_Download_OriZh.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.materialListBox_Download_OriZh.Location = new System.Drawing.Point(8, 218);
+            this.materialListBox_Download_OriZh.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.materialListBox_Download_OriZh.Name = "materialListBox_Download_OriZh";
+            this.materialListBox_Download_OriZh.SelectedIndex = -1;
+            this.materialListBox_Download_OriZh.SelectedItem = null;
+            this.materialListBox_Download_OriZh.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_OriZh.TabIndex = 3;
+            this.materialListBox_Download_OriZh.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_OriZh_SelectedIndexChanged);
+            // 
+            // label_Download_OriZh
+            // 
+            this.label_Download_OriZh.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Download_OriZh.Location = new System.Drawing.Point(5, 182);
+            this.label_Download_OriZh.Name = "label_Download_OriZh";
+            this.label_Download_OriZh.Size = new System.Drawing.Size(114, 30);
+            this.label_Download_OriZh.TabIndex = 2;
+            this.label_Download_OriZh.Text = "中文原版";
+            // 
+            // materialListBox_Download_OriEn
+            // 
+            this.materialListBox_Download_OriEn.BackColor = System.Drawing.Color.White;
+            this.materialListBox_Download_OriEn.BorderColor = System.Drawing.Color.LightGray;
+            this.materialListBox_Download_OriEn.Depth = 0;
+            this.materialListBox_Download_OriEn.Font = new System.Drawing.Font("华文琥珀", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.materialListBox_Download_OriEn.Location = new System.Drawing.Point(8, 41);
+            this.materialListBox_Download_OriEn.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.materialListBox_Download_OriEn.Name = "materialListBox_Download_OriEn";
+            this.materialListBox_Download_OriEn.SelectedIndex = -1;
+            this.materialListBox_Download_OriEn.SelectedItem = null;
+            this.materialListBox_Download_OriEn.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_OriEn.TabIndex = 1;
+            this.materialListBox_Download_OriEn.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_OriEn_SelectedIndexChanged);
+            // 
+            // label_Downlaod_OriEn
+            // 
+            this.label_Downlaod_OriEn.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Downlaod_OriEn.Location = new System.Drawing.Point(5, 5);
+            this.label_Downlaod_OriEn.Name = "label_Downlaod_OriEn";
+            this.label_Downlaod_OriEn.Size = new System.Drawing.Size(114, 30);
+            this.label_Downlaod_OriEn.TabIndex = 0;
+            this.label_Downlaod_OriEn.Text = "英文原版";
+            // 
             // tabPage_Settings
             // 
             this.tabPage_Settings.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage_Settings.Controls.Add(this.tabs_Settings);
             this.tabPage_Settings.Icon = global::PvzLauncher.Properties.Resources.settings;
-            this.tabPage_Settings.Location = new System.Drawing.Point(-742, -465);
+            this.tabPage_Settings.Location = new System.Drawing.Point(-742, -335);
             this.tabPage_Settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Settings.Name = "tabPage_Settings";
-            this.tabPage_Settings.Size = new System.Drawing.Size(742, 465);
+            this.tabPage_Settings.Size = new System.Drawing.Size(742, 335);
             this.tabPage_Settings.TabIndex = 2;
             this.tabPage_Settings.Text = "设置";
             this.tabPage_Settings.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage_Settings_Paint);
@@ -320,14 +422,14 @@
             this.tabs_Settings.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabs_Settings.HandCursor = System.Windows.Forms.Cursors.Default;
             this.tabs_Settings.IconRatio = 1F;
-            this.tabs_Settings.Location = new System.Drawing.Point(0, 0);
+            this.tabs_Settings.Location = new System.Drawing.Point(-4, 0);
             this.tabs_Settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabs_Settings.Name = "tabs_Settings";
             this.tabs_Settings.Pages.Add(this.tabPage_Launcher);
             this.tabs_Settings.Pages.Add(this.tabPage_Game);
             this.tabs_Settings.Pages.Add(this.tabPage_Save);
             this.tabs_Settings.Pages.Add(this.tabPage_Trainer);
-            this.tabs_Settings.Size = new System.Drawing.Size(746, 338);
+            this.tabs_Settings.Size = new System.Drawing.Size(750, 338);
             this.tabs_Settings.Style = styleCard1;
             this.tabs_Settings.TabIndex = 5;
             this.tabs_Settings.Type = AntdUI.TabType.Card;
@@ -337,6 +439,9 @@
             // 
             this.tabPage_Launcher.AutoScroll = true;
             this.tabPage_Launcher.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage_Launcher.Controls.Add(this.button_Settings_Launcher_Title_Reset);
+            this.tabPage_Launcher.Controls.Add(this.label_Settings_Launcher_Title);
+            this.tabPage_Launcher.Controls.Add(this.input_Settings_Launcher_Title);
             this.tabPage_Launcher.Controls.Add(this.button_Settings_Launcher_BgCustom);
             this.tabPage_Launcher.Controls.Add(this.pictureBox_Settings_Launcher_BgSkinCustom);
             this.tabPage_Launcher.Controls.Add(this.pictureBox_Settings_Launcher_BgSkin1);
@@ -369,15 +474,43 @@
             this.tabPage_Launcher.Location = new System.Drawing.Point(92, 3);
             this.tabPage_Launcher.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Launcher.Name = "tabPage_Launcher";
-            this.tabPage_Launcher.Size = new System.Drawing.Size(650, 332);
+            this.tabPage_Launcher.Size = new System.Drawing.Size(654, 332);
             this.tabPage_Launcher.TabIndex = 2;
             this.tabPage_Launcher.Text = "启动器";
+            // 
+            // button_Settings_Launcher_Title_Reset
+            // 
+            this.button_Settings_Launcher_Title_Reset.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_Settings_Launcher_Title_Reset.Location = new System.Drawing.Point(364, 138);
+            this.button_Settings_Launcher_Title_Reset.Name = "button_Settings_Launcher_Title_Reset";
+            this.button_Settings_Launcher_Title_Reset.Size = new System.Drawing.Size(79, 29);
+            this.button_Settings_Launcher_Title_Reset.TabIndex = 36;
+            this.button_Settings_Launcher_Title_Reset.Text = "重置";
+            this.button_Settings_Launcher_Title_Reset.Type = AntdUI.TTypeMini.Primary;
+            this.button_Settings_Launcher_Title_Reset.Click += new System.EventHandler(this.button_Settings_Launcher_Title_Reset_Click);
+            // 
+            // label_Settings_Launcher_Title
+            // 
+            this.label_Settings_Launcher_Title.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Settings_Launcher_Title.Location = new System.Drawing.Point(5, 137);
+            this.label_Settings_Launcher_Title.Name = "label_Settings_Launcher_Title";
+            this.label_Settings_Launcher_Title.Size = new System.Drawing.Size(40, 30);
+            this.label_Settings_Launcher_Title.TabIndex = 35;
+            this.label_Settings_Launcher_Title.Text = "标题:";
+            // 
+            // input_Settings_Launcher_Title
+            // 
+            this.input_Settings_Launcher_Title.Location = new System.Drawing.Point(41, 137);
+            this.input_Settings_Launcher_Title.Name = "input_Settings_Launcher_Title";
+            this.input_Settings_Launcher_Title.Size = new System.Drawing.Size(317, 30);
+            this.input_Settings_Launcher_Title.TabIndex = 34;
+            this.input_Settings_Launcher_Title.TextChanged += new System.EventHandler(this.input_Settings_Launcher_Title_TextChanged);
             // 
             // button_Settings_Launcher_BgCustom
             // 
             this.button_Settings_Launcher_BgCustom.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Settings_Launcher_BgCustom.Icon = global::PvzLauncher.Properties.Resources.folder;
-            this.button_Settings_Launcher_BgCustom.Location = new System.Drawing.Point(249, 313);
+            this.button_Settings_Launcher_BgCustom.Location = new System.Drawing.Point(249, 348);
             this.button_Settings_Launcher_BgCustom.Name = "button_Settings_Launcher_BgCustom";
             this.button_Settings_Launcher_BgCustom.Size = new System.Drawing.Size(65, 29);
             this.button_Settings_Launcher_BgCustom.TabIndex = 32;
@@ -390,7 +523,7 @@
             this.pictureBox_Settings_Launcher_BgSkinCustom.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Settings_Launcher_BgSkinCustom.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox_Settings_Launcher_BgSkinCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Settings_Launcher_BgSkinCustom.Location = new System.Drawing.Point(170, 232);
+            this.pictureBox_Settings_Launcher_BgSkinCustom.Location = new System.Drawing.Point(170, 267);
             this.pictureBox_Settings_Launcher_BgSkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Settings_Launcher_BgSkinCustom.Name = "pictureBox_Settings_Launcher_BgSkinCustom";
             this.pictureBox_Settings_Launcher_BgSkinCustom.Size = new System.Drawing.Size(144, 75);
@@ -404,7 +537,7 @@
             this.pictureBox_Settings_Launcher_BgSkin1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox_Settings_Launcher_BgSkin1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_Settings_Launcher_BgSkin1.Image = global::PvzLauncher.Properties.Resources.titlescreen_home;
-            this.pictureBox_Settings_Launcher_BgSkin1.Location = new System.Drawing.Point(18, 232);
+            this.pictureBox_Settings_Launcher_BgSkin1.Location = new System.Drawing.Point(18, 267);
             this.pictureBox_Settings_Launcher_BgSkin1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Settings_Launcher_BgSkin1.Name = "pictureBox_Settings_Launcher_BgSkin1";
             this.pictureBox_Settings_Launcher_BgSkin1.Size = new System.Drawing.Size(144, 75);
@@ -414,7 +547,7 @@
             // 
             // label_Settings_Launcher_Tooltip
             // 
-            this.label_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(246, 342);
+            this.label_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(246, 377);
             this.label_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Tooltip.Name = "label_Settings_Launcher_Tooltip";
             this.label_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(157, 23);
@@ -424,7 +557,7 @@
             // switch_Settings_Launcher_Tooltip
             // 
             this.switch_Settings_Launcher_Tooltip.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(201, 342);
+            this.switch_Settings_Launcher_Tooltip.Location = new System.Drawing.Point(201, 377);
             this.switch_Settings_Launcher_Tooltip.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_Tooltip.Name = "switch_Settings_Launcher_Tooltip";
             this.switch_Settings_Launcher_Tooltip.Size = new System.Drawing.Size(40, 23);
@@ -435,7 +568,7 @@
             // 
             this.button_Settings_Launch_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_Settings_Launch_SkinCustom.Icon = global::PvzLauncher.Properties.Resources.folder;
-            this.button_Settings_Launch_SkinCustom.Location = new System.Drawing.Point(497, 200);
+            this.button_Settings_Launch_SkinCustom.Location = new System.Drawing.Point(497, 235);
             this.button_Settings_Launch_SkinCustom.Name = "button_Settings_Launch_SkinCustom";
             this.button_Settings_Launch_SkinCustom.Size = new System.Drawing.Size(126, 29);
             this.button_Settings_Launch_SkinCustom.TabIndex = 25;
@@ -446,7 +579,7 @@
             // radio_Settings_Launcher_SkinCustom
             // 
             this.radio_Settings_Launcher_SkinCustom.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 203);
+            this.radio_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 238);
             this.radio_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radio_Settings_Launcher_SkinCustom.Name = "radio_Settings_Launcher_SkinCustom";
             this.radio_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(72, 23);
@@ -457,7 +590,7 @@
             // pictureBox_Settings_Launcher_SkinCustom
             // 
             this.pictureBox_Settings_Launcher_SkinCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 137);
+            this.pictureBox_Settings_Launcher_SkinCustom.Location = new System.Drawing.Point(430, 172);
             this.pictureBox_Settings_Launcher_SkinCustom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Settings_Launcher_SkinCustom.Name = "pictureBox_Settings_Launcher_SkinCustom";
             this.pictureBox_Settings_Launcher_SkinCustom.Size = new System.Drawing.Size(192, 60);
@@ -468,7 +601,7 @@
             // button_Settings_Launcher_ThemeColorReset
             // 
             this.button_Settings_Launcher_ThemeColorReset.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 371);
+            this.button_Settings_Launcher_ThemeColorReset.Location = new System.Drawing.Point(172, 406);
             this.button_Settings_Launcher_ThemeColorReset.Name = "button_Settings_Launcher_ThemeColorReset";
             this.button_Settings_Launcher_ThemeColorReset.Size = new System.Drawing.Size(139, 35);
             this.button_Settings_Launcher_ThemeColorReset.TabIndex = 22;
@@ -478,7 +611,7 @@
             // 
             // label_Settings_Launcher_ThemeColor
             // 
-            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 371);
+            this.label_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(5, 406);
             this.label_Settings_Launcher_ThemeColor.Name = "label_Settings_Launcher_ThemeColor";
             this.label_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(47, 35);
             this.label_Settings_Launcher_ThemeColor.TabIndex = 21;
@@ -487,7 +620,7 @@
             // colorPicker_Settings_Launcher_ThemeColor
             // 
             this.colorPicker_Settings_Launcher_ThemeColor.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 371);
+            this.colorPicker_Settings_Launcher_ThemeColor.Location = new System.Drawing.Point(51, 406);
             this.colorPicker_Settings_Launcher_ThemeColor.Name = "colorPicker_Settings_Launcher_ThemeColor";
             this.colorPicker_Settings_Launcher_ThemeColor.ShowText = true;
             this.colorPicker_Settings_Launcher_ThemeColor.Size = new System.Drawing.Size(115, 35);
@@ -497,7 +630,7 @@
             // 
             // label_Settings_Launcher_HeightText
             // 
-            this.label_Settings_Launcher_HeightText.Location = new System.Drawing.Point(50, 342);
+            this.label_Settings_Launcher_HeightText.Location = new System.Drawing.Point(50, 377);
             this.label_Settings_Launcher_HeightText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_HeightText.Name = "label_Settings_Launcher_HeightText";
             this.label_Settings_Launcher_HeightText.Size = new System.Drawing.Size(143, 23);
@@ -507,7 +640,7 @@
             // switch_Settings_Launcher_HeightText
             // 
             this.switch_Settings_Launcher_HeightText.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_HeightText.Location = new System.Drawing.Point(5, 342);
+            this.switch_Settings_Launcher_HeightText.Location = new System.Drawing.Point(5, 377);
             this.switch_Settings_Launcher_HeightText.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_HeightText.Name = "switch_Settings_Launcher_HeightText";
             this.switch_Settings_Launcher_HeightText.Size = new System.Drawing.Size(40, 23);
@@ -518,7 +651,7 @@
             // 
             this.progress_Settings_CheckUpdate.ContainerControl = this;
             this.progress_Settings_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.progress_Settings_CheckUpdate.Location = new System.Drawing.Point(139, 437);
+            this.progress_Settings_CheckUpdate.Location = new System.Drawing.Point(139, 472);
             this.progress_Settings_CheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.progress_Settings_CheckUpdate.Name = "progress_Settings_CheckUpdate";
             this.progress_Settings_CheckUpdate.Size = new System.Drawing.Size(484, 33);
@@ -528,7 +661,7 @@
             // 
             // label_Settings_Launcher_LaunchCheckUpdate
             // 
-            this.label_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(51, 476);
+            this.label_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(51, 511);
             this.label_Settings_Launcher_LaunchCheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_LaunchCheckUpdate.Name = "label_Settings_Launcher_LaunchCheckUpdate";
             this.label_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(92, 23);
@@ -538,7 +671,7 @@
             // switch_Settings_Launcher_LaunchCheckUpdate
             // 
             this.switch_Settings_Launcher_LaunchCheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.switch_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(5, 476);
+            this.switch_Settings_Launcher_LaunchCheckUpdate.Location = new System.Drawing.Point(5, 511);
             this.switch_Settings_Launcher_LaunchCheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.switch_Settings_Launcher_LaunchCheckUpdate.Name = "switch_Settings_Launcher_LaunchCheckUpdate";
             this.switch_Settings_Launcher_LaunchCheckUpdate.Size = new System.Drawing.Size(40, 23);
@@ -550,7 +683,7 @@
             this.button_CheckUpdate.HandCursor = System.Windows.Forms.Cursors.Default;
             this.button_CheckUpdate.Icon = global::PvzLauncher.Properties.Resources.update;
             this.button_CheckUpdate.IconRatio = 0.8F;
-            this.button_CheckUpdate.Location = new System.Drawing.Point(5, 437);
+            this.button_CheckUpdate.Location = new System.Drawing.Point(5, 472);
             this.button_CheckUpdate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.button_CheckUpdate.Name = "button_CheckUpdate";
             this.button_CheckUpdate.Size = new System.Drawing.Size(128, 33);
@@ -562,7 +695,7 @@
             // label_Settings_Launcher_Update
             // 
             this.label_Settings_Launcher_Update.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Settings_Launcher_Update.Location = new System.Drawing.Point(5, 408);
+            this.label_Settings_Launcher_Update.Location = new System.Drawing.Point(5, 443);
             this.label_Settings_Launcher_Update.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.label_Settings_Launcher_Update.Name = "label_Settings_Launcher_Update";
             this.label_Settings_Launcher_Update.Size = new System.Drawing.Size(75, 23);
@@ -572,7 +705,7 @@
             // radio_Settings_Launcher_Skin2
             // 
             this.radio_Settings_Launcher_Skin2.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 203);
+            this.radio_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 238);
             this.radio_Settings_Launcher_Skin2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radio_Settings_Launcher_Skin2.Name = "radio_Settings_Launcher_Skin2";
             this.radio_Settings_Launcher_Skin2.Size = new System.Drawing.Size(192, 23);
@@ -584,7 +717,7 @@
             // 
             this.radio_Settings_Launcher_Skin1.Checked = true;
             this.radio_Settings_Launcher_Skin1.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.radio_Settings_Launcher_Skin1.Location = new System.Drawing.Point(18, 203);
+            this.radio_Settings_Launcher_Skin1.Location = new System.Drawing.Point(18, 238);
             this.radio_Settings_Launcher_Skin1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radio_Settings_Launcher_Skin1.Name = "radio_Settings_Launcher_Skin1";
             this.radio_Settings_Launcher_Skin1.Size = new System.Drawing.Size(192, 23);
@@ -596,7 +729,7 @@
             // 
             this.pictureBox_Settings_Launcher_Skin2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_Settings_Launcher_Skin2.Image = global::PvzLauncher.Properties.Resources.PvZ_Logo_zh;
-            this.pictureBox_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 137);
+            this.pictureBox_Settings_Launcher_Skin2.Location = new System.Drawing.Point(230, 172);
             this.pictureBox_Settings_Launcher_Skin2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Settings_Launcher_Skin2.Name = "pictureBox_Settings_Launcher_Skin2";
             this.pictureBox_Settings_Launcher_Skin2.Size = new System.Drawing.Size(192, 60);
@@ -608,7 +741,7 @@
             // 
             this.pictureBox_Settings_Launcher_Skin1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_Settings_Launcher_Skin1.Image = global::PvzLauncher.Properties.Resources.PvZ_Logo;
-            this.pictureBox_Settings_Launcher_Skin1.Location = new System.Drawing.Point(18, 137);
+            this.pictureBox_Settings_Launcher_Skin1.Location = new System.Drawing.Point(18, 172);
             this.pictureBox_Settings_Launcher_Skin1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox_Settings_Launcher_Skin1.Name = "pictureBox_Settings_Launcher_Skin1";
             this.pictureBox_Settings_Launcher_Skin1.Size = new System.Drawing.Size(192, 60);
@@ -681,7 +814,7 @@
             // 
             this.panel1.Controls.Add(this.radio_Settings_Launcher_BgSkinCustom);
             this.panel1.Controls.Add(this.radio_Settings_Launcher_BgSkin1);
-            this.panel1.Location = new System.Drawing.Point(18, 313);
+            this.panel1.Location = new System.Drawing.Point(18, 348);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(225, 23);
             this.panel1.TabIndex = 33;
@@ -882,7 +1015,7 @@
             this.materialListBox_Settings_Save.BackColor = System.Drawing.Color.White;
             this.materialListBox_Settings_Save.BorderColor = System.Drawing.Color.LightGray;
             this.materialListBox_Settings_Save.Depth = 0;
-            this.materialListBox_Settings_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.materialListBox_Settings_Save.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.materialListBox_Settings_Save.Location = new System.Drawing.Point(5, 156);
             this.materialListBox_Settings_Save.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             this.materialListBox_Settings_Save.Name = "materialListBox_Settings_Save";
@@ -977,10 +1110,10 @@
             this.tabPage_Trainer.Controls.Add(this.label_Settings_TrainerWithGame);
             this.tabPage_Trainer.Controls.Add(this.switch_Settings_TrainerWithGame);
             this.tabPage_Trainer.Icon = global::PvzLauncher.Properties.Resources.PvzToolkit_;
-            this.tabPage_Trainer.Location = new System.Drawing.Point(0, 0);
+            this.tabPage_Trainer.Location = new System.Drawing.Point(-654, -332);
             this.tabPage_Trainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.tabPage_Trainer.Name = "tabPage_Trainer";
-            this.tabPage_Trainer.Size = new System.Drawing.Size(0, 0);
+            this.tabPage_Trainer.Size = new System.Drawing.Size(654, 332);
             this.tabPage_Trainer.TabIndex = 1;
             this.tabPage_Trainer.Text = "修改器";
             // 
@@ -1279,11 +1412,20 @@
             this.openFileDialog_CustomBg.Filter = "PNG文件|*.png|JPG文件|*.jpg";
             this.openFileDialog_CustomBg.Title = "请选择有效的图片文件(推荐上传分辨率480*250的图片)";
             // 
+            // panel_An
+            // 
+            this.panel_An.Location = new System.Drawing.Point(200, 200);
+            this.panel_An.Name = "panel_An";
+            this.panel_An.Size = new System.Drawing.Size(1, 1);
+            this.panel_An.TabIndex = 2;
+            // 
             // Main_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(241)))), ((int)(((byte)(241)))));
             this.ClientSize = new System.Drawing.Size(750, 400);
+            this.Controls.Add(this.panel_An);
             this.Controls.Add(this.tabs_Main);
             this.Controls.Add(this.pageHeader);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -1302,6 +1444,7 @@
             this.tabPage_Home.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Title)).EndInit();
+            this.tabPage_Download.ResumeLayout(false);
             this.tabPage_Settings.ResumeLayout(false);
             this.tabs_Settings.ResumeLayout(false);
             this.tabPage_Launcher.ResumeLayout(false);
@@ -1416,5 +1559,16 @@
         private AntdUI.Radio radio_Settings_Launcher_BgSkinCustom;
         private AntdUI.Radio radio_Settings_Launcher_BgSkin1;
         private System.Windows.Forms.OpenFileDialog openFileDialog_CustomBg;
+        private AntdUI.Label label_Settings_Launcher_Title;
+        private AntdUI.Input input_Settings_Launcher_Title;
+        private AntdUI.Button button_Settings_Launcher_Title_Reset;
+        private AntdUI.TabPage tabPage_Download;
+        private AntdUI.Label label_Downlaod_OriEn;
+        private ReaLTaiizor.Controls.MaterialListBox materialListBox_Download_OriEn;
+        private ReaLTaiizor.Controls.MaterialListBox materialListBox_Download_OriZh;
+        private AntdUI.Label label_Download_OriZh;
+        private ReaLTaiizor.Controls.MaterialListBox materialListBox_Download_ReZh;
+        private AntdUI.Label label_Download_ReZh;
+        private System.Windows.Forms.Panel panel_An;
     }
 }

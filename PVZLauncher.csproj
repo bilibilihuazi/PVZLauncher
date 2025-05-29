@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -118,9 +120,14 @@
     <Reference Include="ReaLTaiizor, Version=3.8.1.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\ReaLTaiizor.3.8.1.2\lib\net48\ReaLTaiizor.dll</HintPath>
     </Reference>
+    <Reference Include="SevenZipSharp, Version=1.6.2.24, Culture=neutral, PublicKeyToken=c8ff6ba0184838bb, processorArchitecture=MSIL">
+      <HintPath>packages\Squid-Box.SevenZipSharp.1.6.2.24\lib\net472\SevenZipSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -132,6 +139,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Download_Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Download_Window.Designer.cs">
+      <DependentUpon>Download_Window.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main_Window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,6 +176,9 @@
     <Compile Include="SetName_Window.Designer.cs">
       <DependentUpon>SetName_Window.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Download_Window.resx">
+      <DependentUpon>Download_Window.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main_Window.resx">
       <DependentUpon>Main_Window.cs</DependentUpon>
     </EmbeddedResource>

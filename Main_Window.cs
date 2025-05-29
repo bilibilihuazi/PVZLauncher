@@ -945,6 +945,10 @@ namespace PvzLauncher
         //对齐控件
         public void Align()
         {
+            #region Global
+
+            #endregion
+
             #region 主页
 
             //标题居中
@@ -978,6 +982,33 @@ namespace PvzLauncher
             //pictureBox_Home_Background.Height = tabs_Main.Height - pictureBox_Home_Title.Height - 2;
             //pictureBox_Home_Background.Width = tabPage_Home.Width - button_Launch.Width - 5;
             pictureBox_Home_Background.Top = tabPage_Home.Height - 3 - pictureBox_Home_Background.Height;
+            #endregion
+
+            #region 下载
+            /*//英文原版列表
+            materialListBox_Download_OriEn.Height = materialListBox_Download_OriEn.Items.Count * 40;
+
+            //中文原版
+            label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
+
+            materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
+            
+            materialListBox_Download_OriZh.Height = materialListBox_Download_OriZh.Items.Count * 40;
+
+            //中文改版
+            label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
+
+            materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
+            materialListBox_Download_ReZh.Height = materialListBox_Download_ReZh.Items.Count * 40;*/
+
+
+
+
+
+            materialListBox_Download_OriEn.Width = tabPage_Download.Width - 30;
+            materialListBox_Download_OriZh.Width = tabPage_Download.Width - 30;
+            materialListBox_Download_ReZh.Width = tabPage_Download.Width - 30;
+
             #endregion
 
             #region 设置
@@ -1078,15 +1109,91 @@ namespace PvzLauncher
             button_CheckUpdate.Loading = false;
 
         }
+        
+        //加载下载索引信息
+        public async void LoadDownloadInfo()
+        {
+            try
+            {
+                if (File.Exists(IndexPath))
+                {
+                    File.Delete(IndexPath);
+                }
 
+
+
+                File.WriteAllText(IndexPath, await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/DownloadServcie/index.ini"));
+
+
+
+
+
+                materialListBox_Download_OriEn.Items.Clear();
+                materialListBox_Download_OriZh.Items.Clear();
+                materialListBox_Download_ReZh.Items.Clear();
+
+                for (int i = 0; i < int.Parse(ReadConfig(IndexPath, "index_ori_en", "num")); i++) 
+                {
+                    materialListBox_Download_OriEn.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem()
+                    {
+                        Text = ReadConfig(IndexPath, "index_ori_en", $"{i + 1}")
+                    });
+
+                }
+                for (int i = 0; i < int.Parse(ReadConfig(IndexPath, "index_ori_zh", "num")); i++)
+                {
+                    materialListBox_Download_OriZh.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem()
+                    {
+                        Text = ReadConfig(IndexPath, "index_ori_zh", $"{i + 1}")
+                    });
+
+                }
+                for (int i = 0; i < int.Parse(ReadConfig(IndexPath, "index_re_zh", "num")); i++)
+                {
+                    materialListBox_Download_ReZh.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem()
+                    {
+                        Text = ReadConfig(IndexPath, "index_re_zh", $"{i + 1}")
+                    });
+
+                }
+
+                #region 对齐
+                //英文原版列表
+                materialListBox_Download_OriEn.Height = materialListBox_Download_OriEn.Items.Count * 40;
+
+                //中文原版
+                label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
+
+                materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
+
+                materialListBox_Download_OriZh.Height = materialListBox_Download_OriZh.Items.Count * 40;
+
+                //中文改版
+                label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
+
+                materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
+                materialListBox_Download_ReZh.Height = materialListBox_Download_ReZh.Items.Count * 40;
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "发生错误！",
+                    Text = $"在载入下载索引时发生错误！\n\n错误原因:{ex.Message}",
+                    Icon = AntdUI.TType.Error
+                });
+                
+            }
+        }
 
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
         Process proceess = new Process();    //进程管理
         //变量========================================================================================
-        public static string Title = "Plants vs. Zombies Launcher";    //窗口标题
-        public static string Version = "Pre-Release 1.2.1.6";    //版本
-        public static string CompliedTime = "2025-5-27 19:19";     //编译时间
+        public static string Version = "Pre-Release 1.2.2.5";    //版本
+        public static string CompliedTime = "2025-5-29 21:01";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1095,6 +1202,8 @@ namespace PvzLauncher
         public static string STrainer;    //当前修改器路径
         public static int EggNum = 0;    //彩蛋计数器
         public static string[] args = Environment.GetCommandLineArgs();    //启动参数
+        public static string IndexPath = $"{RunPath}\\assets\\index.ini";    //下载索引
+        public static bool DownloadState = false;    //下载完成状态
         //事件========================================================================================
         //构造函数
         public Main_Window()
@@ -1104,8 +1213,6 @@ namespace PvzLauncher
             //初始化================================
             try
             {
-                pageHeader.Text = $"{Title}";//设置标题
-                this.Text = $"{Title}";
 
 
                 //加载修改器信息
@@ -1197,6 +1304,7 @@ namespace PvzLauncher
                 if (!File.Exists(ConfigPath))
                 {
                     //global
+                    WriteConfig(ConfigPath, "global", "Title", "Plants Vs Zombies Launcher");//标题
                     WriteConfig(ConfigPath, "global", "SelectGame", "请选择游戏");//当前选择的游戏
                     WriteConfig(ConfigPath, "global", "TrainerWithGameLaunch", "false");//启动器随游戏启动
                     WriteConfig(ConfigPath, "global", "LaunchedExecute", "0");//游戏启动后的操作
@@ -1214,7 +1322,7 @@ namespace PvzLauncher
                     WriteConfig(ConfigPath, "global", "Tooltip", "true");//悬浮提示
                     WriteConfig(ConfigPath, "global", "FullScreen", "fasle");//全屏
                     WriteConfig(ConfigPath, "global", "GameWindowLocation", "0");//窗口位置
-
+                    
                     //games
                     WriteConfig(ConfigPath, "Plants Vs Zombies", "ExecuteName", "PlantsVsZombies.exe");//默认游戏的名称
                     WriteConfig(ConfigPath, "Plants Vs Zombies", "PlayTime", "0");
@@ -1235,6 +1343,12 @@ namespace PvzLauncher
             //读配置项
             try
             {
+                pageHeader.Text = ReadConfig(ConfigPath, "global", "Title");//设置标题
+                this.Text = ReadConfig(ConfigPath, "global", "Title");
+                input_Settings_Launcher_Title.Text = ReadConfig(ConfigPath, "global", "Title");
+
+
+
                 //当前选择的游戏
                 SGamesPath = ReadConfig(ConfigPath, "global", "SelectGame");
 
@@ -1364,6 +1478,7 @@ namespace PvzLauncher
                     pictureBox_Settings_Launcher_BgSkinCustom.Image = Image.FromFile($"{RunPath}\\assets\\CustomBg.png");
 
                 }
+
 
             }
             catch (Exception ex)
@@ -1518,6 +1633,11 @@ namespace PvzLauncher
             {
                 TitleFadeIn();
             }
+            if (tabs_Main.SelectedIndex == 1)
+            {
+                LoadDownloadInfo();
+
+            }
 
         }
 
@@ -1535,6 +1655,17 @@ namespace PvzLauncher
         {
             //Align();
             label_Home_Gamename.Text = $"{SGamesPath}";//设置当前游戏名称
+
+            if (DownloadState)
+            {
+                DownloadState = false;
+                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                {
+                    Title = "下载完毕！",
+                    Text = "请到选择游戏界面查看!",
+                    Icon = AntdUI.TType.Success
+                });
+            }
         }
 
         //启动游戏
@@ -2870,6 +3001,108 @@ namespace PvzLauncher
                         Icon = AntdUI.TType.Error
                     });
                     
+                }
+            }
+        }
+
+        //设置->标题
+        private void input_Settings_Launcher_Title_TextChanged(object sender, EventArgs e)
+        {
+            pageHeader.Text = input_Settings_Launcher_Title.Text;
+            this.Text = input_Settings_Launcher_Title.Text;
+            WriteConfig(ConfigPath, "global", "Title", input_Settings_Launcher_Title.Text);
+        }
+
+        //设置->重置标题
+        private void button_Settings_Launcher_Title_Reset_Click(object sender, EventArgs e)
+        {
+            input_Settings_Launcher_Title.Text = "Plants Vs Zombies Launcher";
+        }
+
+        //下载页面绘制
+        private void tabPage_Download_Paint(object sender, PaintEventArgs e)
+        {
+            Align();
+        }
+
+        //下载->ori_en
+        private void materialListBox_Download_OriEn_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
+        {
+            if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "是否下载",
+                Content = $"是否下载 {materialListBox_Download_OriEn.SelectedItem.Text} ？",
+                OkText = "下载",
+                CancelText = "取消",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                Download_Window.DownloadLink = ReadConfig(IndexPath, "ori_en", materialListBox_Download_OriEn.SelectedItem.Text);
+                Download_Window.GameKind = "ori_en";
+                Download_Window.Num = $"{materialListBox_Download_OriEn.SelectedIndex + 1}";
+
+
+                materialListBox_Download_OriEn.SelectedIndex = -1;
+
+                using (Download_Window download_Window = new Download_Window())
+                {
+                    download_Window.ShowDialog();
+                }
+            }
+
+
+
+            
+        }
+
+        //下载->ori_zh
+        private void materialListBox_Download_OriZh_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
+        {
+            if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "是否下载",
+                Content = $"是否下载 {materialListBox_Download_OriZh.SelectedItem.Text} ？",
+                OkText = "下载",
+                CancelText = "取消",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                Download_Window.DownloadLink = ReadConfig(IndexPath, "ori_zh", materialListBox_Download_OriZh.SelectedItem.Text);
+                Download_Window.GameKind = "ori_zh";
+                Download_Window.Num = $"{materialListBox_Download_OriZh.SelectedIndex + 1}";
+
+
+                materialListBox_Download_OriZh.SelectedIndex = -1;
+
+                using (Download_Window download_Window = new Download_Window())
+                {
+                    download_Window.ShowDialog();
+                }
+            }
+        }
+
+        //下载->re_zh
+        private void materialListBox_Download_ReZh_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
+        {
+            if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "是否下载",
+                Content = $"是否下载 {materialListBox_Download_ReZh.SelectedItem.Text} ？",
+                OkText = "下载",
+                CancelText = "取消",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                Download_Window.DownloadLink = ReadConfig(IndexPath, "re_zh", materialListBox_Download_ReZh.SelectedItem.Text);
+                Download_Window.GameKind = "re_zh";
+                Download_Window.Num = $"{materialListBox_Download_ReZh.SelectedIndex + 1}";
+
+
+                materialListBox_Download_ReZh.SelectedIndex = -1;
+
+                using (Download_Window download_Window = new Download_Window())
+                {
+                    download_Window.ShowDialog();
                 }
             }
         }

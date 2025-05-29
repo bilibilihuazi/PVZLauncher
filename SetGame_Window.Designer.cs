@@ -133,7 +133,7 @@
             // 
             this.label_FirstLaunch.BackColor = System.Drawing.Color.Transparent;
             this.label_FirstLaunch.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_FirstLaunch.Location = new System.Drawing.Point(5, 58);
+            this.label_FirstLaunch.Location = new System.Drawing.Point(5, 65);
             this.label_FirstLaunch.Name = "label_FirstLaunch";
             this.label_FirstLaunch.Size = new System.Drawing.Size(776, 23);
             this.label_FirstLaunch.TabIndex = 2;
@@ -143,7 +143,7 @@
             // 
             this.label_PlayTime.BackColor = System.Drawing.Color.Transparent;
             this.label_PlayTime.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.label_PlayTime.Location = new System.Drawing.Point(5, 34);
+            this.label_PlayTime.Location = new System.Drawing.Point(5, 41);
             this.label_PlayTime.Name = "label_PlayTime";
             this.label_PlayTime.Size = new System.Drawing.Size(776, 23);
             this.label_PlayTime.TabIndex = 1;
@@ -156,7 +156,7 @@
             this.label_Info.HandCursor = System.Windows.Forms.Cursors.Default;
             this.label_Info.Location = new System.Drawing.Point(5, 5);
             this.label_Info.Name = "label_Info";
-            this.label_Info.Size = new System.Drawing.Size(120, 23);
+            this.label_Info.Size = new System.Drawing.Size(120, 30);
             this.label_Info.TabIndex = 0;
             this.label_Info.Text = "统计信息";
             // 

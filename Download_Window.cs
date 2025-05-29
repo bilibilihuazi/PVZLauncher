@@ -1,24 +1,25 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using Microsoft.VisualBasic.Devices;
 
 namespace PvzLauncher
 {
-    public partial class SelectGame_Window : AntdUI.Window
+    public partial class Download_Window : AntdUI.Window
     {
         //函数========================================================================================
         #region Functions
@@ -87,82 +88,6 @@ namespace PvzLauncher
         }
         //引用==================================================
 
-        //HTTP读取文件
-        public static string HttpReadFile(string url)
-        {
-            try
-            {
-                // 设置安全协议类型（支持TLS 1.2/1.1/1.0）
-                ServicePointManager.SecurityProtocol =
-                    SecurityProtocolType.Tls12 |
-                    SecurityProtocolType.Tls11 |
-                    SecurityProtocolType.Tls;
-
-                // 创建带自定义验证的HttpClient
-                using (var handler = new HttpClientHandler())
-                using (var client = new HttpClient(handler))
-                {
-                    // 忽略SSL证书验证
-                    handler.ServerCertificateCustomValidationCallback =
-                        (sender, cert, chain, sslPolicyErrors) => true;
-
-                    // 设置超时时间（10秒）
-                    client.Timeout = TimeSpan.FromSeconds(10);
-
-                    // 添加浏览器User-Agent
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                        "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-
-                    // 发送GET请求
-                    var response = client.GetAsync(url).Result;
-                    response.EnsureSuccessStatusCode();
-
-                    // 读取字节内容
-                    var bytes = response.Content.ReadAsByteArrayAsync().Result;
-
-                    // 检测编码
-                    var encoding = HttpReadFile_DetectEncoding(response, bytes);
-
-                    // 转换为字符串
-                    return encoding.GetString(bytes);
-                }
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
-
-        //HTTPS读文件(检测编码)
-        private static Encoding HttpReadFile_DetectEncoding(HttpResponseMessage response, byte[] bytes)
-        {
-            try
-            {
-                // 从Content-Type头获取编码
-                var contentType = response.Content.Headers.ContentType;
-                if (contentType?.CharSet != null)
-                {
-                    return Encoding.GetEncoding(contentType.CharSet);
-                }
-            }
-            catch
-            {
-                // 忽略编码解析错误
-            }
-
-            // 尝试通过BOM检测编码
-            if (bytes.Length >= 3 && bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
-                return Encoding.UTF8;
-            if (bytes.Length >= 2 && bytes[0] == 0xFE && bytes[1] == 0xFF)
-                return Encoding.BigEndianUnicode;
-            if (bytes.Length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xFE)
-                return Encoding.Unicode;
-
-            // 默认使用UTF-8
-            return Encoding.UTF8;
-        }
-
         //写日志
         public static void Log(string level, string message)
         {
@@ -182,16 +107,6 @@ namespace PvzLauncher
             }
 
         }
-
-        //文件写一行
-        public static void FileAddLine(string content, string filePath)
-        {
-            using (StreamWriter sw = File.AppendText(filePath))
-            {
-                sw.WriteLine(content);
-            }
-        }
-
         //连通性测试
         public static object CheckUrlConnection(string url)
         {
@@ -279,30 +194,6 @@ namespace PvzLauncher
             }
         }
 
-        //搜索文件内容
-        public bool FileSearchText(string filePath, string searchText)
-        {
-            try
-            {
-                // 检查搜索文本是否有效
-                if (string.IsNullOrEmpty(searchText))
-                    return false;
-
-                // 读取文件全部内容
-                string fileContent = File.ReadAllText(filePath);
-
-                // 检查内容是否包含目标文本
-                return fileContent.Contains(searchText);
-            }
-            catch (Exception ex) when (ex is FileNotFoundException ||
-                                      ex is IOException ||
-                                      ex is UnauthorizedAccessException)
-            {
-                // 处理常见文件异常：文件不存在、无法访问或IO错误
-                return false;
-            }
-        }
-
         //弹出系统通知
         public static void ShowNotification(string title, string content)
         {
@@ -334,50 +225,6 @@ namespace PvzLauncher
 
             // 显示通知（3000ms=3秒显示时间）
             notifyIcon.ShowBalloonTip(3000, title, content, ToolTipIcon.None);
-        }
-
-        // 写入配置（常规）
-        public static void Legacy_WriteConfig(string filePath, string key, string value)
-        {
-            Dictionary<string, string> config = new Dictionary<string, string>();
-
-            // 如果文件存在，先读取现有配置
-            if (File.Exists(filePath))
-            {
-                foreach (string line in File.ReadAllLines(filePath))
-                {
-                    string[] parts = line.Split(new[] { '=' }, 2);
-                    if (parts.Length == 2 && !string.IsNullOrWhiteSpace(parts[0]))
-                    {
-                        config[parts[0].Trim()] = parts[1].Trim();
-                    }
-                }
-            }
-
-            // 添加/更新键值
-            config[key] = value;
-
-            // 写入所有配置项
-            File.WriteAllLines(filePath,
-                config.Select(kvp => $"{kvp.Key}={kvp.Value}"),
-                Encoding.UTF8);
-        }
-
-        // 读取配置（常规）
-        public static string Legacy_ReadConfig(string filePath, string key)
-        {
-            if (!File.Exists(filePath)) return null;
-
-            foreach (string line in File.ReadAllLines(filePath))
-            {
-                string[] parts = line.Split(new[] { '=' }, 2);
-                if (parts.Length == 2 &&
-                    parts[0].Trim().Equals(key, StringComparison.OrdinalIgnoreCase))
-                {
-                    return parts[1].Trim();
-                }
-            }
-            return null;
         }
 
         //写注册表项
@@ -456,7 +303,7 @@ namespace PvzLauncher
             }
         }
 
-        // 写入配置（支持节）
+        // 写入配置
         public static void WriteConfig(string filePath, string section, string key, string value)
         {
             var sections = ParseConfigFile(filePath);
@@ -494,7 +341,7 @@ namespace PvzLauncher
             File.WriteAllLines(filePath, lines, Encoding.UTF8);
         }
 
-        // 读取配置（支持节）
+        // 读取配置
         public static string ReadConfig(string filePath, string section, string key)
         {
             if (!File.Exists(filePath)) return null;
@@ -847,322 +694,230 @@ namespace PvzLauncher
             }
         }
 
-        #endregion
+        //异步HTTP下载文件
+        public async Task DownloadFileAsync(string url, string savePath, IProgress<(int ProgressPercentage, long BytesReceived)> progress = null, CancellationToken cancellationToken = default)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                // 获取响应头并验证状态
+                using (var response = await httpClient.GetAsync(
+                    url,
+                    HttpCompletionOption.ResponseHeadersRead,
+                    cancellationToken))
+                {
+                    response.EnsureSuccessStatusCode();
 
-        //加载游戏列表
-        public void LoadGameList()
+                    // 创建保存目录
+                    var directory = Path.GetDirectoryName(savePath);
+                    if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+                    // 获取文件总大小
+                    var totalBytes = response.Content.Headers.ContentLength ?? -1L;
+                    var receivedBytes = 0L;
+
+                    // 创建文件流
+                    using (var contentStream = await response.Content.ReadAsStreamAsync())
+                    using (var fileStream = new FileStream(
+                        savePath,
+                        FileMode.Create,
+                        FileAccess.Write,
+                        FileShare.None,
+                        bufferSize: 8192,
+                        useAsync: true))
+                    {
+                        var buffer = new byte[8192];
+                        int bytesRead;
+
+                        // 分段下载并更新进度
+                        while ((bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+                        {
+                            await fileStream.WriteAsync(buffer, 0, bytesRead, cancellationToken);
+                            receivedBytes += bytesRead;
+
+                            if (totalBytes > 0)
+                            {
+                                var progressPercentage = (int)((double)receivedBytes / totalBytes * 100);
+                                progress?.Report((progressPercentage, receivedBytes));
+                            }
+                            else
+                            {
+                                progress?.Report((-1, receivedBytes));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //异步HTTP读文件
+        public async Task<string> HttpReadFileAsync(string url)
         {
             try
             {
-                List<string> temp = new List<string>();
-                for (int i = 0; i < Directory.GetDirectories($"{Main_Window.RunPath}\\games").Length; i++)
+                using (HttpClient client = new HttpClient())
                 {
-                    temp.Add(Path.GetFileName(Directory.GetDirectories($"{Main_Window.RunPath}\\games")[i]));
+                    // 设置超时时间（可选）
+                    client.Timeout = TimeSpan.FromSeconds(30);
+
+                    // 发送GET请求
+                    using (HttpResponseMessage response = await client.GetAsync(url))
+                    {
+                        response.EnsureSuccessStatusCode();  // 确保响应成功
+                        return await response.Content.ReadAsStringAsync();  // 读取内容为字符串
+                    }
                 }
-                Main_Window.GamesPath = temp.ToArray();
+            }
+            catch (Exception ex)
+            {
+                // 这里可以记录异常或进行其他处理
+                Console.WriteLine($"Error reading file: {ex.Message}");
+                return null;  // 或者根据需求返回空字符串/抛出异常
+            }
+        }
+
+        //异步HTTP下载文件带进度
+        public async Task DownloadFileAsync(string url, string savePath, IProgress<int> progress)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                // 设置进度报告事件
+                webClient.DownloadProgressChanged += (sender, e) =>
+                {
+                    progress?.Report(e.ProgressPercentage);
+                };
+
+                // 异步下载文件
+                await webClient.DownloadFileTaskAsync(new Uri(url), savePath);
+            }
+        }
+
+        //解压zip
+        public async Task UnzipAsync(string zipPath, string extractPath, AntdUI.Progress progressBar)
+        {
+            // 重置进度条
+            progressBar.Value = 0F;
+
+            await Task.Run(() =>
+            {
+                using (var archive = ZipFile.OpenRead(zipPath))
+                {
+                    long totalSize = 0;
+                    long extractedSize = 0;
+
+                    // 计算总文件大小
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (!entry.FullName.EndsWith("/")) // 跳过目录
+                        {
+                            totalSize += entry.Length;
+                        }
+                    }
+
+                    // 解压文件
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (entry.FullName.EndsWith("/")) continue; // 跳过目录
+
+                        string fullPath = Path.Combine(extractPath, entry.FullName);
+                        string directory = Path.GetDirectoryName(fullPath);
+
+                        // 创建目标目录
+                        if (!Directory.Exists(directory))
+                            Directory.CreateDirectory(directory);
+
+                        // 解压文件并更新进度
+                        using (var entryStream = entry.Open())
+                        using (var fileStream = File.Create(fullPath))
+                        {
+                            byte[] buffer = new byte[8192];
+                            int bytesRead;
+
+                            while ((bytesRead = entryStream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                fileStream.Write(buffer, 0, bytesRead);
+                                extractedSize += bytesRead;
+
+                                // 更新进度条
+                                int progress = (int)((double)extractedSize / totalSize * 100);
+                                progressBar.Invoke((MethodInvoker)(() =>
+                                {
+                                    progressBar.Value = Math.Min(progress, 100F);
+                                }));
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        #endregion
+
+        //变量========================================================================================
+        public static string DownloadLink;
+        public static string GameKind;
+        public static string Num;
+        //事件========================================================================================
+        public Download_Window()
+        {
+            InitializeComponent();
+
+
+
+
+        }
+
+        private async void Download_Window_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var progress = new Progress<int>(pg =>
+                {
+                    progress1.Value = pg / 100F;
+                });
+
+                label2.Text = "下载中...";
+
+                await DownloadFileAsync(DownloadLink, $"{Main_Window.RunPath}\\games\\temp.zip", progress);
+
+                label2.Text = "解压中...";
+                progress1.Value = 0F;
+
+                await UnzipAsync($"{Main_Window.RunPath}\\games\\temp.zip", $"{Main_Window.RunPath}\\games", progress1);
+
+                label2.Text = "删除临时文件中...";
+                progress1.Value = 0F;
+
+                File.Delete($"{Main_Window.RunPath}\\games\\temp.zip");
+
+                label2.Text = "完成！";
+                progress1.Value = 1F;
+
+                await Task.Delay(500);
+
+                Main_Window.DownloadState = true;
+                this.Close();
+
             }
             catch (Exception ex)
             {
                 AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
                 {
                     Title = "发生错误！",
-                    Text = $"在加载游戏列表时发生错误！\n错误原因:{ex.Message}",
+                    Text = $"在下载游戏时发生错误！\n\n错误原因:{ex.Message}",
                     Icon = AntdUI.TType.Error
                 });
 
-            }
-            
+                await Task.Delay(1000);
 
-        }
+                this.Close();
 
-        //对象========================================================================================
-        //变量========================================================================================
-        //事件========================================================================================
-        public SelectGame_Window()
-        {
-            InitializeComponent();
-        }
 
-        private void SelectGame_Window_Load(object sender, EventArgs e)
-        {
-            LoadGameList();
 
-            ListBox.SelectedIndex = -1;
-            button_Done.Enabled = false;
-
-            image3D_GameIcon.Image = Properties.Resources.icon;
-            label_Gameinfo1.Text = "UNKNOWN";
-
-            ListBox.Items.Clear();
-            for (int i = 0; i < Main_Window.GamesPath.Length; i++)
-            {
-                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = Main_Window.GamesPath[i]));
 
             }
-        }
-
-        private void ListBox_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
-        {
-            try
-            {
-                if (ListBox.SelectedIndex != -1)
-                {
-                    button_Done.Enabled = true;
-                }
-                else
-                {
-                    button_Done.Enabled = false;
-                }
-
-                if (!File.Exists($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\info.vg"))
-                {
-                    if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName") == null)
-                    {
-                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "ExecuteName", "PlantsVsZombies.exe");
-                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
-                    }
-                }
-                else
-                {
-                    if (ReadConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime") == null)
-                    {
-                        WriteConfig(Main_Window.ConfigPath, ListBox.SelectedItem.Text, "PlayTime", "0");
-                    }
-                }
-
-                Icon Gameicon = Icon.ExtractAssociatedIcon($"{Main_Window.RunPath}\\games\\{ListBox.SelectedItem.Text}\\{ReadConfig(Main_Window.ConfigPath, $"{ListBox.SelectedItem.Text}", "ExecuteName")}");
-
-                image3D_GameIcon.Image = Gameicon.ToBitmap();
-                label_Gameinfo1.Text = ListBox.SelectedItem.Text;
-
-                
-            }
-            catch (Exception ex)
-            {
-                string a = ex.Message;
-
-
-                /*AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "发生错误！",
-                    Text = $"在加载游戏图标时发生错误，请检查游戏可执行文件名是否有效！\n返回的错误信息:{ex.Message}",
-                    Icon = AntdUI.TType.Error
-                });*/
-                
-            }
-            
-        }
-
-        private void button_Done_Click(object sender, EventArgs e)
-        {
-            Main_Window.SGamesPath = $"{ListBox.SelectedItem.Text}";
-            WriteConfig(Main_Window.ConfigPath, "global", "SelectGame", $"{ListBox.SelectedItem.Text}");
-
 
             
 
 
-            this.Close();
-        }
-
-        private void button_Cancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void button_Refresh_Click(object sender, EventArgs e)
-        {
-            LoadGameList();
-
-            ListBox.SelectedIndex = -1;
-            button_Done.Enabled = false;
-
-            image3D_GameIcon.Image = Properties.Resources.icon;
-            label_Gameinfo1.Text = "请选择游戏";
-
-            ListBox.Items.Clear();
-            for (int i = 0; i < Main_Window.GamesPath.Length; i++)
-            {
-                ListBox.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem(Text = Main_Window.GamesPath[i]));
-
-            }
-        }
-
-        private void button_Load_Click(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
-                {
-                    Title = "导入",
-                    Content = $"是否将 \"{folderBrowserDialog1.SelectedPath}\" 导入进游戏库？\n\n此操作仅复制文件夹，源文件夹不做改动",
-                    OkText = "导入",
-                    CancelText = "取消",
-                    Icon = AntdUI.TType.Warn
-                }) == DialogResult.OK)
-                {
-                    try
-                    {
-                        CopyFolder($"{folderBrowserDialog1.SelectedPath}", $"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", true);
-
-                        WriteConfig(Main_Window.ConfigPath, $"{Path.GetFileName(folderBrowserDialog1.SelectedPath)}", "PlayTime", "0");
-
-                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {
-                            Title = "导入成功！",
-                            Text = "游戏已导入成功，请刷新游戏列表",
-                            Icon = AntdUI.TType.Success
-                        });
-
-                        LoadGameList();
-
-
-                        if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\PlantsVsZombies.exe"))
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "PlantsVsZombies.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 PlantsVsZombies.exe \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\GHtrEXE.exe")) 
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "GHtrEXE.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 Ghtr版 \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\beta6.30.exe"))
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "beta6.30.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 beta版v6.30 \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\原？版1.25.50.exe"))
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "原？版1.25.50.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 原？版v1.25.50 \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\pvzHE-Launcher.exe"))
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "pvzHE-Launcher.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 杂交版 \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else if (File.Exists($"{Main_Window.RunPath}\\games\\{Path.GetFileName(folderBrowserDialog1.SelectedPath)}\\PlantsVsZombiesRH.exe"))
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "PlantsVsZombiesRH.exe");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"已识别到 融合版 \n\n已自动写入可执行文件名，开始游玩吧！",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-                        else
-                        {
-                            WriteConfig(Main_Window.ConfigPath, Main_Window.SGamesPath, "ExecuteName", "未知的版本，请手动选择可执行文件");
-
-                            AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                            {
-                                Title = "提示",
-                                Text = $"未识别任何到版本 \n\n请手动选择可执行文件名",
-                                Icon = AntdUI.TType.Info
-                            });
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {
-                            Title = "发生错误！",
-                            Text = $"在导入游戏时发生错误！\n错误原因:{ex.Message}",
-                            Icon = AntdUI.TType.Error
-                        });
-
-                    }
-                }
-            }
-
-        }
-
-        private void button_VirtualLoad_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
-                {
-                    Title = "虚拟导入",
-                    Content = $"是否将 \"{openFileDialog1.FileName}\" 虚拟导入进游戏库中？\n\n仅创建配置文件，源文件不动，直接从源位置启动游戏",
-                    OkText = "导入",
-                    CancelText = "取消",
-                    Icon = AntdUI.TType.Warn
-                }) == DialogResult.OK)
-                {
-                    try
-                    {
-                        Directory.CreateDirectory($"{Main_Window.RunPath}\\games\\{Path.GetFileName(Path.GetDirectoryName(openFileDialog1.FileName))}");
-
-                        WriteConfig($"{Main_Window.RunPath}\\games\\{Path.GetFileName(Path.GetDirectoryName(openFileDialog1.FileName))}\\info.vg", "config", "Path", $"{openFileDialog1.FileName}");
-
-                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {
-                            Title = "成功导入",
-                            Text = "成功创建游戏信息",
-                            Icon = AntdUI.TType.Success
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-
-                        AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                        {
-                            Title = "发生错误！",
-                            Text = $"在创建游戏信息时发生错误！\n\n错误原因:{ex.Message}",
-                            Icon = AntdUI.TType.Error
-                        });
-                    }
-                }
-            }
         }
     }
 }

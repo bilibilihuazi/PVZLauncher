@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pageHeader = new AntdUI.PageHeader();
+            this.button_VirtualLoad = new AntdUI.Button();
             this.button_Load = new AntdUI.Button();
             this.button_Refresh = new AntdUI.Button();
             this.ListBox = new ReaLTaiizor.Controls.MaterialListBox();
@@ -37,7 +38,6 @@
             this.button_Cancel = new AntdUI.Button();
             this.image3D_GameIcon = new AntdUI.Image3D();
             this.label_Gameinfo1 = new AntdUI.Label();
-            this.button_VirtualLoad = new AntdUI.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageHeader.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +57,20 @@
             this.pageHeader.Size = new System.Drawing.Size(611, 30);
             this.pageHeader.TabIndex = 0;
             this.pageHeader.Text = "选择版本";
+            // 
+            // button_VirtualLoad
+            // 
+            this.button_VirtualLoad.BackExtend = "135, #6253E1, #04BEFE";
+            this.button_VirtualLoad.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.button_VirtualLoad.Icon = global::PvzLauncher.Properties.Resources.folder;
+            this.button_VirtualLoad.IconRatio = 0.8F;
+            this.button_VirtualLoad.Location = new System.Drawing.Point(247, 0);
+            this.button_VirtualLoad.Name = "button_VirtualLoad";
+            this.button_VirtualLoad.Size = new System.Drawing.Size(128, 30);
+            this.button_VirtualLoad.TabIndex = 7;
+            this.button_VirtualLoad.Text = "虚拟导入";
+            this.button_VirtualLoad.Type = AntdUI.TTypeMini.Primary;
+            this.button_VirtualLoad.Click += new System.EventHandler(this.button_VirtualLoad_Click);
             // 
             // button_Load
             // 
@@ -88,7 +102,7 @@
             this.ListBox.BackColor = System.Drawing.Color.White;
             this.ListBox.BorderColor = System.Drawing.Color.LightGray;
             this.ListBox.Depth = 0;
-            this.ListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ListBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ListBox.Location = new System.Drawing.Point(12, 37);
             this.ListBox.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             this.ListBox.Name = "ListBox";
@@ -144,20 +158,6 @@
             this.label_Gameinfo1.Size = new System.Drawing.Size(305, 23);
             this.label_Gameinfo1.TabIndex = 5;
             this.label_Gameinfo1.Text = "请选择游戏";
-            // 
-            // button_VirtualLoad
-            // 
-            this.button_VirtualLoad.BackExtend = "135, #6253E1, #04BEFE";
-            this.button_VirtualLoad.HandCursor = System.Windows.Forms.Cursors.Default;
-            this.button_VirtualLoad.Icon = global::PvzLauncher.Properties.Resources.folder;
-            this.button_VirtualLoad.IconRatio = 0.8F;
-            this.button_VirtualLoad.Location = new System.Drawing.Point(247, 0);
-            this.button_VirtualLoad.Name = "button_VirtualLoad";
-            this.button_VirtualLoad.Size = new System.Drawing.Size(128, 30);
-            this.button_VirtualLoad.TabIndex = 7;
-            this.button_VirtualLoad.Text = "虚拟导入";
-            this.button_VirtualLoad.Type = AntdUI.TTypeMini.Primary;
-            this.button_VirtualLoad.Click += new System.EventHandler(this.button_VirtualLoad_Click);
             // 
             // openFileDialog1
             // 
