@@ -135,6 +135,8 @@
             this.tooltipComponent = new AntdUI.TooltipComponent();
             this.openFileDialog_CustomBg = new System.Windows.Forms.OpenFileDialog();
             this.panel_An = new System.Windows.Forms.Panel();
+            this.materialListBox_Download_Trainer = new ReaLTaiizor.Controls.MaterialListBox();
+            this.label_Download_Trainer = new AntdUI.Label();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -313,6 +315,8 @@
             // tabPage_Download
             // 
             this.tabPage_Download.AutoScroll = true;
+            this.tabPage_Download.Controls.Add(this.materialListBox_Download_Trainer);
+            this.tabPage_Download.Controls.Add(this.label_Download_Trainer);
             this.tabPage_Download.Controls.Add(this.materialListBox_Download_ReZh);
             this.tabPage_Download.Controls.Add(this.label_Download_ReZh);
             this.tabPage_Download.Controls.Add(this.materialListBox_Download_OriZh);
@@ -333,19 +337,19 @@
             this.materialListBox_Download_ReZh.BorderColor = System.Drawing.Color.LightGray;
             this.materialListBox_Download_ReZh.Depth = 0;
             this.materialListBox_Download_ReZh.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.materialListBox_Download_ReZh.Location = new System.Drawing.Point(11, 395);
+            this.materialListBox_Download_ReZh.Location = new System.Drawing.Point(8, 165);
             this.materialListBox_Download_ReZh.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             this.materialListBox_Download_ReZh.Name = "materialListBox_Download_ReZh";
             this.materialListBox_Download_ReZh.SelectedIndex = -1;
             this.materialListBox_Download_ReZh.SelectedItem = null;
-            this.materialListBox_Download_ReZh.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_ReZh.Size = new System.Drawing.Size(714, 20);
             this.materialListBox_Download_ReZh.TabIndex = 5;
             this.materialListBox_Download_ReZh.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_ReZh_SelectedIndexChanged);
             // 
             // label_Download_ReZh
             // 
             this.label_Download_ReZh.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Download_ReZh.Location = new System.Drawing.Point(8, 359);
+            this.label_Download_ReZh.Location = new System.Drawing.Point(5, 129);
             this.label_Download_ReZh.Name = "label_Download_ReZh";
             this.label_Download_ReZh.Size = new System.Drawing.Size(114, 30);
             this.label_Download_ReZh.TabIndex = 4;
@@ -357,19 +361,19 @@
             this.materialListBox_Download_OriZh.BorderColor = System.Drawing.Color.LightGray;
             this.materialListBox_Download_OriZh.Depth = 0;
             this.materialListBox_Download_OriZh.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.materialListBox_Download_OriZh.Location = new System.Drawing.Point(8, 218);
+            this.materialListBox_Download_OriZh.Location = new System.Drawing.Point(8, 103);
             this.materialListBox_Download_OriZh.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             this.materialListBox_Download_OriZh.Name = "materialListBox_Download_OriZh";
             this.materialListBox_Download_OriZh.SelectedIndex = -1;
             this.materialListBox_Download_OriZh.SelectedItem = null;
-            this.materialListBox_Download_OriZh.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_OriZh.Size = new System.Drawing.Size(714, 20);
             this.materialListBox_Download_OriZh.TabIndex = 3;
             this.materialListBox_Download_OriZh.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_OriZh_SelectedIndexChanged);
             // 
             // label_Download_OriZh
             // 
             this.label_Download_OriZh.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Download_OriZh.Location = new System.Drawing.Point(5, 182);
+            this.label_Download_OriZh.Location = new System.Drawing.Point(5, 67);
             this.label_Download_OriZh.Name = "label_Download_OriZh";
             this.label_Download_OriZh.Size = new System.Drawing.Size(114, 30);
             this.label_Download_OriZh.TabIndex = 2;
@@ -386,7 +390,7 @@
             this.materialListBox_Download_OriEn.Name = "materialListBox_Download_OriEn";
             this.materialListBox_Download_OriEn.SelectedIndex = -1;
             this.materialListBox_Download_OriEn.SelectedItem = null;
-            this.materialListBox_Download_OriEn.Size = new System.Drawing.Size(714, 135);
+            this.materialListBox_Download_OriEn.Size = new System.Drawing.Size(714, 20);
             this.materialListBox_Download_OriEn.TabIndex = 1;
             this.materialListBox_Download_OriEn.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_OriEn_SelectedIndexChanged);
             // 
@@ -1419,6 +1423,31 @@
             this.panel_An.Size = new System.Drawing.Size(1, 1);
             this.panel_An.TabIndex = 2;
             // 
+            // materialListBox_Download_Trainer
+            // 
+            this.materialListBox_Download_Trainer.BackColor = System.Drawing.Color.White;
+            this.materialListBox_Download_Trainer.BorderColor = System.Drawing.Color.LightGray;
+            this.materialListBox_Download_Trainer.Depth = 0;
+            this.materialListBox_Download_Trainer.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.materialListBox_Download_Trainer.Location = new System.Drawing.Point(8, 227);
+            this.materialListBox_Download_Trainer.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            this.materialListBox_Download_Trainer.Name = "materialListBox_Download_Trainer";
+            this.materialListBox_Download_Trainer.SelectedIndex = -1;
+            this.materialListBox_Download_Trainer.SelectedItem = null;
+            this.materialListBox_Download_Trainer.Size = new System.Drawing.Size(714, 20);
+            this.materialListBox_Download_Trainer.TabIndex = 7;
+            this.materialListBox_Download_Trainer.SelectedIndexChanged += new ReaLTaiizor.Controls.MaterialListBox.SelectedIndexChangedEventHandler(this.materialListBox_Download_Trainer_SelectedIndexChanged);
+            // 
+            // label_Download_Trainer
+            // 
+            this.label_Download_Trainer.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Download_Trainer.HandCursor = System.Windows.Forms.Cursors.Default;
+            this.label_Download_Trainer.Location = new System.Drawing.Point(5, 191);
+            this.label_Download_Trainer.Name = "label_Download_Trainer";
+            this.label_Download_Trainer.Size = new System.Drawing.Size(114, 30);
+            this.label_Download_Trainer.TabIndex = 6;
+            this.label_Download_Trainer.Text = "修改器";
+            // 
             // Main_Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -1570,5 +1599,7 @@
         private ReaLTaiizor.Controls.MaterialListBox materialListBox_Download_ReZh;
         private AntdUI.Label label_Download_ReZh;
         private System.Windows.Forms.Panel panel_An;
+        private ReaLTaiizor.Controls.MaterialListBox materialListBox_Download_Trainer;
+        private AntdUI.Label label_Download_Trainer;
     }
 }

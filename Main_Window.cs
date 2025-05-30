@@ -897,7 +897,11 @@ namespace PvzLauncher
                 List<string> temp = new List<string>();
                 for (int i = 0; i < Directory.GetFiles($"{RunPath}\\trainer").Length; i++)
                 {
-                    temp.Add(Path.GetFileName(Directory.GetFiles($"{RunPath}\\trainer")[i]));
+                    if (Directory.GetFiles($"{RunPath}\\trainer")[i].Substring(Directory.GetFiles($"{RunPath}\\trainer")[i].Length - 4) == ".exe")
+                    {
+                        temp.Add(Path.GetFileName(Directory.GetFiles($"{RunPath}\\trainer")[i]));
+
+                    }
                 }
                 TrainerPath = temp.ToArray();
 
@@ -1008,6 +1012,7 @@ namespace PvzLauncher
             materialListBox_Download_OriEn.Width = tabPage_Download.Width - 30;
             materialListBox_Download_OriZh.Width = tabPage_Download.Width - 30;
             materialListBox_Download_ReZh.Width = tabPage_Download.Width - 30;
+            materialListBox_Download_Trainer.Width = tabPage_Download.Width - 30;
 
             #endregion
 
@@ -1115,6 +1120,39 @@ namespace PvzLauncher
         {
             try
             {
+
+                #region 对齐
+                //英文原版列表
+                materialListBox_Download_OriEn.Height = 1;
+
+                //中文原版
+                label_Downlaod_OriEn.Text = "载入中...";
+                label_Download_OriZh.Text = "载入中";
+                label_Download_ReZh.Text = "载入中...";
+                label_Download_Trainer.Text = "载入中...";
+
+                label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
+
+                materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
+
+                materialListBox_Download_OriZh.Height = 1;
+
+                //中文改版
+                label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
+
+                materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
+
+                materialListBox_Download_ReZh.Height = 1;
+
+                //修改器
+                label_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5;
+
+                materialListBox_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5 + label_Download_Trainer.Height + 5;
+
+                materialListBox_Download_Trainer.Height = 1;
+                #endregion
+
+
                 if (File.Exists(IndexPath))
                 {
                     File.Delete(IndexPath);
@@ -1122,7 +1160,7 @@ namespace PvzLauncher
 
 
 
-                File.WriteAllText(IndexPath, await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/DownloadServcie/index.ini"));
+                File.WriteAllText(IndexPath, await HttpReadFileAsync("https://gitee.com/huamouren110/pvz-launcher/raw/master/DownloadService/index.ini"));
 
 
 
@@ -1131,6 +1169,7 @@ namespace PvzLauncher
                 materialListBox_Download_OriEn.Items.Clear();
                 materialListBox_Download_OriZh.Items.Clear();
                 materialListBox_Download_ReZh.Items.Clear();
+                materialListBox_Download_Trainer.Items.Clear();
 
                 for (int i = 0; i < int.Parse(ReadConfig(IndexPath, "index_ori_en", "num")); i++) 
                 {
@@ -1156,9 +1195,22 @@ namespace PvzLauncher
                     });
 
                 }
+                for (int i = 0; i < int.Parse(ReadConfig(IndexPath, "index_trainer", "num")); i++)
+                {
+                    materialListBox_Download_Trainer.Items.Add(new ReaLTaiizor.Child.Material.MaterialListBoxItem()
+                    {
+                        Text = ReadConfig(IndexPath, "index_trainer", $"{i + 1}")
+                    });
+
+                }
 
                 #region 对齐
                 //英文原版列表
+                label_Downlaod_OriEn.Text = "英文原版";
+                label_Download_OriZh.Text = "中文原版";
+                label_Download_ReZh.Text = "中文改版";
+                label_Download_Trainer.Text = "修改器";
+
                 materialListBox_Download_OriEn.Height = materialListBox_Download_OriEn.Items.Count * 40;
 
                 //中文原版
@@ -1173,6 +1225,13 @@ namespace PvzLauncher
 
                 materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
                 materialListBox_Download_ReZh.Height = materialListBox_Download_ReZh.Items.Count * 40;
+
+                //修改器
+                label_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5;
+
+                materialListBox_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5 + label_Download_Trainer.Height + 5;
+
+                materialListBox_Download_Trainer.Height = materialListBox_Download_Trainer.Items.Count * 40;
                 #endregion
 
             }
@@ -1191,9 +1250,10 @@ namespace PvzLauncher
         //对象========================================================================================
         Random random = new Random();    //随机数生成器
         Process proceess = new Process();    //进程管理
+        BindingList<string> dateSource = new BindingList<string>();    //数据源
         //变量========================================================================================
-        public static string Version = "Pre-Release 1.2.2.5";    //版本
-        public static string CompliedTime = "2025-5-29 21:01";     //编译时间
+        public static string Version = "Pre-Release 1.2.3.6";    //版本
+        public static string CompliedTime = "2025-5-30 22:23";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1210,10 +1270,9 @@ namespace PvzLauncher
         {
             InitializeComponent();//初始化
 
-            //初始化================================
+            #region 初始化
             try
             {
-
 
                 //加载修改器信息
                 LoadTrainerList();
@@ -1286,12 +1345,11 @@ namespace PvzLauncher
                 });
                 
             }
-            
+            #endregion
 
+            #region 配置文件
 
-            //初始化end================================
-
-
+            #region 初始化
             //初始化配置文件
             try
             {
@@ -1339,7 +1397,9 @@ namespace PvzLauncher
                 });
 
             }
+            #endregion
 
+            #region 读取
             //读配置项
             try
             {
@@ -1491,35 +1551,23 @@ namespace PvzLauncher
                 });
 
             }
+            #endregion
 
+            #endregion
 
-
-
-
-
+            #region 游戏文件夹创建
             //初始化游戏文件夹
             if (!Directory.Exists($"{RunPath}\\games"))
             {
                 Directory.CreateDirectory($"{RunPath}\\games");
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "提示",
-                    Text = "游戏关键性文件夹 games 不存在，已成功创建！",
-                    Icon = AntdUI.TType.Warn
-                });
             }
             if (!Directory.Exists($"{RunPath}\\trainer"))
             {
                 Directory.CreateDirectory($"{RunPath}\\trainer");
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
-                {
-                    Title = "提示",
-                    Text = "游戏关键性文件夹 trainer 不存在，已成功创建！",
-                    Icon = AntdUI.TType.Warn
-                });
             }
+            #endregion
 
-
+            #region 资源检测
             //游戏资源检测
             if (!File.Exists($"{RunPath}\\assets\\user1.dat") | !File.Exists($"{RunPath}\\UpdateService.exe") | !File.Exists($"{RunPath}\\assets\\bass.dll") | !File.Exists($"{RunPath}\\assets\\gdi42.dll")) 
             {
@@ -1533,18 +1581,8 @@ namespace PvzLauncher
                 });
                 this.Close();
             }
+            #endregion
 
-
-
-
-
-            
-
-
-
-
-
-            
         }
 
         //窗口加载
@@ -1659,12 +1697,25 @@ namespace PvzLauncher
             if (DownloadState)
             {
                 DownloadState = false;
-                AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                if (Download_Window.GameKind == "game")
                 {
-                    Title = "下载完毕！",
-                    Text = "请到选择游戏界面查看!",
-                    Icon = AntdUI.TType.Success
-                });
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "下载完毕！",
+                        Text = "请到选择游戏界面查看!",
+                        Icon = AntdUI.TType.Success
+                    });
+                }
+                else
+                {
+                    AntdUI.Notification.open(new AntdUI.Notification.Config(this, "", "", AntdUI.TType.None, AntdUI.TAlignFrom.TR)
+                    {
+                        Title = "下载完毕！",
+                        Text = "请到设置->修改器页面查看！",
+                        Icon = AntdUI.TType.Success
+                    });
+                }
+                
             }
         }
 
@@ -3038,7 +3089,7 @@ namespace PvzLauncher
             }) == DialogResult.OK)
             {
                 Download_Window.DownloadLink = ReadConfig(IndexPath, "ori_en", materialListBox_Download_OriEn.SelectedItem.Text);
-                Download_Window.GameKind = "ori_en";
+                Download_Window.GameKind = "game";
                 Download_Window.Num = $"{materialListBox_Download_OriEn.SelectedIndex + 1}";
 
 
@@ -3068,7 +3119,7 @@ namespace PvzLauncher
             }) == DialogResult.OK)
             {
                 Download_Window.DownloadLink = ReadConfig(IndexPath, "ori_zh", materialListBox_Download_OriZh.SelectedItem.Text);
-                Download_Window.GameKind = "ori_zh";
+                Download_Window.GameKind = "game";
                 Download_Window.Num = $"{materialListBox_Download_OriZh.SelectedIndex + 1}";
 
 
@@ -3094,11 +3145,37 @@ namespace PvzLauncher
             }) == DialogResult.OK)
             {
                 Download_Window.DownloadLink = ReadConfig(IndexPath, "re_zh", materialListBox_Download_ReZh.SelectedItem.Text);
-                Download_Window.GameKind = "re_zh";
+                Download_Window.GameKind = "game";
                 Download_Window.Num = $"{materialListBox_Download_ReZh.SelectedIndex + 1}";
 
 
                 materialListBox_Download_ReZh.SelectedIndex = -1;
+
+                using (Download_Window download_Window = new Download_Window())
+                {
+                    download_Window.ShowDialog();
+                }
+            }
+        }
+
+        //下载->trainer
+        private void materialListBox_Download_Trainer_SelectedIndexChanged(object sender, ReaLTaiizor.Child.Material.MaterialListBoxItem selectedItem)
+        {
+            if (AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+            {
+                Title = "是否下载",
+                Content = $"是否下载 {materialListBox_Download_Trainer.SelectedItem.Text} ？",
+                OkText = "下载",
+                CancelText = "取消",
+                Icon = AntdUI.TType.Warn
+            }) == DialogResult.OK)
+            {
+                Download_Window.DownloadLink = ReadConfig(IndexPath, "trainer", materialListBox_Download_Trainer.SelectedItem.Text);
+                Download_Window.GameKind = "trainer";
+                Download_Window.Num = $"{materialListBox_Download_Trainer.SelectedIndex + 1}";
+
+
+                materialListBox_Download_Trainer.SelectedIndex = -1;
 
                 using (Download_Window download_Window = new Download_Window())
                 {

@@ -1,120 +1,53 @@
-# Plants Vs. Zombies Launcher
-[简体中文](README.md) | [English](README.en.md)
+# Plants Vs Zombies Launcher
 
-![启动器主页面](assets/Readme.md/mainpage.png)
-
-
-## 下载
-
-可直接在Github仓库与Gitee镜像库的Release界面下载最新版本<br>
-Github仓库:[https://github.com/bilibilihuazi/PvzLauncher](https://github.com/bilibilihuazi/PvzLauncher)<br>
-Gitee镜像库:[https://gitee.com/huamouren110/pvz-launcher](https://gitee.com/huamouren110/pvz-launcher)<br><br>
-
-
-也可以使用以下的下载链接，但不能保证是最新版本:<br>
-蓝奏云:[https://hhzyx.lanzouo.com/b00b4q0fxg 密码:2cds](https://hhzyx.lanzouo.com/b00b4q0fxg)<br>
-蓝奏云优享版:[https://www.ilanzou.com/s/6r4ZLvSU](https://www.ilanzou.com/s/6r4ZLvSU)<br>
-123云盘主链接:[https://www.123865.com/s/9hDQjv-LJBn3](https://www.123865.com/s/9hDQjv-LJBn3)<br>
-123云盘备用链接:[https://www.123684.com/s/9hDQjv-LJBn3](https://www.123684.com/s/9hDQjv-LJBn3)<br>
-huang1111网盘:[https://pan.huang1111.cn/s/mxK1os1](https://pan.huang1111.cn/s/mxK1os1)<br>
-
+![主页面](assets/Readme/Main_Page.png)
 
 ## 概述
 
-此启动器支持**启动、管理**游戏
+**Plants Vs Zombies Launcher(植物大战僵尸启动器)** 是一款可以`启动、管理、修改、下载`游戏的多功能启动器
 
+## 优点
 
-## 特点
+  - **快捷启动游戏**：不必再去一个个找文件夹启动游戏了
+  - **管理游戏**：可快捷更换、恢复pak包，有效提升了pak包的安装效率
+  - **下载游戏**：可直接在启动器内下载`英文原版、中文原版、中文改版`等多个版本，省去了寻找游戏资源与安装游戏的时间
+  - **修复游戏**：一键检测&修复游戏资，可解决无法寻找到`gdi42.dll`与`bass.dll`的问题
+  - **修改游戏**：可以配置游戏窗口的**强制全屏**以及**窗口出现位置**的参数
+  - **存档管理**：快捷删除存档、替换通关存档；还可以将每个版本的存档独立。
+  - **修改器管理**：启动器发布时内置一个多功能修改器：**PvzToolkit**。如果想要添加其他修改器，可在设置内直接添加
+  - **导入与虚拟导入**：可将游戏导入进启动器游戏库、统一管理游戏；虚拟导入则是为游戏体积大，不方便移动的情况制作的。(*仅写入游戏信息，启动时直接在源位置启动，不移动源文件*)
 
-### 管理版本
+## 为什么要制作此启动器？
 
-![选择版本界面](assets/Readme.md/selectgame.png)
-![版本设置界面](assets/Readme.md/setgame.png)
-
-本启动器可快捷地`导入、管理、启动`游戏；提供一个GUI交互界面，对游戏文件结构不熟悉的玩家也可以**轻松操作**
-
-启动器还提供了一个统计信息界面，可以**查看自己的游玩时间、初次启动时间**等
-
-
-### 内置修改器
-
-![PvzToolkit修改器](assets/Readme.md/trainer.png)
-
-启动器内置一个修改器，不用再到处找修改器了；而且设置界面还提供了**修改器随游戏启动**的选项，也不用费劲去打开修改器了！
-
-
-### 存档管理
-
-![存档管理设置界面](assets/Readme.md/victorysave.png)
-![游戏界面](assets/Readme.md/game.png)
-
-修改器还提供了存档管理功能，不想打了可以直接**替换为已通关的存档**
-
-
-## 为什么要制作这款启动器
-
-现在的PVZ改版众多，下载下来**较难管理**，而且游戏文件过于**繁乱**。而且改版的文件结构不一，通常想要启动游戏都要花上一段时间；制作这款启动器就是为了让玩家们更好的**启动、管理**游戏
-
-况且，现在网络上**没有任何一款PVZ启动器**，于是就只做了这款启动器
-
-此启动器还内置了`Pvz Toolkit`修改器，可用于大部分版本的修改
-
-
-## 版本号命名规则
-
-自`Release1.0.0.0`起，每次版本发布将使用以下命名规则：
-
-Release版本: `[大版本].[小版本].[Pre-Release个数].[更改数及所有预发布版本的更改数]`<br>
-Pre-Release版本: `[目标Release大版本].[目标Release小版本].[Pre-Release编号].[更改数]`<br>
-
-|项|值|
-|-|-|
-|大版本|大版本，小版本每到10时+1|
-|小版本|每个版本发布+1，到10时归零，大版本+1|
-|更改数|此版本所有操作个数|
-|Pre-Release个数|此Release版本拥有几个Pre-Release版本|
-|Pre-Release编号|目标Release的第几个Pre-Release版本|
-
-示例：
- - 大版本为`1`，小版本为`1`的，拥有`1`个Pre-Release版本。共有`10`个操作数的Release版本；那么版本号为`Release 1.1.10.3`
-
- - 目标Release的大版本和小版本分别为`1`、`2`；此Pre-Release版本为目标Release版本的第三个Pre-Release版本，有`5`个操作数；那么版本号为`Pre-Release 1.2.5.2`
-
+由于作者在玩植物大战僵尸时，切换改版以及管理游戏非常不方便。寻找改版也很困难。所以便制作了这款启动器，用于管理多个版本
 
 ## 依赖
 
-程序使用`.NET Framework 4.8 WinForm`内核制作，使用`AntdUI(大部分UI)`与`ReaLTaiizor(小部分UI)`UI库
+此程序基于`.NET Framework 4.8`制作。使用`WinForm`框架，`AntdUI`库以及`ReaLTaiizorUI`库
 
-程序包内已包含两款UI库的dll文件，.NET Framework Runtime 可[点击此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework)前往下载
+如您的电脑没有安装`.NET Framework 4.8`，软件启动时会提示您去下载
 
+`AntdUI`库以及`ReaLTaiizorUI`库的依赖文件已在启动器发布时包含
 
-## 引用
-
-[.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48)<br>
-[AntdUI](https://gitee.com/antdui/AntdUI)<br>
-[ReaLTaiizor](https://github.com/Taiizor/ReaLTaiizor)
-
-
-## 制作人员名单
+## 开发者
+*排名不分前后*
 
 代码(2):
-  1. **华某人** (启动器全部代码)
-  2. **DeepSeek** (部分自定义函数)
-
-UI(2):
-  1. **华某人** (大部分UI)
-  2. **PCL2** (部分灵感来源)
+  - **华某人**  - 启动器所有的代码都由他独立完成
+  - **DeepSeek**  - 提供部分的代码支持
 
 美术(3):
-  1. **YesIcon** (大部分图标) [网站↗](https://yesicon.app/)
-  2. **华某人** (部分图片加工)
-  3. **Plants Vs Zombies** (小部分图片)
+  - **YesIcon**  - 程序所有的图标来演
+  - **华某人**  - 部分手绘图标
+  - **PopCap Games**  - 游戏资源图片
 
-外部程序(2):
-  1. **PvzToolkit** (启动器内置的修改器)
-  2. **PopCap Games** (启动器内置的游戏)
+提供BUG反馈以及建议(3):
+  - **华某人**  - 自己在测试的时候就发现了不少BUG
+  - **ewrtuikh**  - 提出部分建议以及BUG反馈
+  - **Fantasy-幻梦**  - 提出部分建议以及BUG反馈
+  - **小王**  - 提出部分建议以及BUG反馈
 
-提供建议(2):
-  1. **ewrtuikh** (找出了一个影响巨大BUG的引发原因)
-  1. **旅行者** (为Pre-Release 1.0.x.1做出建议以及反馈BUG)
-  2. **Fantasy-幻梦** (为Pre-Release 1.0.x.2及之后的版本做出建议以及反馈BUG)
+## 加入我们
+
+帮助我们更好的制作启动器并获得最新消息！
+  - QQ交流群:`1040764053`

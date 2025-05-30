@@ -841,7 +841,7 @@ namespace PvzLauncher
                                 int progress = (int)((double)extractedSize / totalSize * 100);
                                 progressBar.Invoke((MethodInvoker)(() =>
                                 {
-                                    progressBar.Value = Math.Min(progress, 100F);
+                                    progressBar.Value = Math.Min(progress, 1F);
                                 }));
                             }
                         }
@@ -867,6 +867,22 @@ namespace PvzLauncher
 
         private async void Download_Window_Load(object sender, EventArgs e)
         {
+            string path;
+            string unzippath;
+            if (GameKind == "game")
+            {
+                path = $"{Main_Window.RunPath}\\games\\temp.zip";
+                unzippath = $"{Main_Window.RunPath}\\games";
+            }
+            else
+            {
+                path = $"{Main_Window.RunPath}\\trainer\\temp.zip";
+                unzippath = $"{Main_Window.RunPath}\\trainer";
+            }
+
+
+
+
             try
             {
                 var progress = new Progress<int>(pg =>
@@ -876,17 +892,17 @@ namespace PvzLauncher
 
                 label2.Text = "下载中...";
 
-                await DownloadFileAsync(DownloadLink, $"{Main_Window.RunPath}\\games\\temp.zip", progress);
+                await DownloadFileAsync(DownloadLink, path, progress);
 
                 label2.Text = "解压中...";
                 progress1.Value = 0F;
 
-                await UnzipAsync($"{Main_Window.RunPath}\\games\\temp.zip", $"{Main_Window.RunPath}\\games", progress1);
+                await UnzipAsync(path, unzippath, progress1);
 
                 label2.Text = "删除临时文件中...";
                 progress1.Value = 0F;
 
-                File.Delete($"{Main_Window.RunPath}\\games\\temp.zip");
+                File.Delete(path);
 
                 label2.Text = "完成！";
                 progress1.Value = 1F;
@@ -915,7 +931,8 @@ namespace PvzLauncher
 
             }
 
-            
+
+
 
 
         }

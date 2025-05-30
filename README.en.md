@@ -1,3 +1,6 @@
+# Warn
+**The README file you are viewing may not be the latest version. If you want to get the latest information, please go to the simplified Chinese version of the readme file: [README.md](README.md)**
+
 # Plants Vs. Zombies Launcher  
 [简体中文](README.md) | [English](README.en.md)  
 
