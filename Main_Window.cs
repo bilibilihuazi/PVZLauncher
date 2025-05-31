@@ -1229,8 +1229,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         BindingList<string> dateSource = new BindingList<string>();    //数据源
         //变量========================================================================================
-        public static string Version = "Pre-Release 1.2.4.6";    //版本
-        public static string CompliedTime = "2025-5-31 10:18";     //编译时间
+        public static string Version = "Release 1.2.4.27";    //版本
+        public static string CompliedTime = "2025-5-31 13:22";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表

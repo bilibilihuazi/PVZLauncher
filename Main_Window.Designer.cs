@@ -34,13 +34,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Window));
             this.pageHeader = new AntdUI.PageHeader();
             this.tabs_Main = new AntdUI.Tabs();
-            this.timer_Main = new System.Windows.Forms.Timer(this.components);
-            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
-            this.tooltipComponent = new AntdUI.TooltipComponent();
-            this.openFileDialog_CustomBg = new System.Windows.Forms.OpenFileDialog();
-            this.panel_An = new System.Windows.Forms.Panel();
             this.tabPage_Home = new AntdUI.TabPage();
             this.pictureBox_Home_Background = new System.Windows.Forms.PictureBox();
             this.button_LaunchTrainer = new AntdUI.Button();
@@ -138,6 +131,13 @@
             this.label_About_info1 = new AntdUI.Label();
             this.pictureBox_About_Icon = new System.Windows.Forms.PictureBox();
             this.pictureBox_About_Background = new System.Windows.Forms.PictureBox();
+            this.timer_Main = new System.Windows.Forms.Timer(this.components);
+            this.timer_PlayTime = new System.Windows.Forms.Timer(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog_CustomSkin = new System.Windows.Forms.OpenFileDialog();
+            this.tooltipComponent = new AntdUI.TooltipComponent();
+            this.openFileDialog_CustomBg = new System.Windows.Forms.OpenFileDialog();
+            this.panel_An = new System.Windows.Forms.Panel();
             this.tabs_Main.SuspendLayout();
             this.tabPage_Home.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Home_Background)).BeginInit();
@@ -201,42 +201,6 @@
             this.tabs_Main.TabIndex = 1;
             this.tabs_Main.Type = AntdUI.TabType.Card2;
             this.tabs_Main.SelectedIndexChanged += new AntdUI.IntEventHandler(this.tabs_Main_SelectedIndexChanged);
-            // 
-            // timer_Main
-            // 
-            this.timer_Main.Enabled = true;
-            this.timer_Main.Interval = 1;
-            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
-            // 
-            // timer_PlayTime
-            // 
-            this.timer_PlayTime.Interval = 1000;
-            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "可执行文件|*.exe";
-            this.openFileDialog.Title = "请选择修改器可执行文件";
-            // 
-            // openFileDialog_CustomSkin
-            // 
-            this.openFileDialog_CustomSkin.FileName = "";
-            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
-            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
-            // 
-            // openFileDialog_CustomBg
-            // 
-            this.openFileDialog_CustomBg.FileName = "";
-            this.openFileDialog_CustomBg.Filter = "PNG文件|*.png|JPG文件|*.jpg";
-            this.openFileDialog_CustomBg.Title = "请选择有效的图片文件(推荐上传分辨率480*250的图片)";
-            // 
-            // panel_An
-            // 
-            this.panel_An.Location = new System.Drawing.Point(200, 200);
-            this.panel_An.Name = "panel_An";
-            this.panel_An.Size = new System.Drawing.Size(1, 1);
-            this.panel_An.TabIndex = 2;
             // 
             // tabPage_Home
             // 
@@ -1466,6 +1430,42 @@
             this.pictureBox_About_Background.Size = new System.Drawing.Size(294, 334);
             this.pictureBox_About_Background.TabIndex = 8;
             this.pictureBox_About_Background.TabStop = false;
+            // 
+            // timer_Main
+            // 
+            this.timer_Main.Enabled = true;
+            this.timer_Main.Interval = 1;
+            this.timer_Main.Tick += new System.EventHandler(this.timer_Main_Tick);
+            // 
+            // timer_PlayTime
+            // 
+            this.timer_PlayTime.Interval = 1000;
+            this.timer_PlayTime.Tick += new System.EventHandler(this.timer_PlayTime_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "可执行文件|*.exe";
+            this.openFileDialog.Title = "请选择修改器可执行文件";
+            // 
+            // openFileDialog_CustomSkin
+            // 
+            this.openFileDialog_CustomSkin.FileName = "";
+            this.openFileDialog_CustomSkin.Filter = "PNG文件|*.png|JPG文件|*.jpg";
+            this.openFileDialog_CustomSkin.Title = "请选择有效的图片文件(推荐上传分辨率420*75的图片)";
+            // 
+            // openFileDialog_CustomBg
+            // 
+            this.openFileDialog_CustomBg.FileName = "";
+            this.openFileDialog_CustomBg.Filter = "PNG文件|*.png|JPG文件|*.jpg";
+            this.openFileDialog_CustomBg.Title = "请选择有效的图片文件(推荐上传分辨率480*250的图片)";
+            // 
+            // panel_An
+            // 
+            this.panel_An.Location = new System.Drawing.Point(200, 200);
+            this.panel_An.Name = "panel_An";
+            this.panel_An.Size = new System.Drawing.Size(1, 1);
+            this.panel_An.TabIndex = 2;
             // 
             // Main_Window
             // 
