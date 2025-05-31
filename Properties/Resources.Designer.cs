@@ -253,6 +253,16 @@ namespace PvzLauncher.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap miss_texture {
+            get {
+                object obj = ResourceManager.GetObject("miss_texture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap PvZ_Logo {
             get {
                 object obj = ResourceManager.GetObject("PvZ_Logo", resourceCulture);

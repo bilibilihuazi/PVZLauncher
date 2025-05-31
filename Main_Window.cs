@@ -989,30 +989,21 @@ namespace PvzLauncher
             #endregion
 
             #region 下载
-            /*//英文原版列表
-            materialListBox_Download_OriEn.Height = materialListBox_Download_OriEn.Items.Count * 40;
 
-            //中文原版
-            label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
+            collapse_Download.Width = tabPage_Download.Width - 30;
+            collapse_Download.Height = 2147483647;
 
-            materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
-            
-            materialListBox_Download_OriZh.Height = materialListBox_Download_OriZh.Items.Count * 40;
+            materialListBox_Download_OriEn.Width = collapseItem_ori_en.Width;
+            materialListBox_Download_OriEn.Height = collapseItem_ori_en.Height;
 
-            //中文改版
-            label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
+            materialListBox_Download_OriZh.Width = collapseItem_ori_zh.Width;
+            materialListBox_Download_OriZh.Height = collapseItem_ori_zh.Height;
 
-            materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
-            materialListBox_Download_ReZh.Height = materialListBox_Download_ReZh.Items.Count * 40;*/
+            materialListBox_Download_ReZh.Width = collapseItem_re_zh.Width;
+            materialListBox_Download_ReZh.Height = collapseItem_re_zh.Height;
 
-
-
-
-
-            materialListBox_Download_OriEn.Width = tabPage_Download.Width - 30;
-            materialListBox_Download_OriZh.Width = tabPage_Download.Width - 30;
-            materialListBox_Download_ReZh.Width = tabPage_Download.Width - 30;
-            materialListBox_Download_Trainer.Width = tabPage_Download.Width - 30;
+            materialListBox_Download_Trainer.Width = collapseItem_trainer.Width;
+            materialListBox_Download_Trainer.Height = collapseItem_trainer.Height;
 
             #endregion
 
@@ -1122,34 +1113,26 @@ namespace PvzLauncher
             {
 
                 #region 对齐
+                collapseItem_ori_en.Text = "载入中...";
+                collapseItem_ori_zh.Text = "载入中...";
+                collapseItem_re_zh.Text = "载入中...";
+                collapseItem_trainer.Text = "载入中...";
+
                 //英文原版列表
-                materialListBox_Download_OriEn.Height = 1;
+                collapseItem_ori_en.Height = 1;
+                materialListBox_Download_OriEn.Height = collapseItem_ori_en.Height;
 
                 //中文原版
-                label_Downlaod_OriEn.Text = "载入中...";
-                label_Download_OriZh.Text = "载入中";
-                label_Download_ReZh.Text = "载入中...";
-                label_Download_Trainer.Text = "载入中...";
-
-                label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
-
-                materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
-
-                materialListBox_Download_OriZh.Height = 1;
+                collapseItem_ori_zh.Height = 1;
+                materialListBox_Download_OriEn.Height = collapseItem_ori_zh.Height;
 
                 //中文改版
-                label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
-
-                materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
-
-                materialListBox_Download_ReZh.Height = 1;
+                collapseItem_re_zh.Height = 1;
+                materialListBox_Download_ReZh.Height = collapseItem_re_zh.Height;
 
                 //修改器
-                label_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5;
-
-                materialListBox_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5 + label_Download_Trainer.Height + 5;
-
-                materialListBox_Download_Trainer.Height = 1;
+                collapseItem_trainer.Height = 1;
+                materialListBox_Download_Trainer.Height = collapseItem_trainer.Height;
                 #endregion
 
 
@@ -1205,34 +1188,28 @@ namespace PvzLauncher
                 }
 
                 #region 对齐
-                //英文原版列表
-                label_Downlaod_OriEn.Text = "英文原版";
-                label_Download_OriZh.Text = "中文原版";
-                label_Download_ReZh.Text = "中文改版";
-                label_Download_Trainer.Text = "修改器";
+                collapseItem_ori_en.Text = "英文原版";
+                collapseItem_ori_zh.Text = "中文原版";
+                collapseItem_re_zh.Text = "中文改版";
+                collapseItem_trainer.Text = "修改器";
 
-                materialListBox_Download_OriEn.Height = materialListBox_Download_OriEn.Items.Count * 40;
+                //英文原版列表
+                collapseItem_ori_en.Height = materialListBox_Download_OriEn.Items.Count * 40;
+                materialListBox_Download_OriEn.Height = collapseItem_ori_en.Height;
 
                 //中文原版
-                label_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5;
-
-                materialListBox_Download_OriZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5;
-
-                materialListBox_Download_OriZh.Height = materialListBox_Download_OriZh.Items.Count * 40;
+                collapseItem_ori_zh.Height = materialListBox_Download_OriZh.Items.Count * 40;
+                materialListBox_Download_OriEn.Height = collapseItem_ori_zh.Height;
 
                 //中文改版
-                label_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5;
-
-                materialListBox_Download_ReZh.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height;
-                materialListBox_Download_ReZh.Height = materialListBox_Download_ReZh.Items.Count * 40;
+                collapseItem_re_zh.Height = materialListBox_Download_ReZh.Items.Count * 40;
+                materialListBox_Download_ReZh.Height = collapseItem_re_zh.Height;
 
                 //修改器
-                label_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5;
-
-                materialListBox_Download_Trainer.Top = 5 + label_Downlaod_OriEn.Height + 5 + materialListBox_Download_OriEn.Height + 5 + label_Download_OriZh.Height + 5 + materialListBox_Download_OriZh.Height + 5 + label_Download_ReZh.Height + 5 + materialListBox_Download_ReZh.Height + 5 + label_Download_Trainer.Height + 5;
-
-                materialListBox_Download_Trainer.Height = materialListBox_Download_Trainer.Items.Count * 40;
+                collapseItem_trainer.Height = materialListBox_Download_Trainer.Items.Count * 40;
+                materialListBox_Download_Trainer.Height = collapseItem_trainer.Height;
                 #endregion
+
 
             }
             catch (Exception ex)
@@ -1252,8 +1229,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         BindingList<string> dateSource = new BindingList<string>();    //数据源
         //变量========================================================================================
-        public static string Version = "Pre-Release 1.2.3.6";    //版本
-        public static string CompliedTime = "2025-5-30 22:23";     //编译时间
+        public static string Version = "Pre-Release 1.2.4.6";    //版本
+        public static string CompliedTime = "2025-5-31 10:18";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1581,6 +1558,22 @@ namespace PvzLauncher
                 });
                 this.Close();
             }
+
+            if (Path.GetFileName(Application.ExecutablePath) != "PvzLauncher.exe")
+            {
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "启动器执行名称异常！",
+                    Content = $"程序执行名称\"{Path.GetFileName(Application.ExecutablePath)}\"不合法！请命名为\"PvzLauncher.exe\"",
+                    OkText = "确定",
+                    CancelText = null,
+                    Icon = AntdUI.TType.Error
+                });
+                this.Close();
+            }
+
+
+
             #endregion
 
         }

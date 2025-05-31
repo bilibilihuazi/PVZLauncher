@@ -244,6 +244,7 @@
     <None Include="assets\replace.png" />
     <None Include="assets\alphatest.png" />
     <None Include="assets\titlescreen_home_.png" />
+    <None Include="assets\miss_texture.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
