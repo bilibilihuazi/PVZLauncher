@@ -18,7 +18,37 @@ using System.Reflection;
 using Microsoft.VisualBasic.Devices;
 using System.Threading;
 using System.Linq.Expressions;
+/*
+[归档声明] PvzLauncher - 最终版本发布
+项目名称：植物大战僵尸启动器
+版本状态：长期服务版（LTS）
+归档日期：2025年6月1日
 
+1. 声明内容
+本项目 《植物大战僵尸启动器》 的开发工作已全部完成，并发布最终稳定版本（LTS 1.3）。即日起，项目进入归档状态（Archived），代表：
+
+ - 功能完善：所有设计功能均已实现，包括游戏快捷启动、版本切换、窗口化设置、存档管理等核心特性；
+
+ - 停止更新：不再新增功能或修复非严重性问题；
+
+ - 永久可用：最终版程序将持续提供下载，兼容当前主流系统环境。
+
+ - 游戏库保留：游戏库游戏数量达到使用需求后，将不再更新
+
+2. 致谢
+感谢所有测试用户、社区贡献者及植物大战僵尸爱好者对本项目的支持！本工具旨在优化游戏体验，请合法使用正版游戏资源。
+
+3. 版权说明
+本启动器为非官方、免费工具，仅供学习交流。
+《植物大战僵尸》是 PopCap Games 的注册商标，版权归属其所有者。
+
+4. 获取最终版
+项目主页：https://github.com/bilibilihuazi/PvzLauncher
+
+归档不是结束，而是项目的圆满终点
+愿草坪上的向日葵永远向阳，僵尸永不越线
+
+*/
 namespace PvzLauncher
 {
     public partial class Main_Window: AntdUI.Window
@@ -1229,8 +1259,8 @@ namespace PvzLauncher
         Process proceess = new Process();    //进程管理
         BindingList<string> dateSource = new BindingList<string>();    //数据源
         //变量========================================================================================
-        public static string Version = "Release 1.2.4.27";    //版本
-        public static string CompliedTime = "2025-5-31 13:22";     //编译时间
+        public static string Version = "LTS 1.3";    //版本
+        public static string CompliedTime = "2025-6-1 18:46";     //编译时间
         public static string RunPath = Directory.GetCurrentDirectory();     //运行目录
         public static string ConfigPath = $"{RunPath}\\config\\config.ini";    //配置文件目录
         public static string[] GamesPath;    //游戏列表
@@ -1241,6 +1271,7 @@ namespace PvzLauncher
         public static string[] args = Environment.GetCommandLineArgs();    //启动参数
         public static string IndexPath = $"{RunPath}\\assets\\index.ini";    //下载索引
         public static bool DownloadState = false;    //下载完成状态
+        public static bool LTS = true;    //是否LTS版本
         //事件========================================================================================
         //构造函数
         public Main_Window()
@@ -1380,9 +1411,20 @@ namespace PvzLauncher
             //读配置项
             try
             {
-                pageHeader.Text = ReadConfig(ConfigPath, "global", "Title");//设置标题
+                if (LTS)
+                {
+                    pageHeader.Text = $"{ReadConfig(ConfigPath, "global", "Title")} {Version}";//设置标题
+
+                }
+                else
+                {
+                    pageHeader.Text = ReadConfig(ConfigPath, "global", "Title");//设置标题
+
+                }
                 this.Text = ReadConfig(ConfigPath, "global", "Title");
                 input_Settings_Launcher_Title.Text = ReadConfig(ConfigPath, "global", "Title");
+
+
 
 
 
@@ -1517,6 +1559,18 @@ namespace PvzLauncher
                 }
 
 
+                if (ReadConfig(ConfigPath, "global", "FirstLaunch") == "true" & LTS == true) 
+                {
+                    AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                    {
+                        Title = "提示",
+                        Content = $"你现在使用的是长期支持版 \"{Version}\"\n\n此版本不会接收任何更新",
+                        OkText = "确定",
+                        CancelText = null,
+                        Icon = AntdUI.TType.Warn
+                    });
+                }
+
             }
             catch (Exception ex)
             {
@@ -1584,7 +1638,7 @@ namespace PvzLauncher
 
             await LoadGameList();//加载游戏列表
 
-            if (ReadConfig(ConfigPath, "global", "LaunchCheckUpdate") == "true")
+            if (ReadConfig(ConfigPath, "global", "LaunchCheckUpdate") == "true" & LTS == false) 
             {
                 CheckUpdate(true);
             }
@@ -2612,13 +2666,26 @@ namespace PvzLauncher
         //关于->检测更新
         private void button_CheckUpdate_Click(object sender, EventArgs e)
         {
-            button_CheckUpdate.Loading = true;
-            button_CheckUpdate.Text = "检测中...";
+            if (!LTS)
+            {
+                button_CheckUpdate.Loading = true;
+                button_CheckUpdate.Text = "检测中...";
 
-            CheckUpdate();
+                CheckUpdate();
 
-            button_CheckUpdate.Loading = false;
-            button_CheckUpdate.Text = "检测更新";
+                button_CheckUpdate.Loading = false;
+                button_CheckUpdate.Text = "检测更新";
+            }
+            else
+            {
+                AntdUI.Modal.open(new AntdUI.Modal.Config(this, "", "")
+                {
+                    Title = "无可用更新",
+                    Content = $"您使用的是{Version}长期支持板\n\n无法接收更新",
+                    CancelText = null,
+                    Icon = AntdUI.TType.Success
+                });
+            }
         }
 
         //设置->启动器启动时检查更新
@@ -3052,8 +3119,8 @@ namespace PvzLauncher
         //设置->标题
         private void input_Settings_Launcher_Title_TextChanged(object sender, EventArgs e)
         {
-            pageHeader.Text = input_Settings_Launcher_Title.Text;
-            this.Text = input_Settings_Launcher_Title.Text;
+            pageHeader.Text = input_Settings_Launcher_Title.Text + " " + Version;
+            this.Text = input_Settings_Launcher_Title.Text + " " + Version;
             WriteConfig(ConfigPath, "global", "Title", input_Settings_Launcher_Title.Text);
         }
 
